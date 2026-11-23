@@ -1494,7 +1494,7 @@
 
         <!-- AI Consultant Chat Window (Modal Panel) -->
         <div id="ai-chat-window"
-             class="hidden flex-col w-[calc(100vw-32px)] sm:w-[420px] h-[580px] max-h-[82vh] bg-surfaceLight/95 dark:bg-surfaceDark/95 backdrop-blur-2xl border border-borderLight dark:border-borderDark rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 transform origin-bottom-right animate-in fade-in zoom-in-95">
+             class="hidden flex-col w-[calc(100vw-24px)] sm:w-[430px] h-[600px] max-h-[84vh] bg-surfaceLight/95 dark:bg-surfaceDark/95 backdrop-blur-2xl border border-borderLight dark:border-borderDark rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 transform origin-bottom-right z-50">
             
             <!-- Window Header -->
             <div class="px-4 py-3.5 border-b border-borderLight dark:border-borderDark bg-surfaceLight/80 dark:bg-surfaceDark/80 flex items-center justify-between shrink-0">
@@ -3926,17 +3926,15 @@ function renderPackages() {
         // =========================================================================
         
         // =========================================================================
-        // AI PROJECT CONSULTANT ENGINE & CHAT CONTROLLER (NATURAL & CONVERSATIONAL)
+        // AI PROJECT CONSULTANT ENGINE & CHAT CONTROLLER (DYNAMIC MULTI-TURN & CONTEXTUAL)
         // =========================================================================
         let isAiChatOpen = false;
         let lastAiAnalysis = null;
         let aiConversationState = {
-            step: "initial", // 'initial' | 'clarifying' | 'spec_ready'
+            step: "welcome", // 'welcome' | 'exploring' | 'specified'
+            topic: null,     // 'community' | 'resto' | 'ecommerce' | 'company' | 'custom_app' | 'self_hosting' | 'general'
             userHistory: [],
-            detectedCategory: null,
-            selfHosting: false,
-            needsForm: false,
-            needsCms: false
+            selfHosting: false
         };
 
         function toggleAiChat(forceState) {
@@ -3969,12 +3967,10 @@ function renderPackages() {
             if (!messagesContainer) return;
 
             aiConversationState = {
-                step: "initial",
+                step: "welcome",
+                topic: null,
                 userHistory: [],
-                detectedCategory: null,
-                selfHosting: false,
-                needsForm: false,
-                needsCms: false
+                selfHosting: false
             };
             lastAiAnalysis = null;
 
@@ -3985,30 +3981,30 @@ function renderPackages() {
                     </div>
                     <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/60 dark:border-neutral-700/60 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2">
                         <p class="font-medium text-neutral-900 dark:text-white">Halo! Saya AI Project Consultant dari LogHorizonStudio.</p>
-                        <p>Ceritakan rencana atau ide website yang ingin Anda kembangkan dengan bahasa sehari-hari. Contohnya:</p>
+                        <p>Ceritakan rencana atau ide website yang ingin Anda kembangkan dengan bahasa santai sehari-hari. Contohnya:</p>
                         <ul class="text-[11px] text-neutral-600 dark:text-neutral-400 list-disc list-inside space-y-0.5">
-                            <li><i>"Halo, kami komunitas game butuh portal turnamen dan member"</i></li>
-                            <li><i>"Kalau saya sudah punya hosting sendiri, biayanya bisa disesuaikan?"</i></li>
+                            <li><i>"Halo, kami komunitas mau buat portal info & pendaftaran"</i></li>
                             <li><i>"Bikin web resto ada menu QR dan sistem reservasi meja"</i></li>
+                            <li><i>"Kalau saya sudah punya hosting sendiri, bagaimana skemanya?"</i></li>
                         </ul>
-                        <p class="text-[11px] font-medium text-violet-600 dark:text-violet-400">Saya siap berdiskusi, merinci fitur, dan memberikan estimasi anggaran yang transparan!</p>
+                        <p class="text-[11px] font-medium text-violet-600 dark:text-violet-400">Silakan ketik atau pilih salah satu opsi cepat di bawah ini untuk memulai!</p>
                     </div>
                 </div>
 
-                <div id="ai-quick-prompts" class="pt-1 flex flex-wrap gap-1.5">
-                    <button type="button" onclick="sendQuickPrompt('Halo, kami komunitas mau buat portal informasi & pendaftaran')"
+                <div class="ai-quick-options pt-1 flex flex-wrap gap-1.5">
+                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Halo, kami komunitas mau buat portal informasi & pendaftaran"
                             class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
                         🎮 Portal Komunitas & Event
                     </button>
-                    <button type="button" onclick="sendQuickPrompt('Bikin web resto ada menu QR & sistem reservasi meja')"
+                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Bikin web resto ada menu QR & sistem reservasi meja"
                             class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
                         🍽️ Web Resto & Menu QR
                     </button>
-                    <button type="button" onclick="sendQuickPrompt('Toko online e-commerce lengkap dengan cek ongkir')"
+                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Toko online e-commerce lengkap dengan cek ongkir otomatis"
                             class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
                         🛍️ Toko Online E-Commerce
                     </button>
-                    <button type="button" onclick="sendQuickPrompt('Saya sudah punya hosting & domain sendiri, bagaimana skemanya?')"
+                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Saya sudah punya hosting & domain sendiri, bagaimana skemanya?"
                             class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
                         🌐 Skema Hosting Mandiri
                     </button>
@@ -4018,88 +4014,110 @@ function renderPackages() {
             showToast("Percakapan konsultan AI direset.");
         }
 
-        function sendQuickPrompt(promptText) {
+        // Robust prompt handler supporting both string argument or button element with data-prompt
+        function sendQuickPrompt(param) {
+            let promptText = "";
+            if (typeof param === "string") {
+                promptText = param;
+            } else if (param && param.getAttribute) {
+                promptText = param.getAttribute("data-prompt") || param.innerText.trim();
+            }
+
+            if (!promptText) return;
             const input = document.getElementById('ai-chat-input');
             if (input) {
                 input.value = promptText;
-                handleAiChatSubmit(new Event('submit'));
             }
+            handleAiChatSubmit();
         }
 
-        // Conversational AI Analysis Engine
+        // Contextual Multi-turn AI Reasoning Engine
         function processConsultantChat(userInput) {
             const query = (userInput || "").trim();
             const lower = query.toLowerCase();
             aiConversationState.userHistory.push(query);
 
-            // 1. Sapaan Ramah (Greetings)
+            const hasPunyaHosting = /hosting sendiri|server sendiri|punya hosting|punya server|cpanel sendiri|vps sendiri|punya domain/.test(lower);
+            if (hasPunyaHosting) {
+                aiConversationState.selfHosting = true;
+            }
+
+            // 1. Sapaan Ramah Awal (Greetings Only)
             const isGreetingOnly = /^(halo|hai|hi|hello|selamat pagi|selamat siang|selamat sore|selamat malam|permisi|p|tes|test|assalamualaikum)[\s!\.\?]*$/i.test(lower);
             if (isGreetingOnly) {
                 return {
                     isCard: false,
                     message: "Halo! Senang bisa menyapa Anda. Saya AI Project Consultant dari LogHorizonStudio yang siap mendampingi Anda merancang website atau aplikasi web impian.\n\nBoleh ceritakan sedikit tentang rencana proyek Anda? Misalnya jenis usaha, target pengunjung, atau fitur khusus yang paling Anda harapkan?",
                     followUps: [
-                        "Bikin profil bisnis / company profile",
-                        "Katalog restoran & menu QR",
-                        "Toko online ada ongkir otomatis",
-                        "Portal komunitas atau organisasi"
+                        { label: "🏢 Bikin profil bisnis / company profile", prompt: "Mau buat company profile resmi perusahaan PT/CV" },
+                        { label: "🍽️ Katalog restoran & menu QR", prompt: "Bikin web resto ada menu QR & sistem reservasi meja" },
+                        { label: "🛍️ Toko online ada ongkir otomatis", prompt: "Toko online e-commerce lengkap dengan cek ongkir otomatis" },
+                        { label: "🎮 Portal komunitas atau organisasi", prompt: "Halo, kami komunitas mau buat portal informasi & pendaftaran" }
                     ]
                 };
             }
 
-            // 2. Pertanyaan Umum: Hosting Mandiri / Domain Sendiri
-            if (/hosting sendiri|server sendiri|punya hosting|punya server|cpanel sendiri|vps sendiri|punya domain/.test(lower)) {
-                aiConversationState.selfHosting = true;
+            // 2. Pertanyaan Seputar Hosting Mandiri / Domain Sendiri
+            if (hasPunyaHosting && !/komunitas|resto|toko|shop|pos|kasir|company profile|profil/.test(lower)) {
                 return {
                     isCard: false,
-                    message: "Tentu saja, itu opsi yang sangat bagus dan fleksibel! Jika Anda sudah memiliki domain atau sewa hosting server sendiri (cPanel / VPS / Cloudflare), kami dapat fokus 100% pada perancangan UI/UX, rekayasa kode responsif, dan instalasi sistemnya saja tanpa membebankan biaya server dari pihak kami.\n\nRencana websitenya nanti diperuntukkan bagi kebutuhan apa? Berapa perkiraan jumlah halaman atau fitur spesifik yang Anda rencanakan?",
+                    message: "Tentu saja, itu opsi yang sangat bagus dan fleksibel! Jika Anda sudah memiliki domain atau sewa hosting server sendiri (seperti cPanel, VPS, Hostinger, atau Cloudflare), kami dapat fokus 100% pada perancangan antarmuka (UI/UX), rekayasa kode responsif, dan instalasi sistemnya saja tanpa membebankan biaya server dari pihak kami.\n\nBiaya pengerjaan tentu menjadi lebih hemat. Rencana websitenya nanti diperuntukkan bagi kebutuhan apa?",
                     followUps: [
-                        "Landing page 1-3 halaman untuk promosi",
-                        "Company profile bisnis 5-8 halaman",
-                        "Sistem toko online / e-commerce"
+                        { label: "📄 Landing page promosi 1-3 halaman", prompt: "Landing page 1-3 halaman promosi produk (hosting sendiri)" },
+                        { label: "🏢 Company profile resmi 5-8 halaman", prompt: "Company profile bisnis 5-8 halaman resmi (hosting sendiri)" },
+                        { label: "🛍️ Toko online e-commerce", prompt: "Toko online e-commerce lengkap (hosting sendiri)" }
                     ]
                 };
             }
 
-            // 3. Pertanyaan Umum: Komunitas / Guild / Esports / Event
+            // 3. Eksplorasi Kategori: Komunitas / Guild / Esports / Event
             if (/komunitas|community|guild|esports|gaming|himpunan|bem|ukm|turnamen|discord/.test(lower)) {
-                aiConversationState.detectedCategory = "community";
-                // If they haven't elaborated on features yet
-                if (!/reservasi|booking|toko|shop|jual|pos|kasir|bayar|ongkir|5 halaman|multi-user/.test(lower)) {
-                    return {
-                        isCard: false,
-                        message: "Keren sekali! Untuk website komunitas atau organisasi (seperti studi kasus portal LogHorizon kami), kuncinya adalah desain yang atmosferik, struktur navigasi divisi/member yang rapi, jadwal event/turnamen terpusat, dan integrasi channel Discord/WhatsApp.\n\nApakah komunitas Anda lebih membutuhkan **portal showcase info event** yang cepat dan hemat biaya, atau butuh **fitur formulir pendaftaran anggota / registrasi turnamen online**?",
-                        followUps: [
-                            "Portal info & event komunitas (Statis Cepat)",
-                            "Lengkap dengan form pendaftaran anggota online",
-                            "Portal dinamis dengan dashboard artikel/berita"
-                        ]
-                    };
+                aiConversationState.topic = "community";
+
+                // Sub-alur 3a: Jika klien secara spesifik memilih opsi "Portal info & event komunitas (Statis Cepat)"
+                if (/statis|showcase|portal info & event|hemat/.test(lower) && !/formulir|pendaftaran|registrasi|turnamen online/.test(lower)) {
+                    return generateCommunityStaticSpec(query);
                 }
+
+                // Sub-alur 3b: Jika klien memilih opsi pendaftaran online atau turnamen
+                if (/pendaftaran|registrasi|formulir|open recruitment|turnamen online/.test(lower)) {
+                    return generateCommunityRegistrationSpec(query);
+                }
+
+                // Sub-alur 3c: Klien baru menyebut komunitas secara umum -> AI bertanya ramah
+                return {
+                    isCard: false,
+                    message: "Keren sekali! Untuk website komunitas atau organisasi (seperti studi kasus portal LogHorizon kami), kuncinya adalah desain atmosferik, struktur navigasi divisi/member yang rapi, jadwal event/turnamen terpusat, dan integrasi channel Discord/WhatsApp.\n\nApakah komunitas Anda lebih membutuhkan **portal showcase info event (statis cepat & hemat)**, atau butuh **fitur formulir pendaftaran anggota / turnamen online**?",
+                    followUps: [
+                        { label: "⚡ Portal info & event komunitas (Statis Cepat)", prompt: "Portal info & event komunitas (Statis Cepat)" },
+                        { label: "📝 Lengkap dengan form pendaftaran online", prompt: "Komunitas dengan formulir pendaftaran online anggota/turnamen" },
+                        { label: "📰 Portal dinamis dengan CMS artikel/berita", prompt: "Portal komunitas dinamis dengan CMS update artikel" }
+                    ]
+                };
             }
 
-            // 4. Pertanyaan Masih Terlalu Singkat / Mengambang
+            // 4. Pertanyaan Singkat / Konsultasi Mengambang
             if (/^(bikin web|mau bikin web|buat website|konsultasi|bisa buatkan web|biaya berapa|harganya berapa|butuh website|mau tanya harga)$/i.test(lower)) {
                 return {
                     isCard: false,
                     message: "Tentu, kami dapat merancang dan membangun website sesuai skala kebutuhan Anda! Biaya pembuatan kami sangat transparan:\n• **Mulai Rp 650.000** untuk Landing Page Statis Berkecepatan Tinggi (tanpa biaya server selamanya)\n• **Mulai Rp 1.450.000** untuk Company Profile Bisnis Resmi\n• **Mulai Rp 2.950.000 - Rp 4.750.000** untuk Profil Dinamis CMS & Toko Online All-in Hosting Tahun 1\n\nAgar rekomendasinya lebih tepat sasaran, produk, jasa, atau sistem apa yang ingin Anda tampilkan?",
                     followUps: [
-                        "Landing page promosi produk/jasa",
-                        "Company profile resmi PT / CV",
-                        "Web resto ada menu QR & reservasi",
-                        "Toko online lengkap ada ongkir"
+                        { label: "🚀 Landing page promosi cepat", prompt: "Landing page promosi cepat untuk jasa/produk" },
+                        { label: "🏢 Company profile resmi PT / CV", prompt: "Company profile resmi perusahaan PT / CV" },
+                        { label: "🍽️ Web resto menu QR & reservasi", prompt: "Bikin web resto ada menu QR & sistem reservasi meja" },
+                        { label: "🛍️ Toko online e-commerce", prompt: "Toko online e-commerce lengkap dengan cek ongkir otomatis" }
                     ]
                 };
             }
 
-            // 5. Analisis Fitur Spesifik & Perumusan Spesifikasi Proyek
+            // 5. Spesifikasi Proyek Berdasarkan Fitur yang Jelas
             const combinedContext = aiConversationState.userHistory.join(" ").toLowerCase();
             const hasResto = /resto|restoran|cafe|kafe|kuliner|makanan|minuman|menu qr|qr code|meja|kopi|warung|f&b|dine in/.test(combinedContext);
             const hasShop = /toko|shop|e-commerce|ecommerce|jual|produk|belanja|keranjang|ongkir|checkout|payment|pembayaran|reseller|distributor|katalog baju|fashion/.test(combinedContext);
             const hasBooking = /reservasi|booking|jadwal|antrian|janji temu|klinik|salon|barber|hotel|villa|sewa|rental/.test(combinedContext);
             const hasSchool = /sekolah|pesantren|kampus|yayasan|ppdb|akademik|santri|sekolahan/.test(combinedContext);
             const hasCustomApp = /pos|kasir|inventori|gudang|absensi|payroll|crm|dashboard|portal kustom|sistem web|aplikasi web|multi user|multi-user|database/.test(combinedContext);
-            const hasCompany = /company profile|profil perusahaan|perusahaan|bisnis|kantor|bengkel|jasa|konsultan|kontraktor|firma|pt|cv/.test(combinedContext);
+            const hasCompany = /company profile|profil perusahaan|perusahaan|bisnis|kantor|bengkel|jasa|konsultan|kontraktor|firma|\bpt\b|\bcv\b/.test(combinedContext);
             const hasDynamic = /dinamis|cms|admin|blog|artikel|update berita/.test(combinedContext);
             const isSelfHosting = aiConversationState.selfHosting;
 
@@ -4162,19 +4180,8 @@ function renderPackages() {
                     "Tombol Pesan Langsung Terhubung ke WhatsApp Kasir Resto",
                     "Bebas Biaya Sewa Hosting Server Bulanan/Tahunan Selamanya (Hemat)"
                 ];
-            } else if (hasSchool || aiConversationState.detectedCategory === "community") {
-                introComment = "Berdasarkan kebutuhan portal institusi / komunitas Anda, kami merekomendasikan platform terstruktur yang memudahkan sosialisasi kegiatan dan registrasi anggota secara transparan.";
-                packageName = "Paket Portal Komunitas, Organisasi & Lembaga";
-                priceIdr = isSelfHosting ? "Rp 1.850.000 (Paket Arsitektur Kode)" : "Rp 2.250.000 (All-in Tahun 1)";
-                priceUsd = isSelfHosting ? "$120" : "$150 (Year 1 All-in)";
-                timeEstimate = "4–7 Hari Kerja";
-                features = [
-                    isSelfHosting ? "Dukungan Integrasi ke Hosting/Domain Klien" : "Domain Resmi + Cloud Hosting Cepat 1 Tahun Penuh",
-                    "Portal Informasi, Berita Kegiatan, Galeri Foto & Profil Struktur Pengurus",
-                    "Formulir Pendaftaran Online (Open Recruitment / PPDB / Turnamen) Terekap Rapi",
-                    "Dokumen Administrasi Lengkap (Invoice & Kwitansi Berstempel Resmi untuk LPJ)",
-                    "Skor Kecepatan Tinggi & Ringan Dibuka dari Perangkat HP"
-                ];
+            } else if (hasSchool || aiConversationState.topic === "community") {
+                return generateCommunityStaticSpec(query);
             } else if (hasCompany || hasDynamic) {
                 if (hasDynamic) {
                     introComment = "Untuk profil perusahaan yang aktif membagikan pembaruan artikel dan berita, paket **Dinamis + CMS Admin** memungkinkan tim internal Anda mengelola konten tanpa koding.";
@@ -4230,6 +4237,47 @@ function renderPackages() {
             };
         }
 
+        // Sub-spec helpers for tailored community solutions
+        function generateCommunityStaticSpec(promptText) {
+            const isSelfHosting = aiConversationState.selfHosting;
+            return {
+                isCard: true,
+                introComment: "Pilihan yang sangat tepat dan hemat! Platform komunitas statis memanfaatkan infrastruktur edge global (seperti Vercel/Cloudflare) sehingga **super cepat, tahan lonjakan traffic turnamen, dan bebas biaya sewa server bulanan selamanya**.",
+                userPrompt: promptText,
+                packageName: "Portal Komunitas & Event (Statis Cepat)",
+                priceIdr: isSelfHosting ? "Rp 950.000 (Jasa Rekayasa Kode)" : "Rp 1.250.000 (Termasuk Domain 1 Thn)",
+                priceUsd: isSelfHosting ? "$65" : "$85",
+                timeEstimate: "3–4 Hari Kerja",
+                features: [
+                    isSelfHosting ? "Setup di Domain/Server Mandiri Klien" : "Domain Kustom 1 Tahun + Edge Serverless Hosting (Zero Server Rent)",
+                    "Showcase Profil Komunitas, Struktur Pengurus / Roster Member & Galeri",
+                    "Papan Pengumuman Jadwal Event / Bagan Turnamen Responsif",
+                    "Integrasi Tombol Komunitas (Discord Invite, WhatsApp Group & Instagram)",
+                    "Performa PageSpeed 95+ (Ringan & Cepat Diakses dari HP Anggota)"
+                ]
+            };
+        }
+
+        function generateCommunityRegistrationSpec(promptText) {
+            const isSelfHosting = aiConversationState.selfHosting;
+            return {
+                isCard: true,
+                introComment: "Untuk komunitas yang aktif mengadakan event atau pendaftaran anggota berkala, kami rancang arsitektur portal dengan **formulir registrasi online terintegrasi** yang otomatis merekap data peserta ke spreadsheet dan notifikasi admin.",
+                userPrompt: promptText,
+                packageName: "Portal Komunitas Pro + Sistem Pendaftaran Online",
+                priceIdr: isSelfHosting ? "Rp 1.650.000" : "Rp 2.150.000 (All-in Tahun 1)",
+                priceUsd: isSelfHosting ? "$110" : "$145",
+                timeEstimate: "4–6 Hari Kerja",
+                features: [
+                    isSelfHosting ? "Dukungan Integrasi ke Hosting/Domain Klien" : "Domain Resmi + Cloud Hosting Cepat 1 Tahun Penuh",
+                    "Portal Informasi, Berita Kegiatan, Galeri Foto & Profil Pengurus",
+                    "Formulir Pendaftaran Online (Open Recruitment / Registrasi Turnamen) Terekap Rapi",
+                    "Notifikasi Konfirmasi Registrasi ke WhatsApp / Email Pendaftar",
+                    "Dokumen Administrasi Lengkap (Invoice & Kwitansi Berstempel Resmi untuk LPJ)"
+                ]
+            };
+        }
+
         function handleAiChatSubmit(e) {
             if (e && e.preventDefault) e.preventDefault();
             const input = document.getElementById('ai-chat-input');
@@ -4240,9 +4288,9 @@ function renderPackages() {
             const query = input.value.trim();
             if (!query) return;
 
-            // Remove quick prompts once conversation starts
-            const quickPrompts = document.getElementById('ai-quick-prompts');
-            if (quickPrompts) quickPrompts.remove();
+            // Remove existing quick option containers once a choice is selected
+            const existingOptions = messagesContainer.querySelectorAll('.ai-quick-options');
+            existingOptions.forEach(el => el.remove());
 
             // Append User Message Bubble
             const userMsgHtml = `
@@ -4262,7 +4310,7 @@ function renderPackages() {
                 typingIndicator.classList.add('flex');
             }
 
-            // Simulate natural conversational thinking delay
+            // Natural conversational delay (450ms)
             setTimeout(() => {
                 if (typingIndicator) {
                     typingIndicator.classList.add('hidden');
@@ -4272,13 +4320,17 @@ function renderPackages() {
                 const result = processConsultantChat(query);
 
                 if (!result.isCard) {
-                    // Conversational text reply with follow-up suggestion pills
-                    const followUpPillsHtml = (result.followUps || []).map(f => `
-                        <button type="button" onclick="sendQuickPrompt('${escapeHtml(f)}')"
-                                class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
-                            👉 ${escapeHtml(f)}
-                        </button>
-                    `).join('');
+                    // Conversational text reply with interactive follow-up buttons
+                    const followUpPillsHtml = (result.followUps || []).map(item => {
+                        const labelText = typeof item === "string" ? item : item.label;
+                        const promptVal = typeof item === "string" ? item : (item.prompt || item.label);
+                        return `
+                            <button type="button" onclick="sendQuickPrompt(this)" data-prompt="${escapeHtml(promptVal)}"
+                                    class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                                ${escapeHtml(labelText)}
+                            </button>
+                        `;
+                    }).join('');
 
                     const formattedMessage = escapeHtml(result.message).replace(/\\n/g, '<br>');
 
@@ -4290,7 +4342,7 @@ function renderPackages() {
                             <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/80 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2.5">
                                 <p class="text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">${formattedMessage}</p>
                                 ${followUpPillsHtml ? `
-                                    <div class="pt-1 flex flex-wrap gap-1.5">
+                                    <div class="ai-quick-options pt-1 flex flex-wrap gap-1.5">
                                         ${followUpPillsHtml}
                                     </div>
                                 ` : ''}
@@ -4299,12 +4351,12 @@ function renderPackages() {
                     `;
                     messagesContainer.insertAdjacentHTML('beforeend', replyHtml);
                 } else {
-                    // Full Specification Card with WhatsApp Handoff
+                    // Full Specification Recommendation Card with Direct WhatsApp Checkout
                     lastAiAnalysis = result;
                     const featuresListHtml = result.features.map(f => `
                         <li class="flex items-start gap-1.5 py-0.5">
                             <span class="text-emerald-500 font-bold shrink-0">✓</span>
-                            <span class="text-neutral-700 dark:text-neutral-300">${f}</span>
+                            <span class="text-neutral-700 dark:text-neutral-300">${escapeHtml(f)}</span>
                         </li>
                     `).join('');
 
@@ -4315,19 +4367,19 @@ function renderPackages() {
                             </div>
                             <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/80 text-neutral-800 dark:text-neutral-200 shadow-md space-y-3">
                                 <div>
-                                    <p class="text-xs text-neutral-700 dark:text-neutral-300 mb-2">${result.introComment}</p>
+                                    <p class="text-xs text-neutral-700 dark:text-neutral-300 mb-2 leading-relaxed">${escapeHtml(result.introComment)}</p>
                                     <span class="font-mono text-[10px] uppercase font-bold text-violet-600 dark:text-violet-400">Rancangan Spesifikasi Terpilih</span>
-                                    <h4 class="font-bold text-sm text-neutral-900 dark:text-white mt-0.5">${result.packageName}</h4>
+                                    <h4 class="font-bold text-sm text-neutral-900 dark:text-white mt-0.5">${escapeHtml(result.packageName)}</h4>
                                 </div>
 
                                 <div class="p-2.5 rounded-xl bg-surfaceLight/80 dark:bg-surfaceDark/80 border border-borderLight dark:border-borderDark grid grid-cols-2 gap-2">
                                     <div>
                                         <span class="font-mono text-[9.5px] uppercase text-neutral-500 block">Estimasi Biaya</span>
-                                        <span class="font-mono text-xs font-extrabold text-neutral-900 dark:text-white">${result.priceIdr}</span>
+                                        <span class="font-mono text-xs font-extrabold text-neutral-900 dark:text-white">${escapeHtml(result.priceIdr)}</span>
                                     </div>
                                     <div>
                                         <span class="font-mono text-[9.5px] uppercase text-neutral-500 block">Waktu Rilis</span>
-                                        <span class="font-mono text-xs font-extrabold text-emerald-600 dark:text-emerald-400">${result.timeEstimate}</span>
+                                        <span class="font-mono text-xs font-extrabold text-emerald-600 dark:text-emerald-400">${escapeHtml(result.timeEstimate)}</span>
                                     </div>
                                 </div>
 
@@ -4341,7 +4393,7 @@ function renderPackages() {
                                 <!-- WhatsApp Handoff CTA Button -->
                                 <div class="pt-1 border-t border-neutral-200 dark:border-neutral-700">
                                     <button type="button" onclick="sendAiAnalysisToWhatsApp()"
-                                            class="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer active:scale-95">
+                                            class="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer active:scale-95 select-none">
                                         <i data-lucide="message-square" class="w-4 h-4"></i>
                                         <span>Kirim Rancangan Ini via WhatsApp ke Tim LogHorizon</span>
                                     </button>
@@ -4354,7 +4406,7 @@ function renderPackages() {
 
                 if (window.lucide) lucide.createIcons();
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 600);
+            }, 450);
         }
 
         function sendAiAnalysisToWhatsApp() {
