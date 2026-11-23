@@ -750,6 +750,27 @@
             <div id="packages-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Rendered dynamically via JS -->
             </div>
+
+            <!-- Transparent Renewal & Pricing Notice Banner -->
+            <div class="mt-10 p-5 sm:p-6 rounded-2xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-neutral-900/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 flex items-center justify-center shrink-0 mt-0.5">
+                        <i data-lucide="clock" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-neutral-900 dark:text-white" data-i18n="renewalBannerTitle">
+                            Kebijakan Transparan: Biaya All-in Tahun Pertama &amp; Biaya Perpanjangan (Renewal)
+                        </h4>
+                        <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed" data-i18n="renewalBannerDesc">
+                            Seluruh paket sudah mencakup pengerjaan hingga live di tahun pertama. Untuk tahun ke-2, website statis <strong>bebas biaya server selamanya</strong> (hanya perpanjang domain mulai Rp 35rb/thn), sedangkan paket CMS dinamis memerlukan perpanjangan hosting + domain mulai Rp 650rb/thn agar sistem tetap online.
+                        </p>
+                    </div>
+                </div>
+                <a href="#process" class="shrink-0 px-3.5 py-2 rounded-xl border border-borderLight dark:border-borderDark hover:border-neutral-500 font-mono text-xs font-semibold text-neutral-800 dark:text-neutral-200 transition-colors inline-flex items-center gap-1.5">
+                    <span data-i18n="renewalBannerLink">Baca Klausul FAQ</span>
+                    <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1317,7 +1338,7 @@
     <script>
         const WHATSAPP_NUMBER = "6281211713200";
         let currentLang = "id"; // 'id' or 'en'
-        let currentCategory = "business";
+        let currentCategory = "static";
         let isLiveEmbed = true;
 
         // UI Translations Dictionary
@@ -1376,7 +1397,7 @@
                 slotCta: "Ajukan Brief Proyek",
                 pkgEyebrow: "03 — PACKAGES & ARCHITECTURE",
                 pkgTitle: "Paket Layanan Terstruktur",
-                pkgSubtitle: "Pilih paket bundling lengkap (termasuk domain, hosting & SSL) atau opsi pembuatan web saja sesuai kebutuhan skala Anda.",
+                pkgSubtitle: "Pilihan paket statis hemat server (Cloudflare/Vercel) dan paket dinamis CMS all-in dengan domain & hosting tahun pertama.",
                 addonEyebrow: "04 — MODULAR ADD-ONS",
                 addonTitle: "Layanan Satuan & Infrastruktur",
                 addonSubtitle: "Tambahkan modul fungsional, perpanjangan domain/hosting, atau layanan konten & optimasi kapan saja.",
@@ -1573,354 +1594,346 @@
         };
 
         // Package Categories
-        const CATEGORIES = [
-            { id: "business", labelId: "Bisnis & Umum", labelEn: "Business & General" },
-            { id: "institution", labelId: "Kampus, Sekolah & Sosial", labelEn: "Campus, School & Social" },
-            { id: "niche", labelId: "Profesi, Properti & Kuliner", labelEn: "Profession, Property & Event" },
-            { id: "webonly", labelId: "Web Polosan & Aplikasi Sistem", labelEn: "Web-Only & Operational Apps" }
+                const CATEGORIES = [
+            { id: "static", labelId: "Landing & Profil (Statis - Hemat Server)", labelEn: "Static Landing & Profile (Serverless)" },
+            { id: "dynamic", labelId: "Bisnis & Toko Online (CMS Dinamis)", labelEn: "Dynamic CMS & E-Commerce" },
+            { id: "custom", labelId: "Sistem & Aplikasi Web", labelEn: "Web Systems & Apps" },
+            { id: "webonly", labelId: "Coding Saja & Maintenance", labelEn: "Dev-Only & Maintenance" }
         ];
 
         // Complete 100% Catalog Data (Translated + Dual Currency)
-        const PACKAGES = [
-            // TAB 1: BUSINESS & GENERAL BUNDLING
+                const PACKAGES = [
+            // TAB 1: STATIC PACKAGES (ZERO HOSTING COST, HIGH MARGIN)
             {
-                category: "business",
+                category: "static",
                 popular: false,
                 estimatorId: "landing",
-                nameId: "Paket Personal, Kreator & UMKM Mikro",
-                nameEn: "Personal, Creator & Micro-SME Bundle",
-                priceIdr: "Rp 850rb (Terima Beres) / Rp 500rb (Coding)",
-                priceUsd: "$55 (Turnkey) / $35 (Dev Only)",
+                nameId: "Paket Starter Landing Page (UMKM & Portofolio)",
+                nameEn: "Starter Landing Page (SME & Portfolio)",
+                priceIdr: "Rp 650.000",
+                priceUsd: "$45",
+                timeId: "2–3 Hari Kerja",
+                timeEn: "2–3 Business Days",
+                targetId: "Freelancer, portofolio pribadi, warung, bengkel, jasa service & UMKM mikro",
+                targetEn: "Freelancers, personal portfolio, local services, workshops & micro-businesses",
+                featuresId: [
+                    "Gratis Domain (.my.id) 1 Tahun (Tanpa Biaya Hosting Server Selamanya!)",
+                    "Infrastruktur Cloudflare Pages / Vercel Global Edge (Kecepatan Maksimal)",
+                    "1 Halaman Konversi Tinggi (Single Page: Hero, Layanan, Profil & Kontak)",
+                    "Desain Responsif Mobile-First & Sertifikat SSL Keamanan (HTTPS)",
+                    "Tombol Direct WhatsApp Order & Integrasi Google Maps Alamat Usaha",
+                    "Tahun Ke-2: Biaya perpanjangan HANYA domain saja (~Rp 35rb/thn)!"
+                ],
+                featuresEn: [
+                    "Free Domain (.my.id) for 1 Year (Zero Server Hosting Costs Forever!)",
+                    "Hosted on Cloudflare Pages / Vercel Edge (Maximum Speed & Uptime)",
+                    "1 High-Conversion Single Page (Hero, Services, Profile & Contact)",
+                    "Mobile-First Responsive Design & Free HTTPS SSL Security",
+                    "Direct WhatsApp Order Button & Google Maps Business Location",
+                    "Year 2+: Renewal fee ONLY applies to domain (~$5/year)!"
+                ]
+            },
+            {
+                category: "static",
+                popular: true,
+                estimatorId: "company_static",
+                nameId: "Paket Company Profile Statis Pro [Best Seller]",
+                nameEn: "Pro Static Company Profile [Best Seller]",
+                priceIdr: "Rp 1.450.000",
+                priceUsd: "$95",
+                timeId: "3–5 Hari Kerja",
+                timeEn: "3–5 Business Days",
+                targetId: "Perusahaan berkembang, PT/CV, konsultan, klinik, agensi & kantor profesional",
+                targetEn: "Growing companies, corporate, consultants, clinics & professional firms",
+                featuresId: [
+                    "Gratis Domain Internasional (.com) 1 Tahun Penuh",
+                    "Hosting Serverless Cloudflare / Vercel (Gratis Selamanya, Zero Monthly Fee)",
+                    "3–5 Halaman Terstruktur (Beranda, Profil, Layanan, Portofolio & Kontak)",
+                    "Skor Performa PageSpeed 95+ (Super Cepat, Ringan & Optimal di Google)",
+                    "Formulir Konsultasi Terhubung Otomatis ke WhatsApp Admin",
+                    "Dokumen Resmi: Invoice & Kwitansi Berstempel untuk Pembukuan Bisnis",
+                    "Tahun Ke-2: Renewal domain .com mulai ~Rp 180rb–Rp 220rb/tahun saja!"
+                ],
+                featuresEn: [
+                    "Free International Domain (.com) for 1 Full Year",
+                    "Serverless Edge CDN Hosting (Free Forever, Zero Monthly Fee)",
+                    "3–5 Structured Pages (Home, About, Services, Portfolio & Contact)",
+                    "Google PageSpeed 95+ Performance (Blazing Fast & SEO Ready)",
+                    "Lead Inquiry Form Connected Directly to WhatsApp",
+                    "Official Stamped Invoice & Receipt for Corporate Accounting",
+                    "Year 2+: Renewal only for .com domain (~$14–$16/year)!"
+                ]
+            },
+            {
+                category: "static",
+                popular: false,
+                estimatorId: "landing",
+                nameId: "Paket Katalog Produk & Menu QR Statis",
+                nameEn: "Digital Catalog & QR Menu (Static)",
+                priceIdr: "Rp 950.000",
+                priceUsd: "$65",
                 timeId: "2–4 Hari Kerja",
                 timeEn: "2–4 Business Days",
-                targetId: "Freelancer, kreator konten, warung, bengkel & jasa lokal",
-                targetEn: "Freelancers, content creators, local shops & service providers",
+                targetId: "Cafe, resto kuliner, distro pakaian, katalog mebel & toko offline",
+                targetEn: "Cafes, restaurants, fashion stores, furniture catalogs & retail shops",
                 featuresId: [
-                    "Terima Beres: Gratis Domain (.my.id/.biz.id) & Cloud Hosting 1 Tahun",
-                    "Atau Jasa Coding Saja (Rp 500rb) tanpa domain & hosting",
-                    "SSL Security (HTTPS) & Desain Responsif Mobile-First",
-                    "1–3 Halaman Utama (Landing Page / Profil & Katalog Ringkas)",
-                    "Tombol Direct Order WhatsApp & Integrasi Google Maps"
+                    "Gratis Domain (.my.id/.biz.id) 1 Tahun & Cloudflare Edge Hosting",
+                    "Katalog Interaktif hingga 25 Produk/Menu Lengkap Foto & Harga",
+                    "Generasi QR Code Cetak Meja / Toko Siap Pasang & File Cetak PDF",
+                    "Tombol Pesan Langsung Kirim Rincian Pesanan ke WhatsApp Kasir",
+                    "Bebas Biaya Sewa Hosting Bulanan/Tahunan Selamanya (Hemat Biaya)"
                 ],
                 featuresEn: [
-                    "Turnkey: Free Domain (.my.id/.biz.id) & 1-Year Cloud Hosting",
-                    "Or Frontend Dev Only ($35) without domain/hosting",
-                    "SSL Security (HTTPS) & Mobile-First Responsive Design",
-                    "1–3 Core Pages (Landing Page / Profile & Compact Catalog)",
-                    "Direct WhatsApp Order CTA & Google Maps Integration"
+                    "Free Domain (.my.id/.biz.id) for 1 Year & Cloudflare Edge Hosting",
+                    "Interactive Catalog for up to 25 Products/Dishes with Photos & Pricing",
+                    "Ready-to-Print QR Code for Store Tables/Counters with PDF Template",
+                    "Direct Order Button Sending Selected Items to Cashier WhatsApp",
+                    "Zero Monthly/Annual Server Hosting Rent Forever (Cost Effective)"
                 ]
             },
+
+            // TAB 2: DYNAMIC CMS & E-COMMERCE (ALL-IN HOSTING TAHUN PERTAMA)
             {
-                category: "business",
+                category: "dynamic",
                 popular: true,
                 estimatorId: "company",
-                nameId: "Paket Business Pro (Company Profile)",
-                nameEn: "Business Pro Package (Company Profile)",
-                priceIdr: "Rp 3,5 Juta",
-                priceUsd: "$225 USD",
+                nameId: "Paket Business Profile Dinamis + CMS Admin",
+                nameEn: "Dynamic Business Profile + CMS Admin",
+                priceIdr: "Rp 2.950.000",
+                priceUsd: "$195",
                 timeId: "5–7 Hari Kerja",
                 timeEn: "5–7 Business Days",
-                targetId: "CV/PT, agensi, klinik, kontraktor & bisnis berkembang",
-                targetEn: "Corporations, agencies, clinics, contractors & growing SMEs",
+                targetId: "Perusahaan, PT/CV, brand & institusi yang rutin update artikel/kegiatan",
+                targetEn: "Corporate brands, agencies & businesses updating articles regularly",
                 featuresId: [
-                    "Gratis Domain (.com / .co.id / .id) & Cloud Hosting 1 Tahun",
-                    "Hingga 5–7 Halaman Lengkap + Blog/Berita + Katalog Layanan",
-                    "Dashboard Admin CMS (Edit konten & artikel mandiri dengan mudah)",
-                    "2 Akun Email Bisnis Profesional (nama@domainanda.com)",
-                    "Optimasi SEO Dasar, Google Indexing & Formulir Penawaran"
+                    "ALL-IN TAHUN 1: Termasuk Domain .com + Cloud Hosting SSD Cepat 1 Tahun",
+                    "Dashboard Admin (CMS) Ramah Pengguna (Bisa Update Teks, Foto & Artikel Mandiri)",
+                    "5–8 Halaman Lengkap + Halaman Berita / Blog SEO Dinamis",
+                    "Akun Email Bisnis Resmi (contoh: info@perusahaananda.com)",
+                    "Backup Otomatis Mingguan & Proteksi Keamanan Web Imunify360",
+                    "Tahun Ke-2: Renewal domain + cloud hosting mulai Rp 650rb/tahun"
                 ],
                 featuresEn: [
-                    "Free Domain (.com / .co.id / .id) & 1-Year Cloud Hosting",
-                    "Up to 5–7 Full Pages + Blog/News + Service Catalog",
-                    "Admin CMS Dashboard (Self-manage articles & content easily)",
-                    "2 Professional Business Emails (name@yourdomain.com)",
-                    "On-Page SEO Setup, Google Indexing & Inquiry Forms"
+                    "ALL-IN YEAR 1: Includes .com Domain + 1-Year Fast SSD Cloud Hosting",
+                    "Intuitive Admin CMS Dashboard (Update Text, Photos & Posts Independently)",
+                    "5–8 Complete Pages + Dynamic SEO Blog & News Section",
+                    "Professional Business Email Accounts (e.g. info@yourcompany.com)",
+                    "Automated Weekly Backups & Imunify360 Security Firewall",
+                    "Year 2+: Standard domain + cloud hosting renewal from ~$45/year"
                 ]
             },
             {
-                category: "business",
+                category: "dynamic",
                 popular: false,
                 estimatorId: "ecommerce",
-                nameId: "Paket Toko Online & E-Commerce",
-                nameEn: "Online Store & E-Commerce Bundle",
-                priceIdr: "Rp 6,5 Juta – 8,5 Juta",
-                priceUsd: "$420 – $550 USD",
-                timeId: "8–12 Hari Kerja",
-                timeEn: "8–12 Business Days",
-                targetId: "Brand retail, distributor, fashion & toko online mandiri",
-                targetEn: "Retail brands, distributors, fashion & independent online stores",
+                nameId: "Paket Toko Online & E-Commerce Lengkap",
+                nameEn: "Complete E-Commerce Store & Shop",
+                priceIdr: "Rp 4.750.000",
+                priceUsd: "$310",
+                timeId: "7–12 Hari Kerja",
+                timeEn: "7–12 Business Days",
+                targetId: "Brand fashion, toko retail, distributor, toko online & reseller",
+                targetEn: "Fashion brands, retail shops, wholesale distributors & online merchants",
                 featuresId: [
-                    "Gratis Domain .com/.id & Hosting High-Performance 1 Tahun",
-                    "Sistem Keranjang Belanja, Manajemen Varian Produk & Stok",
-                    "Integrasi Payment Gateway Otomatis (QRIS, Virtual Account, E-Wallet)",
-                    "Hitung Ongkos Kirim Otomatis (JNE, J&T, SiCepat, dll.)",
-                    "Dashboard Laporan Penjualan, Kupon Diskon & Pelatihan Admin"
+                    "ALL-IN TAHUN 1: Termasuk Domain .com + High-Performance Cloud Hosting",
+                    "Katalog Produk Unlimited, Manajemen Stok, Kategori & Variasi Warna/Ukuran",
+                    "Fitur Keranjang Belanja & Checkout Otomatis Terhubung ke WhatsApp / Payment Gateway",
+                    "Kalkulator Cek Ongkir Otomatis (JNE, J&T, SiCepat, Pos Indonesia, dll.)",
+                    "Dashboard Laporan Penjualan, Rekap Data Pelanggan & Notifikasi Order",
+                    "Video Panduan Pengelolaan Toko & Garansi Pemeliharaan 30 Hari",
+                    "Tahun Ke-2: Renewal domain + high-performance hosting mulai Rp 750rb/tahun"
                 ],
                 featuresEn: [
-                    "Free .com/.id Domain & 1-Year High-Performance Hosting",
-                    "Shopping Cart, Product Variant & Inventory Management",
-                    "Automated Payment Gateway (QRIS, Virtual Account, Cards/Wallets)",
-                    "Automated Shipping Rate Calculation & Order Tracking",
-                    "Sales Analytics Dashboard, Discount Coupons & Admin Training"
+                    "ALL-IN YEAR 1: Includes .com Domain + 1-Year High-Performance Cloud Hosting",
+                    "Unlimited Product Catalog, Inventory Control & Color/Size Variations",
+                    "Shopping Cart & Automated WhatsApp Order Checkout / Payment Gateway",
+                    "Automated Realtime Shipping Rate Calculator (JNE, J&T, SiCepat, etc.)",
+                    "Sales Analytics Dashboard, Customer Database & Order Notifications",
+                    "Video Tutorial for Store Admin & 30-Day Post-Launch Maintenance",
+                    "Year 2+: Standard domain + high-performance hosting renewal from ~$50/year"
                 ]
             },
             {
-                category: "business",
+                category: "dynamic",
+                popular: false,
+                estimatorId: "organization",
+                nameId: "Paket Sekolah, Pesantren & Organisasi Kampus",
+                nameEn: "School, Academic & Campus Org Portal",
+                priceIdr: "Rp 2.250.000",
+                priceUsd: "$150",
+                timeId: "4–7 Hari Kerja",
+                timeEn: "4–7 Business Days",
+                targetId: "Sekolah, pesantren, yayasan sosial, BEM / himpunan mahasiswa & komunitas",
+                targetEn: "Schools, boarding schools, non-profits, student unions & communities",
+                featuresId: [
+                    "ALL-IN TAHUN 1: Termasuk Domain Resmi (.sch.id/.ac.id/.or.id) + Cloud Hosting",
+                    "Portal Informasi, Warta Pengumuman, Galeri Dokumentasi & Profil Pengurus",
+                    "Formulir Pendaftaran Online (PPDB / Open Recruitment) Langsung Terekap",
+                    "Dokumen Lengkap: Surat Penawaran, Invoice & Kwitansi Berstempel untuk LPJ",
+                    "Bantuan Pengurusan Syarat Berkas Domain Resmi Indonesia ke PANDI"
+                ],
+                featuresEn: [
+                    "ALL-IN YEAR 1: Includes Official Domain (.sch.id/.or.id) + Cloud Hosting",
+                    "Announcement Hub, News Feed, Activity Gallery & Leadership Directory",
+                    "Online Registration Form (Admissions / Open Recruitment) with Export",
+                    "Full Compliance: Formal Quotation, Stamped Invoice & Receipts for LPJ",
+                    "Assistance with Indonesian Official Domain Document Verification"
+                ]
+            },
+
+            // TAB 3: CUSTOM OPERATIONAL APPS & ENTERPRISE
+            {
+                category: "custom",
                 popular: false,
                 estimatorId: "webapp",
-                nameId: "Paket Corporate & Custom Enterprise",
-                nameEn: "Corporate & Custom Enterprise System",
-                priceIdr: "Rp 15 Juta – 45 Juta+",
-                priceUsd: "$980 – $2,950+ USD",
-                timeId: "3–8 Minggu",
-                timeEn: "3–8 Weeks",
-                targetId: "Perusahaan besar, startup, portal SaaS & sistem multi-cabang",
-                targetEn: "Enterprises, startups, SaaS portals & multi-branch organizations",
+                nameId: "Sistem Web Kasir POS & Inventori Toko",
+                nameEn: "Web POS & Store Inventory System",
+                priceIdr: "Mulai Rp 4.500.000",
+                priceUsd: "From $295",
+                timeId: "10–14 Hari Kerja",
+                timeEn: "10–14 Business Days",
+                targetId: "Toko ritel, coffee shop, barbershop, apotek & usaha multi-cabang",
+                targetEn: "Retail stores, coffee shops, barbershops, pharmacies & multi-branch outlets",
                 featuresId: [
-                    "Infrastruktur VPS / Dedicated Cloud Server & Keamanan Berlapis",
-                    "Desain UI/UX Eksklusif dari Nol (Figma Prototype + Design System)",
-                    "Arsitektur Full-Stack Custom, Integrasi API & Multi-Role Akses",
-                    "Dukungan Multi-Bahasa (ID/EN) & Performa Tinggi",
-                    "Dokumentasi Teknis Lengkap, MoU Resmi & Garansi Maintenance"
+                    "Aplikasi Web Multi-User (Hak Akses Owner, Kasir, Gudang)",
+                    "Cetak Struk Kasir Thermal (Support Printer Bluetooth & USB)",
+                    "Manajemen Stok Realtime, Notifikasi Stok Menipis & Laporan Laba Rugi",
+                    "Dapat Diakses dari HP, Tablet, Laptop tanpa Perlu Install Aplikasi Khusus",
+                    "Full Database Backup & Lisensi Kepemilikan Sistem Mandiri"
                 ],
                 featuresEn: [
-                    "VPS / Dedicated Cloud Infrastructure & Hardened Security",
-                    "Bespoke UI/UX Design from Scratch (Figma Prototype + Design System)",
-                    "Custom Full-Stack Architecture, API Integrations & Multi-Role RBAC",
-                    "Multi-Language Support (ID/EN) & High-Concurrency Optimization",
-                    "Full Technical Documentation, Formal MoU & Maintenance SLA"
+                    "Multi-User Web App (Role Access: Owner, Cashier, Warehouse)",
+                    "Thermal Receipt Printing (Bluetooth & USB Printer Support)",
+                    "Realtime Stock Management, Low-Stock Alerts & Profit/Loss Reporting",
+                    "Accessible across Mobile, Tablet, PC with zero app store install",
+                    "Full Database Backups & Independent Self-Hosted Ownership"
+                ]
+            },
+            {
+                category: "custom",
+                popular: false,
+                estimatorId: "webapp",
+                nameId: "Sistem Absensi Karyawan GPS & Payroll",
+                nameEn: "GPS Attendance & Payroll System",
+                priceIdr: "Mulai Rp 4.200.000",
+                priceUsd: "From $275",
+                timeId: "8–12 Hari Kerja",
+                timeEn: "8–12 Business Days",
+                targetId: "Kantor, pabrik, agensi lapangan, klinik, dan bisnis dengan shift kerja",
+                targetEn: "Offices, factories, field teams, clinics & shift-based operations",
+                featuresId: [
+                    "Validasi Radius Titik Lokasi GPS (Geofencing) & Kamera Selfie Bukti Masuk",
+                    "Pengaturan Shift Kerja, Pengajuan Cuti, Izin Sakit & Lembur Online",
+                    "Rekapitulasi Kehadiran Otomatis Siap Export ke Excel/PDF untuk Penggajian",
+                    "Dashboard Monitoring Kehadiran Karyawan Realtime bagi HRD / Owner"
+                ],
+                featuresEn: [
+                    "GPS Geofencing Validation & Live Selfie Photo Verification",
+                    "Shift Work Configuration, Leave Management & Overtime Request Flow",
+                    "Automated Attendance Timesheet Exportable to Excel/PDF for Payroll",
+                    "Real-Time Monitoring Dashboard for Management & HR Teams"
+                ]
+            },
+            {
+                category: "custom",
+                popular: false,
+                estimatorId: "webapp",
+                nameId: "Platform Web Custom, Portal Turnamen & SaaS",
+                nameEn: "Custom Web Platform, Tournament Portal & SaaS",
+                priceIdr: "Mulai Rp 8.500.000 – Rp 25 Juta+",
+                priceUsd: "From $550 – $1,600+",
+                timeId: "14–25 Hari Kerja",
+                timeEn: "14–25 Business Days",
+                targetId: "Portal turnamen esports, marketplace khusus, sistem reservasi & startup",
+                targetEn: "Esports tournament portals, specialized marketplaces, booking engines & startups",
+                featuresId: [
+                    "Arsitektur Fullstack Modern (Next.js 14 / Node.js / Laravel / Tailwind)",
+                    "Sistem Autentikasi Pengguna Aman, Manajemen Role & API Gateway",
+                    "Integrasi Payment Gateway Otomatis & Notifikasi WhatsApp Gateway",
+                    "Audit Keamanan, Optimasi Database & Garansi SLA Performa 99.9%"
+                ],
+                featuresEn: [
+                    "Modern Fullstack Architecture (Next.js 14 / Node.js / Laravel / Tailwind)",
+                    "Secure User Authentication, Role Permissions & Custom APIs",
+                    "Automated Payment Gateway & WhatsApp Gateway Integration",
+                    "Security Audits, Database Indexing & 99.9% Performance SLA"
                 ]
             },
 
-            // TAB 2: CAMPUS, ORGANIZATION, SCHOOL & SOCIAL
-            {
-                category: "institution",
-                popular: true,
-                estimatorId: "organization",
-                nameId: "Paket BEM, Himpunan, UKM & Komunitas",
-                nameEn: "Student Org (BEM), Club & Community Portal",
-                priceIdr: "Rp 1,5 Juta – 2,2 Juta",
-                priceUsd: "$98 – $145 USD",
-                timeId: "4–6 Hari Kerja",
-                timeEn: "4–6 Business Days",
-                targetId: "BEM/DEMA, Himpunan Mahasiswa, UKM Kampus & Komunitas Hobi",
-                targetEn: "Student councils, campus clubs, esports & hobbyist communities",
-                featuresId: [
-                    "Gratis Domain (.org / .or.id / .com) & Cloud Hosting 1 Tahun",
-                    "Halaman Struktur Kabinet/Pengurus, Program Kerja & Galeri Event",
-                    "Portal Artikel/Pers Rilis + Formulir Open Recruitment / Pendaftaran",
-                    "Dashboard Pengurus (Mudah diwariskan ke periode kepengurusan baru)",
-                    "Invoice & Kwitansi Resmi untuk LPJ Kampus"
-                ],
-                featuresEn: [
-                    "Free Domain (.org / .or.id / .com) & 1-Year Cloud Hosting",
-                    "Board Structure, Work Programs & Event Gallery Pages",
-                    "Press Release / Blog Portal + Open Recruitment Registration Form",
-                    "Admin CMS (Easy handover to next leadership term)",
-                    "Official Invoice & Receipt for Campus Financial Reporting"
-                ]
-            },
-            {
-                category: "institution",
-                popular: false,
-                nameId: "Paket Sekolah, Pesantren & Lembaga Kursus",
-                nameEn: "School, Academy & Course Institution Portal",
-                priceIdr: "Rp 3 Juta – 5,5 Juta",
-                priceUsd: "$200 – $360 USD",
-                timeId: "7–10 Hari Kerja",
-                timeEn: "7–10 Business Days",
-                targetId: "SD/SMP/SMA/SMK, Pondok Pesantren, LPK & Bimbel",
-                targetEn: "K-12 schools, boarding schools, academies & training centers",
-                featuresId: [
-                    "Gratis Domain Resmi (.sch.id / .id / .com) & Hosting 1 Tahun",
-                    "Profil Sekolah, Kurikulum, Direktori Guru/Staf & Fasilitas",
-                    "Sistem Formulir PPDB Online (Pendaftaran Siswa Baru) + Export Excel",
-                    "Portal Berita Akademik, Pengumuman Kelulusan & Galeri Prestasi",
-                    "Surat Penawaran, Kwitansi & Dokumen Administrasi Sekolah"
-                ],
-                featuresEn: [
-                    "Free Official Domain (.sch.id / .id / .com) & 1-Year Hosting",
-                    "Institution Profile, Curriculum, Faculty Directory & Facilities",
-                    "Online Student Admissions (PPDB) Form + Excel Export",
-                    "Academic News Portal, Announcements & Achievement Gallery",
-                    "Formal Quotation, Receipt & Institutional Procurement Docs"
-                ]
-            },
-            {
-                category: "institution",
-                popular: false,
-                nameId: "Paket Rumah Ibadah, Yayasan & Portal Warga",
-                nameEn: "Mosque, Foundation & Neighborhood Portal",
-                priceIdr: "Rp 800rb – 1,8 Juta",
-                priceUsd: "$55 – $120 USD",
-                timeId: "3–5 Hari Kerja",
-                timeEn: "3–5 Business Days",
-                targetId: "Masjid, Yayasan Sosial, Panti, RT/RW & Paguyuban Warga",
-                targetEn: "Mosques, non-profits, charities & neighborhood associations",
-                featuresId: [
-                    "Gratis Domain (.or.id / .my.id / .com) & Cloud Hosting 1 Tahun",
-                    "Halaman Transparansi Laporan Kas / Donasi & Jadwal Kegiatan",
-                    "Tombol Donasi / Infaq (QRIS / Transfer Bank) & Kontak Pengurus",
-                    "Pengumuman Warga & Galeri Dokumentasi Sosial",
-                    "Harga Subsidi Khusus Lembaga Sosial & Keagamaan"
-                ],
-                featuresEn: [
-                    "Free Domain (.or.id / .my.id / .com) & 1-Year Cloud Hosting",
-                    "Transparent Financial / Donation Ledger & Activity Schedule",
-                    "Donation CTA (QRIS / Bank Transfer) & Committee Contacts",
-                    "Community Announcements & Social Activity Gallery",
-                    "Special Subsidized Rate for Non-Profit & Religious Institutions"
-                ]
-            },
-
-            // TAB 3: PROFESSION, PROPERTY, CULINARY & EVENT
-            {
-                category: "niche",
-                popular: false,
-                nameId: "Paket Personal Branding Profesi & Tenaga Ahli",
-                nameEn: "Executive & Specialist Personal Branding",
-                priceIdr: "Rp 900rb – 2,2 Juta",
-                priceUsd: "$60 – $145 USD",
-                timeId: "3–5 Hari Kerja",
-                timeEn: "3–5 Business Days",
-                targetId: "Dokter, Pengacara, Konsultan, Dosen, Arsitek & Pembicara",
-                targetEn: "Doctors, lawyers, consultants, lecturers, architects & speakers",
-                featuresId: [
-                    "Gratis Domain Nama Pribadi (.com / .id / .my.id) & Hosting 1 Tahun",
-                    "CV Digital Interaktif, Riwayat Publikasi/Karya & Sertifikasi",
-                    "Jadwal Praktik / Konsultasi & Tombol Booking Janji Temu via WA",
-                    "Desain Minimalis Berwibawa & Ramah Mesin Pencari (Google Name Search)"
-                ],
-                featuresEn: [
-                    "Free Personal Name Domain (.com / .id / .my.id) & 1-Year Hosting",
-                    "Interactive Digital CV, Publications/Portfolio & Certifications",
-                    "Consultation Schedule & Direct Appointment Booking via WhatsApp",
-                    "Authoritative Minimalist UI Optimized for Google Name Search"
-                ]
-            },
-            {
-                category: "niche",
-                popular: true,
-                nameId: "Paket Katalog Properti, Otomotif & Kos/Villa",
-                nameEn: "Property, Automotive & Villa Listing Catalog",
-                priceIdr: "Rp 1,5 Juta – 3,5 Juta",
-                priceUsd: "$100 – $230 USD",
-                timeId: "5–8 Hari Kerja",
-                timeEn: "5–8 Business Days",
-                targetId: "Agen properti, developer perumahan, showroom mobil/motor & pengelola kos/villa",
-                targetEn: "Real estate agents, housing developers, auto dealers & villa managers",
-                featuresId: [
-                    "Gratis Domain & Cloud Hosting 1 Tahun + SSL",
-                    "Fitur Filter Pencarian Unit (Lokasi, Tipe, Harga, Status Tersedia/Terjual)",
-                    "Galeri Foto HD Multi-Angle, Spesifikasi Unit & Pin Lokasi Maps",
-                    "Tombol Tanya Unit / Jadwal Survei Otomatis Terisi Nama Properti"
-                ],
-                featuresEn: [
-                    "Free Domain & 1-Year Cloud Hosting + SSL",
-                    "Smart Unit Filtering (Location, Type, Price, Available/Sold Status)",
-                    "Multi-Angle HD Photo Gallery, Unit Specs & Maps Location Pin",
-                    "One-Click Unit Inquiry / Site Visit CTA Pre-filled with Unit Name"
-                ]
-            },
-            {
-                category: "niche",
-                popular: false,
-                nameId: "Paket Kuliner Digital Menu QR & Undangan Acara",
-                nameEn: "QR Digital Restaurant Menu & Event Microsite",
-                priceIdr: "Rp 250rb – 2,5 Juta",
-                priceUsd: "$18 – $165 USD",
-                timeId: "1–4 Hari Kerja",
-                timeEn: "1–4 Business Days",
-                targetId: "Kafe, restoran, catering, seminar, konser & pernikahan digital",
-                targetEn: "Cafes, restaurants, catering, seminars, concerts & digital weddings",
-                featuresId: [
-                    "Digital Menu QR Meja Kafe/Resto (Update harga & stok menu real-time)",
-                    "Atau Microsite Event / Undangan Digital (RSVP Tamu, Countdown, Galeri)",
-                    "Akses Super Ringan via Smartphone Tanpa Install Aplikasi",
-                    "Gratis Desain QR Code Siap Cetak untuk Meja atau Poster"
-                ],
-                featuresEn: [
-                    "Table QR Digital Menu for Cafes/Restaurants (Real-time price/stock updates)",
-                    "Or Event Microsite / Digital Invitation (Guest RSVP, Countdown, Gallery)",
-                    "Ultra-Fast Mobile Access Without App Installation",
-                    "Free Print-Ready QR Code Table Tent / Poster Design"
-                ]
-            },
-
-            // TAB 4: WEB-ONLY & OPERATIONAL SYSTEMS
+            // TAB 4: WEB ONLY & MAINTENANCE
             {
                 category: "webonly",
-                popular: true,
+                popular: false,
                 estimatorId: "coding_only",
-                nameId: "Jasa Pembuatan Web Saja (Tanpa Domain/Hosting)",
-                nameEn: "Web Development Only (No Domain/Hosting)",
-                priceIdr: "Mulai Rp 500rb (Tier 1–5)",
-                priceUsd: "From $35 USD (Tier 1–5)",
-                timeId: "1–10 Hari Kerja",
-                timeEn: "1–10 Business Days",
-                targetId: "Klien yang sudah punya hosting sendiri atau ingin deploy gratis di Vercel/Netlify",
-                targetEn: "Clients with existing hosting or free Vercel/Netlify deployment",
+                nameId: "Jasa Coding Saja (Frontend Landing Page)",
+                nameEn: "Frontend Coding Only (Landing Page)",
+                priceIdr: "Rp 500.000",
+                priceUsd: "$35",
+                timeId: "1–2 Hari Kerja",
+                timeEn: "1–2 Business Days",
+                targetId: "Klien yang sudah punya hosting/domain sendiri atau deploy ke Vercel/Netlify",
+                targetEn: "Clients who already have their own hosting/domain or deploy to Vercel/Netlify",
                 featuresId: [
-                    "Tier 1 (Rp 500rb): Single Landing Page Statis / Portofolio Cepat",
-                    "Tier 2 (Rp 950rb): Multi-Page Company Profile / Organisasi (3–6 Halaman)",
-                    "Tier 3 (Rp 1,8 Juta): Website Dinamis + CMS Admin / Katalog Produk",
-                    "Tier 4–5 (Rp 3,5 Juta+): E-Commerce / Custom Web App Full Source Code",
-                    "Gratis Bantuan Upload ke Hosting Anda atau Deploy ke Vercel/Cloudflare"
+                    "Source Code Bersih (Clean HTML5 + Tailwind CSS / React)",
+                    "Desain Responsif 100% Mobile & Desktop Friendly",
+                    "Tanpa Domain & Hosting (File Diberikan Siap Deploy)",
+                    "Dokumentasi Struktur Kode Lengkap"
                 ],
                 featuresEn: [
-                    "Tier 1 ($35): Single Static Landing Page / Fast Portfolio",
-                    "Tier 2 ($65): Multi-Page Company Profile / Organization (3–6 Pages)",
-                    "Tier 3 ($120): Dynamic Website + Admin CMS / Product Catalog",
-                    "Tier 4–5 ($225+): E-Commerce / Custom Web App with Full Source Code",
-                    "Free Deployment Assistance to Your Hosting or Vercel/Cloudflare"
+                    "Clean Source Code (HTML5 + Tailwind CSS / React)",
+                    "100% Mobile & Desktop Responsive Layout",
+                    "No Domain/Hosting Included (Files delivered ready to deploy)",
+                    "Complete Code Structure Documentation"
                 ]
             },
             {
                 category: "webonly",
                 popular: false,
-                nameId: "Aplikasi Web Operasional: Kasir POS & Absensi GPS",
-                nameEn: "Operational Web Apps: POS Cashier & GPS Attendance",
-                priceIdr: "Mulai Rp 3,5 Juta",
-                priceUsd: "From $225 USD",
-                timeId: "7–14 Hari Kerja",
-                timeEn: "7–14 Business Days",
-                targetId: "Toko retail, kafe, gudang, kantor & tim lapangan",
-                targetEn: "Retail stores, cafes, warehouses, offices & field teams",
+                estimatorId: "coding_only",
+                nameId: "Jasa Coding Multi-Halaman (3–5 Halaman)",
+                nameEn: "Multi-Page Frontend Coding (3–5 Pages)",
+                priceIdr: "Rp 950.000",
+                priceUsd: "$65",
+                timeId: "3–4 Hari Kerja",
+                timeEn: "3–4 Business Days",
+                targetId: "Developer, agensi partner, atau bisnis yang butuh koding UI frontend saja",
+                targetEn: "Developers, partner agencies or businesses needing frontend UI coding only",
                 featuresId: [
-                    "Sistem Kasir POS & Stok: Cetak struk thermal, laporan laba/rugi & multi-kasir",
-                    "Sistem Absensi Karyawan: Validasi Foto Selfie + Kunci Koordinat GPS Radius",
-                    "Rekapitulasi Kehadiran & Export Laporan Bulanan ke Excel/PDF",
-                    "Akses Multi-Perangkat (HP, Tablet, Laptop) Berbasis Cloud"
+                    "3–5 Halaman Responsif Terstruktur & Komponen Modular",
+                    "Transisi Halus, Mobile Drawer Navigation & Dark/Light Mode",
+                    "Optimasi Gambar & Aset Cepat (PageSpeed 95+)",
+                    "Siap Dihubungkan ke Backend / API Apapun"
                 ],
                 featuresEn: [
-                    "POS Cashier & Inventory: Thermal receipt printing, P&L reports & multi-cashier",
-                    "Employee Attendance System: Selfie Photo Capture + GPS Geofencing Lock",
-                    "Automated Attendance Recap & Monthly Excel/PDF Report Export",
-                    "Cross-Device Cloud Access (Smartphone, Tablet, Laptop)"
+                    "3–5 Structured Responsive Pages & Modular Components",
+                    "Smooth Transitions, Mobile Drawer Navigation & Dark/Light Mode",
+                    "Optimized Fast Assets & Icons (PageSpeed 95+)",
+                    "Ready to Connect to Any Backend / API"
                 ]
             },
             {
                 category: "webonly",
                 popular: false,
-                nameId: "Jasa Redesign, Migrasi & Optimasi Kecepatan Web",
-                nameEn: "Website Redesign, Migration & Speed Optimization",
-                priceIdr: "Rp 600rb – 3 Juta",
-                priceUsd: "$40 – $200 USD",
-                timeId: "2–6 Hari Kerja",
-                timeEn: "2–6 Business Days",
-                targetId: "Pemilik website lama yang tampilannya kaku, lambat, atau error",
-                targetEn: "Owners of outdated, slow, or broken legacy websites",
+                estimatorId: "coding_only",
+                nameId: "Jasa Redesign, Perbaikan & Optimasi Kecepatan",
+                nameEn: "Website Redesign, Bug Fix & Speed Optimization",
+                priceIdr: "Rp 650.000 – Rp 1.500.000",
+                priceUsd: "$45 – $100",
+                timeId: "2–4 Hari Kerja",
+                timeEn: "2–4 Business Days",
+                targetId: "Pemilik website yang tampilannya jadul, lemot, atau error",
+                targetEn: "Website owners with outdated, slow, or broken layouts",
                 featuresId: [
-                    "Perombakan Tampilan UI/UX Menjadi Modern & Responsif di HP",
-                    "Optimasi Core Web Vitals & PageSpeed (Kompresi aset, caching & kode)",
-                    "Pembersihan Malware / Error SSL & Migrasi Antar Server Tanpa Downtime",
-                    "Audit Struktur SEO & Perbaikan Tautan Rusak"
+                    "Audit Masalah & Pembersihan Kode Sampah / Script Berat",
+                    "Peningkatan Skor Kecepatan Google PageSpeed / Core Web Vitals",
+                    "Pembaruan Tampilan Modern Minimalist Mobile-First",
+                    "Garansi Hasil Peningkatan Kecepatan Terbukti"
                 ],
                 featuresEn: [
-                    "Complete UI/UX Modernization & Mobile Responsiveness Overhaul",
-                    "Core Web Vitals & PageSpeed Optimization (Asset compression & caching)",
-                    "Malware Cleanup, SSL Repair & Zero-Downtime Server Migration",
-                    "Technical SEO Audit & Broken Link Remediation"
+                    "Issue Audit & Heavy Script / Dead Code Cleanup",
+                    "Google PageSpeed & Core Web Vitals Score Boost",
+                    "Modern Minimalist Mobile-First Visual Refresh",
+                    "Proven Measurable Speed Gain Guarantee"
                 ]
             }
         ];
@@ -2039,36 +2052,42 @@
         ];
 
         // Official 4 FAQs
-        const FAQS = [
+                const FAQS = [
+            {
+                qId: "Bagaimana rincian biaya tahun pertama vs biaya perpanjangan tahun kedua?",
+                qEn: "How does Year 1 pricing compare to Year 2 renewal fees?",
+                aId: "Seluruh harga paket di atas adalah biaya ALL-IN untuk tahun pertama (mencakup domain, hosting, SSL, dan jasa pengembangan hingga website aktif). Untuk tahun kedua dan seterusnya, Anda hanya membayar biaya perpanjangan (renewal) resmi agar website tetap online: (1) Paket Statis Cloudflare/Vercel HANYA membayar perpanjangan domain mulai Rp 35rb/thn (.my.id) atau Rp 180rb–Rp 220rb/thn (.com) karena server hosting gratis selamanya; (2) Paket Dinamis CMS/Toko Online membayar perpanjangan domain + sewa cloud hosting tahunan (mulai Rp 650rb–Rp 850rb/thn). Kami memberikan notifikasi H-30 sebelum masa aktif berakhir agar website Anda tidak pernah downtime.",
+                aEn: "All package prices above are ALL-IN for Year 1 (including domain, hosting, SSL, and complete development). From Year 2 onward, you only pay standard renewal fees to keep the site active: (1) Static Serverless packages ONLY pay domain renewal starting from ~$5/yr (.my.id) or ~$14/yr (.com) as hosting is free forever; (2) Dynamic CMS/Store packages pay domain + cloud hosting renewal (from ~$45/yr). We notify you 30 days in advance to guarantee zero downtime."
+            },
+            {
+                qId: "Apakah ada biaya bulanan tersembunyi?",
+                qEn: "Are there any hidden monthly fees?",
+                aId: "TIDAK ADA biaya bulanan tersembunyi sama sekali. Untuk paket statis, server hosting 100% gratis selamanya melalui jaringan global CDN Cloudflare/Vercel. Anda tidak dikenakan biaya langganan bulanan apapun.",
+                aEn: "ABSOLUTELY NO hidden monthly fees. For our static architecture, server hosting is 100% free forever through global CDN edge networks. You are never billed monthly surprise fees."
+            },
             {
                 qId: "Apakah pembayaran bisa dilakukan secara bertahap?",
                 qEn: "Can payments be made in installments?",
-                aId: "Bisa. Standar kami menggunakan sistem DP 50% di awal pengerjaan dan pelunasan 50% setelah website selesai dan Anda cek melalui link preview live. Untuk proyek skala besar/enterprise tersedia termin 50% - 25% - 25%.",
+                aId: "Bisa. Standar kami menggunakan sistem DP 50% di awal pengerjaan dan pelunasan 50% setelah website selesai dan Anda cek melalui link preview live. Untuk proyek skala besar/enterprise custom tersedia termin 50% - 25% - 25%.",
                 aEn: "Yes. Standard projects use a 50% initial deposit and 50% upon completion after you inspect the live preview link. Larger enterprise builds support 50% - 25% - 25% milestones."
-            },
-            {
-                qId: "Apakah ada biaya perpanjangan setiap tahun?",
-                qEn: "Are there annual renewal fees?",
-                aId: "Ya, untuk paket bundling lengkap sudah GRATIS domain dan cloud hosting selama 1 tahun pertama. Di tahun ke-2 dan seterusnya, Anda hanya membayar biaya perpanjangan domain & hosting (mulai Rp 575rb/tahun tergantung ekstensi domain) tanpa biaya jasa pembuatan ulang.",
-                aEn: "Yes. All-inclusive bundles include FREE domain and cloud hosting for the first 12 months. From year 2 onward, you only pay the standard domain & hosting renewal fee (starting from ~$40/year) with zero redevelopment charges."
             },
             {
                 qId: "Apakah saya bisa mengedit konten website sendiri nanti?",
                 qEn: "Can I update the website content myself later?",
-                aId: "Bisa. Untuk paket dinamis (Business Pro, E-Commerce, Sekolah, Organisasi, dll.) sudah dilengkapi Dashboard Admin (CMS) yang ramah pengguna sehingga Anda bisa menambah artikel, mengganti foto, atau mengubah harga produk sendiri.",
-                aEn: "Yes. Dynamic packages (Business Pro, E-Commerce, School, Organization, etc.) include an intuitive Admin CMS Dashboard so you can publish articles, swap images, or update product pricing independently."
+                aId: "Bisa. Untuk paket dinamis (Business CMS, Toko Online, Sekolah, dll.) sudah dilengkapi Dashboard Admin (CMS) ramah pengguna sehingga Anda bisa menambah artikel, mengganti foto produk, atau mengubah harga secara mandiri tanpa coding.",
+                aEn: "Yes. Dynamic packages (Business CMS, E-Commerce, School, etc.) include an intuitive Admin CMS Dashboard so you can publish articles, swap product photos, or update pricing independently without coding."
             },
             {
                 qId: "Apakah bisa menerbitkan Invoice, Kwitansi, atau MoU resmi?",
                 qEn: "Can you issue an official Invoice, Receipt, or MoU?",
-                aId: "Tentu. Kami melayani penerbitan Surat Penawaran Harga, Invoice resmi, Kwitansi berstempel/tanda tangan, hingga perjanjian kerja sama (MoU) untuk kebutuhan administrasi perusahaan, LPJ kampus, maupun sekolah.",
+                aId: "Tentu. Kami melayani penerbitan Surat Penawaran Harga resmi, Invoice, Kwitansi berstempel/tanda tangan, hingga perjanjian kerja sama (MoU) untuk kebutuhan administrasi perusahaan, LPJ kampus, maupun sekolah.",
                 aEn: "Certainly. We issue formal Quotations, official Invoices, signed Receipts, and Memorandums of Understanding (MoU) to meet corporate procurement, university, and institutional compliance requirements."
             },
             {
                 qId: "Bagaimana jika saya belum punya teks copywriting atau konsep desain?",
                 qEn: "What if I don't have copywriting text or a design concept yet?",
-                aId: "Tidak masalah. Tim kami akan membantu menyusun struktur tata letak (wireframe) dan merapikan redaksi kalimat profil bisnis Anda agar terlihat profesional dan persuasif tanpa perlu pusing memikirkan teknis.",
-                aEn: "No problem at all. Our team will structure the layout architecture and refine your profile copywriting so your brand looks authoritative and persuasive without technical hassle."
+                aId: "Tidak masalah. Tim LogHorizonStudio akan membantu menyusun struktur tata letak (wireframe) dan merapikan redaksi kalimat profil bisnis Anda agar terlihat profesional dan persuasif tanpa perlu pusing memikirkan teknis.",
+                aEn: "No problem at all. LogHorizonStudio will structure the layout architecture and refine your profile copywriting so your brand looks authoritative and persuasive without technical hassle."
             }
         ];
 
@@ -2487,78 +2506,78 @@ function renderPackages() {
         // INTERACTIVE COST ESTIMATOR & SERVICE BUILDER ENGINE
         // =====================================================================
         const ESTIMATOR_DATA = {
-            baseServices: [
+                        baseServices: [
                 {
                     id: 'landing',
                     icon: 'layout',
-                    nameId: 'Landing Page / UMKM Mikro (Terima Beres)',
-                    nameEn: 'Landing Page / Micro-SME (Turnkey)',
-                    descId: '1 Halaman konversi tinggi, domain .my.id/.biz.id, cloud hosting 1 thn & CTA WhatsApp.',
-                    descEn: 'High-conversion single page, domain, 1-year cloud hosting & WhatsApp CTA.',
-                    priceIdr: 850000,
-                    priceUsd: 55,
+                    nameId: 'Landing Page Statis (Cloudflare/Vercel - Zero Server Cost)',
+                    nameEn: 'Static Landing Page (Cloudflare/Vercel - Zero Hosting Cost)',
+                    descId: '1 Halaman konversi tinggi, gratis hosting selamanya, domain .my.id 1 thn & CTA WhatsApp.',
+                    descEn: 'High-conversion single page, lifetime free hosting, domain & WhatsApp CTA.',
+                    priceIdr: 650000,
+                    priceUsd: 45,
                     minDays: 2,
                     maxDays: 3,
                 },
                 {
-                    id: 'coding_only',
-                    icon: 'code-2',
-                    nameId: 'Jasa Coding Saja (Frontend Landing)',
-                    nameEn: 'Frontend Coding Only (No Hosting)',
-                    descId: 'Source code bersih & cepat, siap deploy ke server atau Vercel/Netlify milik Anda.',
-                    descEn: 'Clean production-ready code, deploy directly to your server/Vercel/Netlify.',
-                    priceIdr: 500000,
-                    priceUsd: 35,
-                    minDays: 1,
-                    maxDays: 2,
-                },
-                {
-                    id: 'organization',
-                    icon: 'graduation-cap',
-                    nameId: 'Organisasi Kampus / BEM / Komunitas',
-                    nameEn: 'Campus Org, Student Club & Community',
-                    descId: 'Struktur pengurus, form open recruitment/donasi, portal rilis, invoice & LPJ kampus resmi.',
-                    descEn: 'Board directory, recruitment forms, press portal & official stamped receipts for LPJ.',
-                    priceIdr: 1500000,
-                    priceUsd: 98,
-                    minDays: 4,
-                    maxDays: 6,
+                    id: 'company_static',
+                    icon: 'building-2',
+                    nameId: 'Company Profile Statis Pro (Domain .com)',
+                    nameEn: 'Pro Static Company Profile (.com Domain)',
+                    descId: '3–5 Halaman profil bisnis modern, domain .com 1 thn, zero server fee, PageSpeed 95+.',
+                    descEn: '3–5 Modern business pages, .com domain, zero server fee, PageSpeed 95+.',
+                    priceIdr: 1450000,
+                    priceUsd: 95,
+                    minDays: 3,
+                    maxDays: 5,
                 },
                 {
                     id: 'company',
-                    icon: 'building-2',
-                    nameId: 'Company Profile Bisnis + CMS [Best Seller]',
-                    nameEn: 'Business Pro Company Profile + CMS [Best Seller]',
-                    descId: '5–7 Halaman profil korporat, domain .com/.id, cloud hosting 1 thn & admin CMS mandiri.',
-                    descEn: '5–7 Corporate pages, .com/.id domain, 1-year cloud hosting & self-managed admin CMS.',
-                    priceIdr: 3500000,
-                    priceUsd: 225,
+                    icon: 'cpu',
+                    nameId: 'Business Profile Dinamis + CMS (Termasuk Cloud Hosting 1 Thn)',
+                    nameEn: 'Dynamic Business Profile + CMS (Includes 1-Yr Cloud Hosting)',
+                    descId: 'Dashboard Admin CMS mandiri, domain .com & cloud hosting NVMe 1 thn, email bisnis.',
+                    descEn: 'Admin CMS dashboard, .com domain & 1-year NVMe hosting, business email accounts.',
+                    priceIdr: 2950000,
+                    priceUsd: 195,
                     minDays: 5,
                     maxDays: 7,
                 },
                 {
                     id: 'ecommerce',
                     icon: 'shopping-bag',
-                    nameId: 'Toko Online & E-Commerce Lengkap',
-                    nameEn: 'Full E-Commerce & Online Store',
-                    descId: 'Katalog produk, keranjang belanja, payment gateway QRIS/VA otomatis & ongkir RajaOngkir.',
-                    descEn: 'Product catalog, shopping cart, automated QRIS/VA payments & courier shipping rates.',
-                    priceIdr: 6500000,
-                    priceUsd: 420,
-                    minDays: 8,
+                    nameId: 'Toko Online & E-Commerce Lengkap (Termasuk Cloud Hosting 1 Thn)',
+                    nameEn: 'Complete E-Commerce Store (Includes 1-Yr High-Perf Hosting)',
+                    descId: 'Katalog produk, keranjang belanja, hitung ongkir otomatis, notifikasi WhatsApp order.',
+                    descEn: 'Product catalog, shopping cart, automated shipping calculation & WhatsApp checkout.',
+                    priceIdr: 4750000,
+                    priceUsd: 310,
+                    minDays: 7,
                     maxDays: 12,
                 },
                 {
                     id: 'webapp',
-                    icon: 'cpu',
-                    nameId: 'Sistem Operasional (POS Kasir / Absensi GPS / Custom)',
-                    nameEn: 'Operational Web App (POS Cashier / GPS Attendance)',
-                    descId: 'Aplikasi web operasional bisnis: kasir POS cetak thermal, absensi selfie GPS, atau custom app.',
-                    descEn: 'Custom operational web app: POS thermal printing, selfie GPS attendance, or bespoke system.',
-                    priceIdr: 3500000,
-                    priceUsd: 225,
-                    minDays: 7,
-                    maxDays: 14,
+                    icon: 'server',
+                    nameId: 'Sistem Operasional Web (POS Kasir / Absensi GPS / Custom)',
+                    nameEn: 'Operational Web System (POS / GPS Attendance / Custom App)',
+                    descId: 'Sistem manajemen database dinamis, multi-user role, cetak struk/laporan Excel/PDF.',
+                    descEn: 'Dynamic database app, multi-user roles, receipt printing, Excel/PDF reporting.',
+                    priceIdr: 4500000,
+                    priceUsd: 295,
+                    minDays: 10,
+                    maxDays: 18,
+                },
+                {
+                    id: 'coding_only',
+                    icon: 'code-2',
+                    nameId: 'Jasa Coding Saja (Frontend Only, Tanpa Domain/Hosting)',
+                    nameEn: 'Frontend Coding Only (No Domain/Hosting)',
+                    descId: 'Source code bersih HTML/Tailwind siap deploy ke server atau Vercel/Netlify Anda.',
+                    descEn: 'Clean production-ready HTML/Tailwind code ready for your own server.',
+                    priceIdr: 500000,
+                    priceUsd: 35,
+                    minDays: 1,
+                    maxDays: 2,
                 }
             ],
             addons: [
