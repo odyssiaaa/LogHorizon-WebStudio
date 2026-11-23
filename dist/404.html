@@ -1193,63 +1193,92 @@
 
                     <!-- Right Interactive Form -->
                     <div class="lg:col-span-7 p-8 sm:p-10 lg:p-12">
-                        <form id="brief-form" onsubmit="submitWhatsAppBrief(event)" class="space-y-5">
-                            <div class="grid sm:grid-cols-2 gap-5">
-                                <div>
-                                    <label for="client-name" class="block font-mono text-xs uppercase text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formNameLabel">
-                                        Nama / Instansi *
+                        <form id="brief-form" onsubmit="submitWhatsAppBrief(event)" class="space-y-6">
+                            <!-- 1. Client Identity Input -->
+                            <div>
+                                <label for="client-name" class="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formNameLabel">
+                                    01 // Nama Lengkap / Brand / Instansi *
+                                </label>
+                                <input type="text" id="client-name" required
+                                       placeholder="Contoh: Budi Santoso / PT Maju Gemilang"
+                                       class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
+                            </div>
+
+                            <!-- 2. Interactive Service Selection (Modular Card Selector) -->
+                            <div>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                                    <label class="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400" data-i18n="formPkgLabel">
+                                        02 // Pilih Paket &amp; Solusi Layanan *
                                     </label>
-                                    <input type="text" id="client-name" required
-                                           placeholder="Contoh: Budi / PT Maju Bersama"
-                                           class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-500">
+                                    <!-- Category Quick Pills -->
+                                    <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0" id="brief-filter-pills">
+                                        <button type="button" onclick="filterBriefCards('all')" class="brief-cat-pill px-2.5 py-1 rounded-md text-[10px] font-mono font-medium transition-colors cursor-pointer bg-neutral-900 text-white dark:bg-white dark:text-neutral-900" data-filter="all">Semua</button>
+                                        <button type="button" onclick="filterBriefCards('static')" class="brief-cat-pill px-2.5 py-1 rounded-md text-[10px] font-mono font-medium transition-colors cursor-pointer border border-borderLight dark:border-borderDark text-neutral-600 dark:text-neutral-400 hover:border-neutral-500" data-filter="static">Statis (Hemat)</button>
+                                        <button type="button" onclick="filterBriefCards('dynamic')" class="brief-cat-pill px-2.5 py-1 rounded-md text-[10px] font-mono font-medium transition-colors cursor-pointer border border-borderLight dark:border-borderDark text-neutral-600 dark:text-neutral-400 hover:border-neutral-500" data-filter="dynamic">Dinamis (CMS)</button>
+                                        <button type="button" onclick="filterBriefCards('custom')" class="brief-cat-pill px-2.5 py-1 rounded-md text-[10px] font-mono font-medium transition-colors cursor-pointer border border-borderLight dark:border-borderDark text-neutral-600 dark:text-neutral-400 hover:border-neutral-500" data-filter="custom">Custom / App</button>
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <label for="selected-package" class="block font-mono text-xs uppercase text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formPkgLabel">
-                                        Pilih Paket / Layanan *
-                                    </label>
-                                    <select id="selected-package"
-                                            class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-500">
-                                        <!-- Options populated dynamically -->
-                                    </select>
+                                <!-- Hidden Native Input For Form & WhatsApp Compatibility -->
+                                <input type="hidden" id="selected-package" value="Paket Company Profile Statis Pro [Best Seller] (Rp 1.450.000)">
+
+                                <!-- Modular Cards Grid Container -->
+                                <div id="brief-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[300px] overflow-y-auto pr-1">
+                                    <!-- Populated dynamically via renderBriefPackageCards() -->
+                                </div>
+
+                                <!-- Currently Selected Active Badge -->
+                                <div id="brief-selected-indicator" class="mt-2.5 p-3 rounded-xl border border-neutral-900/20 dark:border-white/20 bg-neutral-100/70 dark:bg-neutral-900/70 flex items-center justify-between gap-3 text-xs">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                                        <span class="font-mono text-[11px] text-neutral-500 shrink-0 uppercase">Paket Terpilih:</span>
+                                        <span id="brief-selected-text" class="font-bold truncate text-neutral-900 dark:text-white">Paket Company Profile Statis Pro [Best Seller] (Rp 1.450.000)</span>
+                                    </div>
+                                    <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 shrink-0">✓ Terpilih</span>
                                 </div>
                             </div>
 
-                            <div class="grid sm:grid-cols-2 gap-5">
+                            <!-- 3. Domain & Target Timeline Grid -->
+                            <div class="grid sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label for="domain-pref" class="block font-mono text-xs uppercase text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formDomainLabel">
-                                        Preferensi Nama Domain
+                                    <label for="domain-pref" class="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formDomainLabel">
+                                        03 // Preferensi Domain
                                     </label>
                                     <input type="text" id="domain-pref"
-                                           placeholder="Contoh: namabisnis.com / belum ada"
-                                           class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-500">
+                                           placeholder="Contoh: namabisnis.com / butuh saran"
+                                           class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
                                 </div>
 
                                 <div>
-                                    <label for="timeline-pref" class="block font-mono text-xs uppercase text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formTimeLabel">
-                                        Target Rilis
+                                    <label for="timeline-pref" class="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formTimeLabel">
+                                        04 // Target Rilis
                                     </label>
                                     <input type="text" id="timeline-pref"
-                                           placeholder="Contoh: Minggu ini / Bulan depan"
-                                           class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-500">
+                                           placeholder="Contoh: 1–2 Minggu / Mendesak"
+                                           class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
                                 </div>
                             </div>
 
+                            <!-- 4. Notes / Custom Requirements -->
                             <div>
-                                <label for="project-notes" class="block font-mono text-xs uppercase text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formNotesLabel">
-                                    Catatan Kebutuhan / Fitur Khusus
+                                <label for="project-notes" class="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2" data-i18n="formNotesLabel">
+                                    05 // Catatan Kebutuhan / Fitur Khusus
                                 </label>
-                                <textarea id="project-notes" rows="4"
-                                          placeholder="Jelaskan singkat profil usaha, fitur yang diinginkan (misal: katalog produk, form pendaftaran, payment gateway), atau referensi desain..."
-                                          class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-500"></textarea>
+                                <textarea id="project-notes" rows="3"
+                                          placeholder="Jelaskan gambaran website yang diinginkan (misal: referensi website lain, fitur katalog, payment gateway, integrasi WhatsApp, dll.)..."
+                                          class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors resize-y"></textarea>
                             </div>
 
-                            <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                            <!-- 5. Submit CTA -->
+                            <div class="pt-1">
                                 <button type="submit"
-                                        class="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-sm font-bold hover:opacity-90 transition-opacity cursor-pointer">
+                                        class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-sm font-bold hover:opacity-90 transition-opacity cursor-pointer shadow-lg shadow-neutral-900/10 dark:shadow-white/5">
                                     <i data-lucide="send" class="w-4 h-4"></i>
-                                    <span data-i18n="formSubmitBtn">Kirim Brief ke WhatsApp</span>
+                                    <span data-i18n="formSubmitBtn">Kirim Brief &amp; Konsultasi ke WhatsApp</span>
                                 </button>
+                                <p class="text-center font-mono text-[11px] text-neutral-400 mt-2">
+                                    Format pesan terisi otomatis &bull; Langsung tersambung ke engineer LogHorizonStudio
+                                </p>
                             </div>
                         </form>
                     </div>
@@ -2400,73 +2429,242 @@ function renderPackages() {
             icon.style.transform = body.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(45deg)';
         }
 
-        function populatePackageSelect() {
-            const select = document.getElementById('selected-package');
-            const customOption = currentLang === 'id'
-                ? "Konsultasi Custom / Belum Menentukan Paket"
-                : "Custom Consultation / Undecided Package";
+                // Curated Brief Service Options (Modular Grid Card Selector)
+        const BRIEF_SERVICES = [
+            {
+                id: "static_starter",
+                cat: "static",
+                icon: "layout",
+                nameId: "Starter Landing Page (Statis)",
+                nameEn: "Starter Landing Page (Static)",
+                badgeId: "Hemat Server",
+                badgeEn: "Zero Server Fee",
+                priceIdr: "Rp 650.000",
+                priceUsd: "$45",
+                descId: "1 Halaman konversi tinggi, hosting gratis, domain .my.id",
+                descEn: "1 High-conversion page, free hosting, domain .my.id"
+            },
+            {
+                id: "static_pro",
+                cat: "static",
+                icon: "building-2",
+                nameId: "Company Profile Statis Pro",
+                nameEn: "Pro Static Company Profile",
+                badgeId: "Best Seller",
+                badgeEn: "Best Seller",
+                priceIdr: "Rp 1.450.000",
+                priceUsd: "$95",
+                descId: "3–5 Halaman profil bisnis, domain .com, PageSpeed 95+",
+                descEn: "3–5 Business pages, .com domain, PageSpeed 95+"
+            },
+            {
+                id: "static_catalog",
+                cat: "static",
+                icon: "shopping-bag",
+                nameId: "Katalog Produk & Menu QR Statis",
+                nameEn: "Digital Catalog & QR Menu (Static)",
+                badgeId: "Hemat Server",
+                badgeEn: "Zero Server Fee",
+                priceIdr: "Rp 950.000",
+                priceUsd: "$65",
+                descId: "Hingga 25 produk/menu, QR code cetak meja, direct WA",
+                descEn: "Up to 25 items/menu, table QR code, direct WA order"
+            },
+            {
+                id: "dynamic_cms",
+                cat: "dynamic",
+                icon: "cpu",
+                nameId: "Business Profile Dinamis + CMS",
+                nameEn: "Dynamic Business Profile + CMS",
+                badgeId: "All-in Cloud",
+                badgeEn: "All-in Cloud",
+                priceIdr: "Rp 2.950.000",
+                priceUsd: "$195",
+                descId: "Termasuk Cloud Hosting 1 Thn, Admin CMS update mandiri",
+                descEn: "Includes 1-Yr Cloud Hosting, Admin CMS self-update"
+            },
+            {
+                id: "dynamic_shop",
+                cat: "dynamic",
+                icon: "shopping-bag",
+                nameId: "Toko Online & E-Commerce Lengkap",
+                nameEn: "Complete E-Commerce Store",
+                badgeId: "All-in Cloud",
+                badgeEn: "All-in Cloud",
+                priceIdr: "Rp 4.750.000",
+                priceUsd: "$310",
+                descId: "Termasuk Cloud Hosting, keranjang belanja, cek ongkir",
+                descEn: "Includes Cloud Hosting, shopping cart, shipping rates"
+            },
+            {
+                id: "dynamic_school",
+                cat: "dynamic",
+                icon: "graduation-cap",
+                nameId: "Paket Sekolah & Organisasi Kampus",
+                nameEn: "School & Academic Org Portal",
+                badgeId: "All-in Cloud",
+                badgeEn: "All-in Cloud",
+                priceIdr: "Rp 2.250.000",
+                priceUsd: "$150",
+                descId: "Domain resmi (.sch.id/.ac.id), portal warta & form PPDB",
+                descEn: "Official domain (.sch.id/.ac.id), news portal & form"
+            },
+            {
+                id: "custom_app",
+                cat: "custom",
+                icon: "server",
+                nameId: "Aplikasi Web Operasional (POS / GPS)",
+                nameEn: "Operational Web App (POS / GPS)",
+                badgeId: "Custom App",
+                badgeEn: "Custom App",
+                priceIdr: "Mulai Rp 4.2Jt – Rp 4.5Jt",
+                priceUsd: "From $275 – $295",
+                descId: "Sistem kasir POS multi-user / absensi karyawan GPS",
+                descEn: "Multi-user POS cashier / employee GPS attendance"
+            },
+            {
+                id: "custom_consult",
+                cat: "custom",
+                icon: "message-square",
+                nameId: "Konsultasi Custom / Belum Menentukan",
+                nameEn: "Custom Consultation / Undecided",
+                badgeId: "Free Discussion",
+                badgeEn: "Free Discussion",
+                priceIdr: "Diskusi Bebas",
+                priceUsd: "Free Consultation",
+                descId: "Konsultasi kebutuhan arsitektur atau sistem khusus",
+                descEn: "Consult about custom architecture or web requirements"
+            }
+        ];
 
-            const options = [
-                `<option value="${customOption}">${customOption}</option>`,
-                `<option value="Custom Portal / Website Serupa LogHorizon">Custom Portal / Website Serupa LogHorizon</option>`
-            ];
+        let currentBriefFilter = 'all';
 
-            PACKAGES.forEach(pkg => {
-                const name = currentLang === 'id' ? pkg.nameId : pkg.nameEn;
-                const price = currentLang === 'id' ? pkg.priceIdr : pkg.priceUsd;
-                const val = `${name} (${price})`;
-                options.push(`<option value="${val}">${val}</option>`);
+        function filterBriefCards(category) {
+            currentBriefFilter = category;
+            // update pills
+            document.querySelectorAll('.brief-cat-pill').forEach(pill => {
+                const isActive = pill.dataset.filter === category;
+                pill.className = isActive
+                    ? "brief-cat-pill px-2.5 py-1 rounded-md text-[10px] font-mono font-medium transition-colors cursor-pointer bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                    : "brief-cat-pill px-2.5 py-1 rounded-md text-[10px] font-mono font-medium transition-colors cursor-pointer border border-borderLight dark:border-borderDark text-neutral-600 dark:text-neutral-400 hover:border-neutral-500";
             });
+            renderBriefPackageCards();
+        }
 
-            select.innerHTML = options.join('');
+        function renderBriefPackageCards() {
+            const container = document.getElementById('brief-cards-grid');
+            if (!container) return;
+            const currentSelected = document.getElementById('selected-package')?.value || '';
+
+            const filtered = currentBriefFilter === 'all'
+                ? BRIEF_SERVICES
+                : BRIEF_SERVICES.filter(s => s.cat === currentBriefFilter);
+
+            container.innerHTML = filtered.map(svc => {
+                const name = currentLang === 'id' ? svc.nameId : svc.nameEn;
+                const price = currentLang === 'id' ? svc.priceIdr : svc.priceUsd;
+                const desc = currentLang === 'id' ? svc.descId : svc.descEn;
+                const badge = currentLang === 'id' ? svc.badgeId : svc.badgeEn;
+                const fullValue = `${name} (${price})`;
+                const isSelected = currentSelected === fullValue || currentSelected.includes(name);
+
+                return `
+                    <div onclick="setSelectedPackage('${fullValue.replace(/'/g, "\'")}')"
+                         class="brief-card p-3 rounded-xl border transition-all cursor-pointer select-none text-left flex flex-col justify-between ${
+                             isSelected
+                                 ? 'border-neutral-900 dark:border-white ring-2 ring-neutral-900 dark:ring-white bg-neutral-200/60 dark:bg-neutral-800/80 shadow-sm'
+                                 : 'border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-neutral-600'
+                         }">
+                        <div>
+                            <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                                <span class="font-mono text-[9px] px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 font-medium">
+                                    ${badge}
+                                </span>
+                                ${isSelected ? '<span class="font-mono text-[9px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Aktif</span>' : ''}
+                            </div>
+                            <h4 class="font-bold text-xs leading-snug text-neutral-900 dark:text-white mb-0.5">${name}</h4>
+                            <p class="text-[11px] text-neutral-500 leading-tight line-clamp-2">${desc}</p>
+                        </div>
+                        <div class="mt-2 pt-2 border-t border-borderLight dark:border-borderDark flex items-center justify-between">
+                            <span class="font-mono text-xs font-bold text-neutral-900 dark:text-white">${price}</span>
+                            <span class="font-mono text-[10px] text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white">Pilih &rarr;</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function setSelectedPackage(val) {
+            const input = document.getElementById('selected-package');
+            if (input) input.value = val;
+
+            const textEl = document.getElementById('brief-selected-text');
+            if (textEl) textEl.textContent = val;
+
+            renderBriefPackageCards();
+        }
+
+        function populatePackageSelect() {
+            renderBriefPackageCards();
         }
 
         function selectPackageForBrief(pkgLabel) {
-            const select = document.getElementById('selected-package');
-            // Ensure option exists
-            let found = false;
-            for (let i = 0; i < select.options.length; i++) {
-                if (select.options[i].value === pkgLabel) {
-                    select.selectedIndex = i;
-                    found = true;
-                    break;
-                }
+            setSelectedPackage(pkgLabel);
+            const briefSection = document.getElementById('brief');
+            if (briefSection) {
+                briefSection.scrollIntoView({ behavior: 'smooth' });
             }
-            if (!found) {
-                const opt = new Option(pkgLabel, pkgLabel, true, true);
-                select.add(opt);
-            }
-            document.getElementById('brief').scrollIntoView({ behavior: 'smooth' });
             setTimeout(() => {
-                document.getElementById('client-name').focus();
+                const nameInput = document.getElementById('client-name');
+                if (nameInput) nameInput.focus();
             }, 400);
+            showToast(currentLang === 'id' ? `Paket "${pkgLabel.split('(')[0].trim()}" dipilih!` : `Package selected!`);
         }
 
+
         function submitWhatsAppBrief(e) {
-            e.preventDefault();
+            if (e) e.preventDefault();
             const name = document.getElementById('client-name').value.trim();
-            const pkg = document.getElementById('selected-package').value;
-            const domain = document.getElementById('domain-pref').value.trim() || '-';
-            const timeline = document.getElementById('timeline-pref').value.trim() || '-';
+            const pkg = document.getElementById('selected-package')?.value || 'Konsultasi Custom / Belum Menentukan Paket';
+            const domain = document.getElementById('domain-pref').value.trim() || 'Belum ada / Butuh saran';
+            const timeline = document.getElementById('timeline-pref').value.trim() || 'Fleksibel';
             const notes = document.getElementById('project-notes').value.trim() || '-';
 
             let message = "";
             if (currentLang === 'id') {
-                message = `Halo LogHorizonStudio, saya ingin konsultasi / memesan proyek website:\n\n` +
-                          `• *Nama / Instansi:* ${name}\n` +
-                          `• *Paket / Layanan:* ${pkg}\n` +
-                          `• *Preferensi Domain:* ${domain}\n` +
-                          `• *Target Rilis:* ${timeline}\n` +
-                          `• *Catatan Kebutuhan:* ${notes}\n\n` +
-                          `Mohon info langkah selanjutnya. Terima kasih!`;
+                message = `Halo LogHorizonStudio, saya ingin konsultasi / memesan proyek website:
+
+` +
+                          `👤 *Nama / Instansi:* ${name}
+` +
+                          `📦 *Paket Layanan:* ${pkg}
+` +
+                          `🌐 *Preferensi Domain:* ${domain}
+` +
+                          `⏱️ *Target Rilis:* ${timeline}
+` +
+                          `📝 *Catatan Kebutuhan:* ${notes}
+
+` +
+                          `Mohon info ketersediaan slot pengerjaan dan langkah selanjutnya. Terima kasih!`;
             } else {
-                message = `Hello LogHorizonStudio, I would like to inquire about a web project:\n\n` +
-                          `• *Name / Organization:* ${name}\n` +
-                          `• *Selected Package:* ${pkg}\n` +
-                          `• *Preferred Domain:* ${domain}\n` +
-                          `• *Target Launch:* ${timeline}\n` +
-                          `• *Project Notes:* ${notes}\n\n` +
-                          `Please let me know the next steps. Thank you!`;
+                message = `Hello LogHorizonStudio, I would like to inquire about a web project:
+
+` +
+                          `👤 *Name / Organization:* ${name}
+` +
+                          `📦 *Selected Package:* ${pkg}
+` +
+                          `🌐 *Preferred Domain:* ${domain}
+` +
+                          `⏱️ *Target Launch:* ${timeline}
+` +
+                          `📝 *Project Notes:* ${notes}
+
+` +
+                          `Please let me know about schedule availability and next steps. Thank you!`;
             }
 
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -3351,21 +3549,8 @@ function renderPackages() {
             const totalUsd = Math.max(0, rawTotalUsd - discount.usd);
 
             // Populate #selected-package
-            const pkgSelect = document.getElementById('selected-package');
             const customSummaryVal = `${baseName} (Estimator: ${currentLang === 'id' ? formatIdr(totalIdr) : formatUsd(totalUsd)})`;
-            let found = false;
-            for (let i = 0; i < pkgSelect.options.length; i++) {
-                if (pkgSelect.options[i].value === customSummaryVal) {
-                    pkgSelect.selectedIndex = i;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                const opt = new Option(customSummaryVal, customSummaryVal, true, true);
-                pkgSelect.add(opt);
-                pkgSelect.value = customSummaryVal;
-            }
+            setSelectedPackage(customSummaryVal);
 
             // Populate #project-notes
             const notesEl = document.getElementById('project-notes');
