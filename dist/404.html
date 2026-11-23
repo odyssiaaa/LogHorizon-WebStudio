@@ -1487,16 +1487,125 @@
         </div>
     </div>
 
-    <!-- Sticky Floating WhatsApp Action Button (Desktop Only, Bottom Right) -->
-    <aside aria-label="WhatsApp Contact" class="hidden lg:block fixed bottom-6 right-6 z-40">
-        <button onclick="openWhatsAppDirect()" aria-label="Chat WhatsApp" title="Konsultasi Cepat via WhatsApp"
-                class="flex items-center gap-2.5 px-4 py-3 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-2xl pulse-glow border border-neutral-700/40 dark:border-neutral-200/50 hover:scale-105 active:scale-95 transition-all duration-200 group cursor-pointer">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-            <i data-lucide="message-square" class="w-4 h-4 text-emerald-400 dark:text-emerald-600 shrink-0"></i>
-            <span class="font-mono text-xs font-bold tracking-tight hidden sm:inline" data-i18n="floatWaLabel">Konsultasi WhatsApp</span>
-            <span class="hidden md:inline font-mono text-[10px] text-neutral-400 dark:text-neutral-500 border-l border-neutral-700 dark:border-neutral-300 pl-2 font-medium">Online</span>
-        </button>
-    </aside>
+    <!-- =========================================================================
+         AI PROJECT CONSULTANT & FLOATING ACTION STACK
+         ========================================================================= -->
+    <div id="ai-consultant-root" class="fixed bottom-5 right-4 sm:right-6 z-50 flex flex-col items-end gap-3 pointer-events-auto">
+
+        <!-- AI Consultant Chat Window (Modal Panel) -->
+        <div id="ai-chat-window"
+             class="hidden flex-col w-[calc(100vw-32px)] sm:w-[420px] h-[580px] max-h-[82vh] bg-surfaceLight/95 dark:bg-surfaceDark/95 backdrop-blur-2xl border border-borderLight dark:border-borderDark rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 transform origin-bottom-right animate-in fade-in zoom-in-95">
+            
+            <!-- Window Header -->
+            <div class="px-4 py-3.5 border-b border-borderLight dark:border-borderDark bg-surfaceLight/80 dark:bg-surfaceDark/80 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-violet-600/10 dark:bg-violet-500/20 text-violet-600 dark:text-violet-400 flex items-center justify-center border border-violet-500/30">
+                        <i data-lucide="sparkles" class="w-4 h-4 animate-pulse"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-bold text-xs tracking-tight text-neutral-900 dark:text-white">AI Project Consultant</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        </div>
+                        <p class="font-mono text-[10px] text-neutral-500 dark:text-neutral-400">LogHorizonStudio • Instant Analysis</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1">
+                    <button type="button" onclick="resetAiChat()" title="Reset Percakapan"
+                            class="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    </button>
+                    <button type="button" onclick="toggleAiChat(false)" title="Tutup Chat"
+                            class="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Stream Area -->
+            <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 text-xs leading-relaxed custom-scrollbar">
+                <!-- Initial Welcome Message from AI -->
+                <div class="flex items-start gap-2.5 max-w-[90%]">
+                    <div class="w-7 h-7 rounded-lg bg-violet-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">
+                        AI
+                    </div>
+                    <div class="p-3 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/60 dark:border-neutral-700/60 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2">
+                        <p>Halo! Ceritakan konsep website impian Anda dengan bahasa sehari-hari. Contoh:</p>
+                        <ul class="text-[11px] text-neutral-600 dark:text-neutral-400 list-disc list-inside space-y-0.5">
+                            <li><i>"Bikin web resto ada menu QR dan sistem reservasi meja"</i></li>
+                            <li><i>"Toko online jualan fashion hijab ada hitung ongkir otomatis"</i></li>
+                            <li><i>"Company profile PT konsultan 5 halaman dokumen resmi"</i></li>
+                        </ul>
+                        <p class="text-[11px] font-medium text-violet-600 dark:text-violet-400">Saya akan langsung merancang estimasi fitur, waktu & biaya pengerjaannya!</p>
+                    </div>
+                </div>
+
+                <!-- Suggested Quick Prompts Pills -->
+                <div id="ai-quick-prompts" class="pt-1 flex flex-wrap gap-1.5">
+                    <button type="button" onclick="sendQuickPrompt('Bikin web resto dengan menu QR & sistem reservasi meja')"
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                        🍽️ Web Resto & Menu QR
+                    </button>
+                    <button type="button" onclick="sendQuickPrompt('Toko online e-commerce lengkap dengan cek ongkir otomatis')"
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                        🛍️ Toko Online E-Commerce
+                    </button>
+                    <button type="button" onclick="sendQuickPrompt('Company profile PT konsultan profesional 5 halaman')"
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                        🏢 Company Profile Statis
+                    </button>
+                    <button type="button" onclick="sendQuickPrompt('Sistem kasir web POS multi cabang & cetak struk bluetooth')"
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                        ⚡ Web POS Kasir & Inventori
+                    </button>
+                </div>
+            </div>
+
+            <!-- Typing Indicator (Hidden by default) -->
+            <div id="ai-typing-indicator" class="hidden px-4 py-2 border-t border-borderLight dark:border-borderDark bg-surfaceLight/50 dark:bg-surfaceDark/50 text-neutral-500 font-mono text-[11px] flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-ping"></span>
+                <span>AI sedang menganalisis kebutuhan proyek...</span>
+            </div>
+
+            <!-- Input Box Form -->
+            <form id="ai-chat-form" onsubmit="handleAiChatSubmit(event)"
+                  class="p-2.5 border-t border-borderLight dark:border-borderDark bg-surfaceLight/95 dark:bg-surfaceDark/95 flex items-center gap-2 shrink-0">
+                <input type="text" id="ai-chat-input"
+                       placeholder="Ketik ide website Anda di sini..."
+                       autocomplete="off"
+                       class="flex-1 px-3.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-violet-500 transition-all font-sans">
+                <button type="submit" id="ai-chat-send-btn"
+                        class="min-w-[40px] min-h-[40px] px-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-md">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Floating Buttons Group (AI Widget Trigger + WhatsApp Direct Button) -->
+        <div class="flex items-center gap-2.5">
+            <!-- WhatsApp Direct Floating Button -->
+            <button onclick="openWhatsAppDirect()" aria-label="Chat WhatsApp" title="Konsultasi WhatsApp Langsung"
+                    class="hidden sm:flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-surfaceLight/90 dark:bg-surfaceDark/90 text-neutral-800 dark:text-neutral-200 shadow-xl border border-borderLight dark:border-borderDark hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer backdrop-blur-md">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                <i data-lucide="message-square" class="w-4 h-4 text-emerald-500 shrink-0"></i>
+                <span class="font-mono text-xs font-semibold">WhatsApp</span>
+            </button>
+
+            <!-- Main AI Consultant Trigger Button -->
+            <button id="ai-widget-trigger-btn" onclick="toggleAiChat()" aria-label="Open AI Project Consultant" title="Konsultasi Otomatis AI"
+                    class="relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-2xl border border-violet-500/50 hover:border-violet-500 hover:scale-105 active:scale-95 transition-all duration-200 group cursor-pointer">
+                <!-- Glowing Aura -->
+                <span class="absolute -inset-0.5 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 opacity-60 blur-sm group-hover:opacity-100 transition duration-300"></span>
+                
+                <span class="relative flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-violet-400 animate-ping shrink-0"></span>
+                    <i data-lucide="sparkles" class="w-4 h-4 text-violet-300 dark:text-violet-600 shrink-0"></i>
+                    <span class="font-mono text-xs font-extrabold tracking-tight">AI Consultant</span>
+                </span>
+            </button>
+        </div>
+    </div>
 
     <!-- Toast Notification Container (Positioned safely above floating button) -->
     <div id="toast" class="fixed bottom-20 right-6 z-50 hidden items-center gap-2.5 px-4 py-3 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-mono text-xs shadow-xl border border-neutral-700 dark:border-neutral-200">
@@ -3815,6 +3924,351 @@ function renderPackages() {
 
         
         // =========================================================================
+        
+        // =========================================================================
+        // AI PROJECT CONSULTANT ENGINE & CHAT CONTROLLER
+        // =========================================================================
+        let isAiChatOpen = false;
+        let lastAiAnalysis = null;
+
+        function toggleAiChat(forceState) {
+            const chatWindow = document.getElementById('ai-chat-window');
+            if (!chatWindow) return;
+
+            if (typeof forceState === 'boolean') {
+                isAiChatOpen = forceState;
+            } else {
+                isAiChatOpen = !isAiChatOpen;
+            }
+
+            if (isAiChatOpen) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.classList.add('flex');
+                setTimeout(() => {
+                    const input = document.getElementById('ai-chat-input');
+                    if (input) input.focus();
+                }, 150);
+            } else {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('flex');
+            }
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function resetAiChat() {
+            const messagesContainer = document.getElementById('ai-chat-messages');
+            if (!messagesContainer) return;
+
+            messagesContainer.innerHTML = `
+                <div class="flex items-start gap-2.5 max-w-[90%]">
+                    <div class="w-7 h-7 rounded-lg bg-violet-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">
+                        AI
+                    </div>
+                    <div class="p-3 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/60 dark:border-neutral-700/60 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2">
+                        <p>Halo! Ceritakan konsep website impian Anda dengan bahasa sehari-hari. Contoh:</p>
+                        <ul class="text-[11px] text-neutral-600 dark:text-neutral-400 list-disc list-inside space-y-0.5">
+                            <li><i>"Bikin web resto ada menu QR dan sistem reservasi meja"</i></li>
+                            <li><i>"Toko online jualan fashion hijab ada hitung ongkir otomatis"</i></li>
+                            <li><i>"Company profile PT konsultan 5 halaman dokumen resmi"</i></li>
+                        </ul>
+                        <p class="text-[11px] font-medium text-violet-600 dark:text-violet-400">Saya akan langsung merancang estimasi fitur, waktu & biaya pengerjaannya!</p>
+                    </div>
+                </div>
+
+                <div id="ai-quick-prompts" class="pt-1 flex flex-wrap gap-1.5">
+                    <button type="button" onclick="sendQuickPrompt('Bikin web resto dengan menu QR & sistem reservasi meja')"
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                        🍽️ Web Resto & Menu QR
+                    </button>
+                    <button type="button" onclick="sendQuickPrompt('Toko online e-commerce lengkap dengan cek ongkir otomatis')"
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                        🛍️ Toko Online E-Commerce
+                    </button>
+                    <button type="button" onclick="sendQuickPrompt('Company profile PT konsultan profesional 5 halaman')"
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                        🏢 Company Profile Statis
+                    </button>
+                    <button type="button" onclick="sendQuickPrompt('Sistem kasir web POS multi cabang & cetak struk bluetooth')"
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
+                        ⚡ Web POS Kasir & Inventori
+                    </button>
+                </div>
+            `;
+            lastAiAnalysis = null;
+            if (window.lucide) lucide.createIcons();
+            showToast("Percakapan AI direset.");
+        }
+
+        function sendQuickPrompt(promptText) {
+            const input = document.getElementById('ai-chat-input');
+            if (input) {
+                input.value = promptText;
+                handleAiChatSubmit(new Event('submit'));
+            }
+        }
+
+        function analyzeProjectRequirements(userPrompt) {
+            const text = (userPrompt || "").toLowerCase().trim();
+
+            const hasResto = /resto|restoran|cafe|kafe|kuliner|makanan|minuman|menu qr|qr code|meja|kopi|warung|f&b|dine in/.test(text);
+            const hasShop = /toko|shop|e-commerce|ecommerce|jual|produk|belanja|keranjang|ongkir|checkout|payment|pembayaran|reseller|distributor|katalog baju|fashion/.test(text);
+            const hasBooking = /reservasi|booking|jadwal|antrian|janji temu|klinik|salon|barber|hotel|villa|sewa|rental/.test(text);
+            const hasSchool = /sekolah|pesantren|kampus|bem|himpunan|organisasi|yayasan|ppdb|akademik|mahasiswa|guru|santri/.test(text);
+            const hasCustomApp = /pos|kasir|inventori|gudang|absensi|payroll|crm|dashboard|portal|sistem web|aplikasi web|multi user|multi-user|database/.test(text);
+            const hasLanding = /landing page|satu halaman|single page|portofolio|portfolio|cv|freelance|personal|biolink|bio link/.test(text);
+            const hasCompany = /company profile|profil perusahaan|perusahaan|bisnis|kantor|bengkel|jasa|konsultan|kontraktor|firma|pt|cv/.test(text);
+            const hasDynamic = /dinamis|cms|admin|blog|artikel|update berita/.test(text);
+
+            let category = "starter";
+            let packageName = "Paket Starter Landing Page (UMKM & Portofolio)";
+            let priceIdr = "Rp 650.000 – Rp 1.450.000";
+            let priceUsd = "$45 – $95";
+            let timeEstimate = "2–4 Hari Kerja";
+            let features = [
+                "Domain 1 Tahun + Infrastruktur Cloudflare Edge (Tanpa Biaya Server Selamanya)",
+                "Desain Responsif Mobile-First & Keamanan Sertifikat SSL HTTPS",
+                "1–3 Halaman Konversi Tinggi (Hero, Layanan, Profil & Lokasi)",
+                "Tombol Direct WhatsApp Order & Integrasi Google Maps Bisnis",
+                "Perpanjangan tahun berikutnya HANYA biaya domain (~Rp 35rb/thn)!"
+            ];
+
+            if (hasCustomApp || (hasBooking && hasShop)) {
+                category = "custom";
+                packageName = "Sistem Web & Aplikasi Kustom (Custom Web App)";
+                priceIdr = "Mulai Rp 4.200.000 – Rp 5.500.000";
+                priceUsd = "From $275 – $360";
+                timeEstimate = "8–14 Hari Kerja";
+                features = [
+                    "Arsitektur Web App Dinamis (Frontend Interaktif + Backend Database)",
+                    "Multi-Role Authentication (Hak Akses Owner, Kasir/Staf & Klien)",
+                    "Fitur Logika Spesifik (Reservasi / Kasir POS / Inventori Stok / Realtime Data)",
+                    "Export Laporan Otomatis (Format PDF & Excel Spreadsheet)",
+                    "Full Database Backup & Lisensi Kepemilikan Sistem Mandiri"
+                ];
+            } else if (hasShop) {
+                category = "ecommerce";
+                packageName = "Paket Toko Online & E-Commerce Lengkap";
+                priceIdr = "Rp 4.750.000 (All-in Tahun 1)";
+                priceUsd = "$310 (Year 1 All-in)";
+                timeEstimate = "7–12 Hari Kerja";
+                features = [
+                    "Domain Internasional .com + High-Performance Cloud Hosting 1 Tahun Penuh",
+                    "Katalog Produk Unlimited dengan Manajemen Stok & Variasi Warna/Ukuran",
+                    "Keranjang Belanja & Checkout Otomatis Terhubung ke WhatsApp / Payment Gateway",
+                    "Kalkulator Otomatis Cek Ongkos Kirim Realtime (JNE, J&T, SiCepat, dll.)",
+                    "Dashboard Admin Penjualan, Laporan Order & Garansi Maintenance 30 Hari"
+                ];
+            } else if (hasResto && (hasBooking || /reservasi/.test(text))) {
+                category = "resto_booking";
+                packageName = "Paket Restoran & Cafe Pro (Menu QR + Sistem Reservasi)";
+                priceIdr = "Rp 1.850.000 – Rp 2.450.000";
+                priceUsd = "$120 – $160";
+                timeEstimate = "4–6 Hari Kerja";
+                features = [
+                    "Domain Kustom 1 Tahun + Edge Hosting Super Cepat (Tanpa Biaya Server Bulanan)",
+                    "Buku Menu Digital Interaktif + Generate QR Code Meja Siap Cetak (File PDF)",
+                    "Formulir Reservasi Meja / Booking Jam Kedatangan Terhubung Otomatis ke WhatsApp",
+                    "Integrasi Google Maps Lokasi Usaha & Tombol Direct WhatsApp Kasir",
+                    "Tampilan Mobile-First Mewah untuk Memikat Pengunjung Cafe/Resto"
+                ];
+            } else if (hasResto) {
+                category = "resto";
+                packageName = "Paket Katalog Menu QR & Resto (Statis Hemat)";
+                priceIdr = "Rp 950.000 (Tanpa Sewa Hosting Selamanya)";
+                priceUsd = "$65 (Zero Server Rent)";
+                timeEstimate = "2–4 Hari Kerja";
+                features = [
+                    "Domain Resmi 1 Tahun + Infrastruktur Serverless Cloudflare Edge",
+                    "Katalog Interaktif hingga 25 Menu Makanan/Minuman Lengkap Foto & Harga",
+                    "QR Code Meja / Kasir Siap Cetak (File PDF Template Print Meja)",
+                    "Tombol Pesan Langsung Terhubung ke WhatsApp Kasir Resto",
+                    "Bebas Biaya Sewa Hosting Server Bulanan/Tahunan Selamanya (Hemat)"
+                ];
+            } else if (hasSchool) {
+                category = "school";
+                packageName = "Paket Portal Sekolah, Pesantren & Kampus";
+                priceIdr = "Rp 2.250.000 (All-in Tahun 1)";
+                priceUsd = "$150 (Year 1 All-in)";
+                timeEstimate = "4–7 Hari Kerja";
+                features = [
+                    "Domain Resmi (.sch.id / .ac.id / .or.id) + Cloud Hosting SSD Cepat 1 Tahun",
+                    "Portal Warta Berita, Pengumuman, Galeri Foto & Profil Pengurus/Guru",
+                    "Formulir Pendaftaran Online (PPDB / Open Recruitment) Langsung Terekap",
+                    "Dokumen Administrasi Resmi (Surat Penawaran, Invoice & Kwitansi Berstempel LPJ)",
+                    "Bantuan Pengurusan Syarat Berkas Domain Resmi Indonesia ke PANDI"
+                ];
+            } else if (hasCompany || hasDynamic) {
+                if (hasDynamic) {
+                    category = "company_dynamic";
+                    packageName = "Paket Company Profile Dinamis + CMS Admin";
+                    priceIdr = "Rp 2.950.000 (All-in Tahun 1)";
+                    priceUsd = "$195 (Year 1 All-in)";
+                    timeEstimate = "5–7 Hari Kerja";
+                    features = [
+                        "Domain .com + Cloud Hosting SSD Cepat 1 Tahun Penuh (Termasuk)",
+                        "Dashboard Admin (CMS) Ramah Pengguna (Bisa Update Teks, Foto & Artikel Mandiri)",
+                        "5–8 Halaman Lengkap + Halaman Berita / Blog SEO Dinamis",
+                        "Akun Email Bisnis Resmi (contoh: info@perusahaananda.com)",
+                        "Garansi Pemeliharaan 30 Hari & Backup Mingguan Otomatis"
+                    ];
+                } else {
+                    category = "company_static";
+                    packageName = "Paket Company Profile Statis Pro [Best Seller]";
+                    priceIdr = "Rp 1.450.000 (Tanpa Sewa Server)";
+                    priceUsd = "$95 (Zero Server Rent)";
+                    timeEstimate = "3–5 Hari Kerja";
+                    features = [
+                        "Gratis Domain Internasional (.com) 1 Tahun Penuh",
+                        "Hosting Serverless Cloudflare / Vercel (Gratis Selamanya, Zero Monthly Fee)",
+                        "3–5 Halaman Terstruktur (Beranda, Profil, Layanan, Portofolio & Kontak)",
+                        "Skor Google PageSpeed 95+ (Super Cepat, Ringan & Optimal SEO)",
+                        "Dokumen Resmi: Invoice & Kwitansi Berstempel untuk Pembukuan Bisnis"
+                    ];
+                }
+            }
+
+            return {
+                userPrompt: userPrompt,
+                category: category,
+                packageName: packageName,
+                priceIdr: priceIdr,
+                priceUsd: priceUsd,
+                timeEstimate: timeEstimate,
+                features: features
+            };
+        }
+
+        function handleAiChatSubmit(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const input = document.getElementById('ai-chat-input');
+            const messagesContainer = document.getElementById('ai-chat-messages');
+            const typingIndicator = document.getElementById('ai-typing-indicator');
+
+            if (!input || !messagesContainer) return;
+            const query = input.value.trim();
+            if (!query) return;
+
+            // Remove quick prompts once conversation starts
+            const quickPrompts = document.getElementById('ai-quick-prompts');
+            if (quickPrompts) quickPrompts.remove();
+
+            // Append User Message Bubble
+            const userMsgHtml = `
+                <div class="flex items-start justify-end gap-2.5">
+                    <div class="p-3 rounded-2xl rounded-tr-sm bg-violet-600 text-white font-medium shadow-sm max-w-[85%] text-left">
+                        <p>${escapeHtml(query)}</p>
+                    </div>
+                </div>
+            `;
+            messagesContainer.insertAdjacentHTML('beforeend', userMsgHtml);
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Show Typing Indicator
+            if (typingIndicator) {
+                typingIndicator.classList.remove('hidden');
+                typingIndicator.classList.add('flex');
+            }
+
+            // Simulate intelligent processing delay (400ms - 700ms)
+            setTimeout(() => {
+                if (typingIndicator) {
+                    typingIndicator.classList.add('hidden');
+                    typingIndicator.classList.remove('flex');
+                }
+
+                const analysis = analyzeProjectRequirements(query);
+                lastAiAnalysis = analysis;
+
+                const featuresListHtml = analysis.features.map(f => `
+                    <li class="flex items-start gap-1.5 py-0.5">
+                        <span class="text-emerald-500 font-bold shrink-0">✓</span>
+                        <span class="text-neutral-700 dark:text-neutral-300">${f}</span>
+                    </li>
+                `).join('');
+
+                const aiReplyHtml = `
+                    <div class="flex items-start gap-2.5 max-w-[95%] animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <div class="w-7 h-7 rounded-lg bg-violet-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">
+                            AI
+                        </div>
+                        <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/80 text-neutral-800 dark:text-neutral-200 shadow-md space-y-3">
+                            <div>
+                                <span class="font-mono text-[10px] uppercase font-bold text-violet-600 dark:text-violet-400">Rancangan Spesifikasi Terpilih</span>
+                                <h4 class="font-bold text-sm text-neutral-900 dark:text-white mt-0.5">${analysis.packageName}</h4>
+                            </div>
+
+                            <div class="p-2.5 rounded-xl bg-surfaceLight/80 dark:bg-surfaceDark/80 border border-borderLight dark:border-borderDark grid grid-cols-2 gap-2">
+                                <div>
+                                    <span class="font-mono text-[9.5px] uppercase text-neutral-500 block">Estimasi Biaya</span>
+                                    <span class="font-mono text-xs font-extrabold text-neutral-900 dark:text-white">${analysis.priceIdr}</span>
+                                </div>
+                                <div>
+                                    <span class="font-mono text-[9.5px] uppercase text-neutral-500 block">Waktu Rilis</span>
+                                    <span class="font-mono text-xs font-extrabold text-emerald-600 dark:text-emerald-400">${analysis.timeEstimate}</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <span class="font-mono text-[10px] uppercase text-neutral-500 block mb-1">Rincian Fitur Utama:</span>
+                                <ul class="text-[11px] space-y-1">
+                                    ${featuresListHtml}
+                                </ul>
+                            </div>
+
+                            <!-- WhatsApp Handoff CTA Button -->
+                            <div class="pt-1 border-t border-neutral-200 dark:border-neutral-700">
+                                <button type="button" onclick="sendAiAnalysisToWhatsApp()"
+                                        class="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer active:scale-95">
+                                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                                    <span>Kirim Rancangan Ini via WhatsApp ke Tim LogHorizon</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                messagesContainer.insertAdjacentHTML('beforeend', aiReplyHtml);
+                if (window.lucide) lucide.createIcons();
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 550);
+        }
+
+        function sendAiAnalysisToWhatsApp() {
+            if (!lastAiAnalysis) {
+                openWhatsAppDirect();
+                return;
+            }
+
+            const analysis = lastAiAnalysis;
+            const featuresFormatted = analysis.features.map(function(f) { return "• " + f; }).join("\n");
+            
+            const message = "Halo LogHorizonStudio, saya telah berkonsultasi dengan fitur AI Project Consultant di website dan tertarik dengan rancangan proyek berikut:\n\n" +
+                "📋 *Kebutuhan Klien:* \"" + analysis.userPrompt + "\"\n" +
+                "🎯 *Rekomendasi Paket:* " + analysis.packageName + "\n" +
+                "💰 *Estimasi Biaya:* " + analysis.priceIdr + " (≈ " + analysis.priceUsd + ")\n" +
+                "⏱️ *Estimasi Pengerjaan:* " + analysis.timeEstimate + "\n\n" +
+                "*Rincian Fitur Utama:*\n" +
+                featuresFormatted + "\n\n" +
+                "Mohon info ketersediaan slot pengerjaan dan langkah selanjutnya. Terima kasih!";
+
+            const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+            window.open(url, "_blank", "noopener,noreferrer");
+            showToast("Membuka WhatsApp untuk mengirim rancangan AI...");
+        }
+
+        function escapeHtml(string) {
+            const entityMap = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            };
+            return String(string).replace(/[&<>"']/g, s => entityMap[s]);
+        }
+
         // SMART MOBILE ESTIMATOR BAR CONTROLLER
         // =========================================================================
         let isMobileBarCollapsed = false;
