@@ -44,6 +44,9 @@
                         surfaceDark: '#111111',
                         borderLight: '#E5E5E5',
                         borderDark: '#222222',
+                        violetAccent: '#7C3AED',
+                        violetMuted: '#1E1235',
+                        violetDark: '#0A0714',
                     }
                 }
             }
@@ -377,7 +380,7 @@
                     <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight" data-i18n="workTitle">Karya &amp; Studi Kasus Live</h2>
                 </div>
                 <p class="text-sm text-neutral-600 dark:text-neutral-400 max-w-md" data-i18n="workSubtitle">
-                    Pratinjau langsung sistem yang telah kami rilis ke produksi. Klik atau gulir langsung di dalam bingkai untuk menguji antarmuka.
+                    Studi kasus visual dari sistem produksi yang telah kami rilis. Jelajahi arsitektur antarmuka dan kunjungi tautan produksi resminya.
                 </p>
             </div>
 
@@ -419,7 +422,7 @@
                         <button id="preview-mode-btn" onclick="togglePreviewMode()"
                                 class="px-2.5 py-1 rounded-md border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-[11px] hover:border-neutral-500 transition-colors cursor-pointer"
                                 data-i18n="togglePreviewBtn">
-                            Mode: Live Embed
+                            Mode: Pratinjau UI
                         </button>
                     </div>
                 </div>
@@ -428,14 +431,153 @@
                 <div class="grid lg:grid-cols-12">
                     <!-- Left: Interactive Preview Frame / Architectural Spec Fallback -->
                     <div class="lg:col-span-7 border-b lg:border-b-0 lg:border-r border-borderLight dark:border-borderDark bg-neutral-950 relative min-h-[460px] flex items-center justify-center p-0">
-                        <!-- Live Iframe Container -->
-                        <div id="live-iframe-container" class="w-full h-full flex items-center justify-center bg-neutral-950">
-                            <div id="live-iframe-wrapper" class="w-full h-[460px] sm:h-[520px] transition-all duration-300">
-                                <iframe id="live-iframe" src="https://loghorizon.vercel.app"
-                                        title="LogHorizon — Multi-Game Community & Tournament Portal"
-                                        loading="lazy"
-                                        class="w-full h-full border-0 bg-neutral-950">
-                                </iframe>
+                        <!-- Live UI Mockup Container (High-Fidelity Visual Mockup, Zero Iframe Error) -->
+                        <div id="live-iframe-container" class="w-full h-full flex items-center justify-center bg-[#07050E] relative overflow-hidden">
+                            <div id="live-iframe-wrapper" class="w-full h-[460px] sm:h-[520px] transition-all duration-300 flex flex-col overflow-hidden relative">
+                                
+                                <!-- 1. DESKTOP MOCKUP VIEW -->
+                                <div id="desktop-mockup-view" class="w-full h-full flex flex-col justify-between bg-gradient-to-b from-[#0F0B1E] via-[#0A0714] to-[#07050E] text-neutral-100 p-4 sm:p-6 overflow-y-auto select-none">
+                                    <!-- Simulated Top Nav Bar -->
+                                    <div class="flex items-center justify-between pb-3 mb-3 sm:mb-4 border-b border-neutral-800/80">
+                                        <div class="flex items-center gap-2.5">
+                                            <div class="w-6 h-6 rounded bg-gradient-to-br from-violet-600 to-indigo-700 flex items-center justify-center font-mono font-bold text-[10px] text-white shadow-sm">
+                                                LH
+                                            </div>
+                                            <span class="font-mono text-xs font-bold tracking-wider text-white">LOGHORIZON</span>
+                                            <span class="hidden sm:inline-block font-mono text-[10px] text-neutral-500 border-l border-neutral-800 pl-2">GUILD // HQ</span>
+                                        </div>
+                                        <div class="hidden sm:flex items-center gap-4 font-mono text-[11px] text-neutral-400">
+                                            <span class="hover:text-white transition-colors cursor-pointer">TURNAMEN</span>
+                                            <span class="hover:text-white transition-colors cursor-pointer">LFG MABAR</span>
+                                            <span class="hover:text-white transition-colors cursor-pointer">DIVISI</span>
+                                            <span class="hover:text-white transition-colors cursor-pointer">REKBER</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[10px]">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                                ONLINE
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Simulated Hero -->
+                                    <div class="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
+                                        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-violet-950/60 border border-violet-700/40 text-violet-300 font-mono text-[10px]">
+                                            <span>COMPASS CREST // SEJAK 2026</span>
+                                        </div>
+                                        <h4 class="text-lg sm:text-2xl font-black tracking-tight text-white leading-tight">
+                                            FIND YOUR PARTY. <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-300">BEYOND THE HORIZON.</span>
+                                        </h4>
+                                        <p class="text-xs text-neutral-400 max-w-lg leading-relaxed">
+                                            Satu guild untuk semua petualang gaming. Temukan rekan mabar sefrekuensi di PC, konsol, dan mobile dengan voice room standby 24/7.
+                                        </p>
+                                        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1">
+                                            <span class="px-2 py-0.5 rounded bg-neutral-900 border border-neutral-800 font-mono text-[10px] text-neutral-300">Valorant</span>
+                                            <span class="px-2 py-0.5 rounded bg-neutral-900 border border-neutral-800 font-mono text-[10px] text-neutral-300">Mobile Legends</span>
+                                            <span class="px-2 py-0.5 rounded bg-neutral-900 border border-neutral-800 font-mono text-[10px] text-neutral-300">Apex</span>
+                                            <span class="px-2 py-0.5 rounded bg-neutral-900 border border-neutral-800 font-mono text-[10px] text-neutral-300">Dota 2</span>
+                                            <span class="px-2 py-0.5 rounded bg-neutral-900 border border-neutral-800 font-mono text-[10px] text-neutral-300">Genshin</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Simulated Live Dispatch Cards -->
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5 mb-3 sm:mb-4">
+                                        <div class="p-2.5 sm:p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/60">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="font-mono text-[9px] text-neutral-400 uppercase">TURNAMEN GUILD</span>
+                                                <span class="font-mono text-[9px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">OPEN</span>
+                                            </div>
+                                            <p class="font-bold text-xs text-white">LogHorizon Cup S1</p>
+                                            <p class="font-mono text-[10px] text-neutral-400 mt-0.5">32 Tim • Rp 1.2M Priepool</p>
+                                        </div>
+                                        <div class="p-2.5 sm:p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/60">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="font-mono text-[9px] text-neutral-400 uppercase">LFG PARTY</span>
+                                                <span class="font-mono text-[9px] text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded font-bold">1/5 SLOT</span>
+                                            </div>
+                                            <p class="font-bold text-xs text-white">Legend - Mythic Push</p>
+                                            <p class="font-mono text-[10px] text-neutral-400 mt-0.5">Mobile Legends Mabar</p>
+                                        </div>
+                                        <div class="p-2.5 sm:p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/60 hidden sm:block">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="font-mono text-[9px] text-neutral-400 uppercase">REKBER GUILD</span>
+                                                <span class="font-mono text-[9px] text-violet-400 bg-violet-500/10 px-1.5 py-0.5 rounded font-bold">ESCROW</span>
+                                            </div>
+                                            <p class="font-bold text-xs text-white">Jual-Beli Terjamin</p>
+                                            <p class="font-mono text-[10px] text-neutral-400 mt-0.5">Dijamin Kas Guild</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bottom Interactive CTA Strip -->
+                                    <div class="pt-2 sm:pt-3 border-t border-neutral-800/80 flex items-center justify-between">
+                                        <div class="flex items-center gap-2 text-[10px] sm:text-[11px] font-mono text-neutral-400">
+                                            <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                            <span>Production Cloud // 200 OK</span>
+                                        </div>
+                                        <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer"
+                                           class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-mono text-xs font-semibold shadow-md transition-all">
+                                            <span>Buka Live Site</span>
+                                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- 2. MOBILE MOCKUP VIEW (Simulated Smartphone) -->
+                                <div id="mobile-mockup-view" class="hidden w-full h-full flex flex-col justify-between bg-gradient-to-b from-[#100B22] via-[#090613] to-[#05040B] text-neutral-100 p-4 sm:p-5 overflow-y-auto select-none">
+                                    <!-- Mobile Status Notch -->
+                                    <div class="flex items-center justify-between pb-2 mb-2 border-b border-neutral-800/60">
+                                        <span class="font-mono text-[10px] text-neutral-400">09:41</span>
+                                        <div class="w-16 h-3 rounded-full bg-neutral-900 border border-neutral-800 mx-auto"></div>
+                                        <div class="flex items-center gap-1 font-mono text-[9px] text-neutral-400">
+                                            <span>5G</span>
+                                            <span>100%</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mobile Nav -->
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-5 h-5 rounded bg-violet-600 flex items-center justify-center font-mono font-bold text-[9px] text-white">
+                                                LH
+                                            </div>
+                                            <span class="font-mono text-xs font-bold text-white">LOGHORIZON</span>
+                                        </div>
+                                        <span class="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">● ONLINE</span>
+                                    </div>
+
+                                    <!-- Mobile Hero -->
+                                    <div class="space-y-1.5 mb-3">
+                                        <span class="inline-block px-2 py-0.5 rounded bg-violet-950/70 border border-violet-800/50 text-violet-300 font-mono text-[9px]">
+                                            COMPASS CREST // 2026
+                                        </span>
+                                        <h5 class="text-sm sm:text-base font-black text-white leading-tight">
+                                            FIND YOUR PARTY.
+                                        </h5>
+                                        <p class="text-[11px] text-neutral-400 leading-relaxed">
+                                            Satu guild untuk semua petualang gamer. Mabar kompetitif & santai 24/7.
+                                        </p>
+                                    </div>
+
+                                    <!-- Mobile Tournament Card -->
+                                    <div class="p-3 rounded-xl border border-neutral-800 bg-neutral-900/80 mb-3 space-y-1">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-mono text-[9px] text-emerald-400 font-bold">● REGISTRASI BUKA</span>
+                                            <span class="font-mono text-[9px] text-neutral-400">32 TIM</span>
+                                        </div>
+                                        <p class="font-bold text-xs text-white">LogHorizon Cup S1</p>
+                                        <p class="font-mono text-[10px] text-violet-400">Hadiah: Rp 1.200.000</p>
+                                    </div>
+
+                                    <!-- Mobile Direct Link CTA -->
+                                    <div class="pt-2">
+                                        <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer"
+                                           class="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-mono text-xs font-semibold shadow-md transition-all">
+                                            <span>Buka Live Website</span>
+                                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -545,10 +687,10 @@
                                     <span data-i18n="lhSimulateBtn">Simulate Similar Build</span>
                                 </button>
                             </div>
-                            <button type="button" onclick="loadPackageIntoEstimator('${pkg.estimatorId || 'company'}')"
-                                    class="w-full text-center py-1.5 font-mono text-[11px] text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer">
+                            <a href="#brief"
+                               class="w-full text-center py-1.5 font-mono text-[11px] text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer block">
                                 <span data-i18n="lhOrderBtn">Atau langsung diskusikan via Formulir Brief &rarr;</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1218,9 +1360,9 @@
                 deal3Btn: "Klaim Garansi Ekstra",
                 workEyebrow: "02 — SELECTED WORK",
                 workTitle: "Karya & Studi Kasus Live",
-                workSubtitle: "Pratinjau langsung sistem yang telah kami rilis ke produksi. Klik atau gulir langsung di dalam bingkai untuk menguji antarmuka.",
-                togglePreviewBtn: "Mode: Live Embed",
-                togglePreviewBtnArch: "Mode: Arsitektur",
+                workSubtitle: "Studi kasus visual dari sistem produksi yang telah kami rilis. Jelajahi arsitektur antarmuka dan kunjungi tautan produksi resminya.",
+                togglePreviewBtn: "Mode: Pratinjau UI",
+                togglePreviewBtnArch: "Mode: Arsitektur &amp; Spec",
                 lhTag: "PORTAL KOMUNITAS & ESPORTS",
                 lhDesc: "Platform portal komunitas gaming multi-genre dan pusat informasi turnamen. Dirancang dengan antarmuka responsif berkecepatan tinggi untuk menghubungkan anggota komunitas, jadwal kompetisi, serta mitra sponsor dalam satu ekosistem web.",
                 lhScopeTitle: "Lingkup & Fitur Utama",
@@ -1343,8 +1485,8 @@
                 workEyebrow: "02 — SELECTED WORK",
                 workTitle: "Featured Live Case Study",
                 workSubtitle: "Interactive preview of our production deployment. Scroll or click directly inside the viewport to test the interface.",
-                togglePreviewBtn: "Mode: Live Embed",
-                togglePreviewBtnArch: "Mode: Spec View",
+                togglePreviewBtn: "Mode: UI Mockup",
+                togglePreviewBtnArch: "Mode: Architecture Spec",
                 lhTag: "GAMING COMMUNITY & ESPORTS PORTAL",
                 lhDesc: "A multi-genre gaming community hub and tournament information portal. Engineered with a high-speed responsive UI to connect community members, competitive schedules, and official sponsors.",
                 lhScopeTitle: "Scope & Key Deliverables",
@@ -2499,7 +2641,7 @@ function renderPackages() {
                 },
                 {
                     id: 'figma_uiux',
-                    icon: 'figma',
+                    icon: 'palette',
                     nameId: 'Desain UI/UX Eksklusif Prototype di Figma',
                     nameEn: 'Bespoke Figma UI/UX Interactive Prototype',
                     descId: 'Wireframe kustom dan preview desain interaktif sebelum tahap coding dimulai.',
@@ -2656,18 +2798,24 @@ function renderPackages() {
             const wrapper = document.getElementById('live-iframe-wrapper');
             const desktopBtn = document.getElementById('view-desktop-btn');
             const mobileBtn = document.getElementById('view-mobile-btn');
+            const desktopView = document.getElementById('desktop-mockup-view');
+            const mobileView = document.getElementById('mobile-mockup-view');
             if (!wrapper || !desktopBtn || !mobileBtn) return;
 
             if (mode === 'mobile') {
-                wrapper.className = "w-[320px] sm:w-[375px] h-[520px] mx-auto rounded-[2.2rem] border-4 border-neutral-700 bg-neutral-900 shadow-2xl overflow-hidden my-4 relative transition-all duration-300";
+                if (desktopView) desktopView.classList.add('hidden');
+                if (mobileView) mobileView.classList.remove('hidden');
+                wrapper.className = "w-[300px] sm:w-[340px] h-[480px] sm:h-[500px] mx-auto rounded-[2.2rem] border-4 border-neutral-800 bg-[#0A0713] shadow-2xl overflow-hidden my-3 relative transition-all duration-300 flex flex-col";
                 mobileBtn.className = "px-2.5 py-1 rounded-md text-[11px] font-medium bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 transition-colors flex items-center gap-1.5 cursor-pointer";
                 desktopBtn.className = "px-2.5 py-1 rounded-md text-[11px] font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer";
             } else {
-                wrapper.className = "w-full h-[460px] sm:h-[520px] transition-all duration-300";
+                if (mobileView) mobileView.classList.add('hidden');
+                if (desktopView) desktopView.classList.remove('hidden');
+                wrapper.className = "w-full h-[460px] sm:h-[520px] overflow-hidden transition-all duration-300 flex flex-col";
                 desktopBtn.className = "px-2.5 py-1 rounded-md text-[11px] font-medium bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 transition-colors flex items-center gap-1.5 cursor-pointer";
                 mobileBtn.className = "px-2.5 py-1 rounded-md text-[11px] font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer";
             }
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function simulateLogHorizonBuild() {
