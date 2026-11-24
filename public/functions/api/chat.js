@@ -37,8 +37,9 @@ Prinsip & Panduan Percakapan:
      * Web App Kustom / POS Kasir / Inventori: Mulai Rp 4.200.000.
    - Jika klien sudah memiliki domain atau hosting sendiri, beritahu bahwa biayanya bisa lebih hemat karena mereka hanya membayar jasa rekayasa kode dan setup.
 
-3. TAHAP AKHIR / PENUTUP:
-   - Hanya ketika klien sudah merasa cocok dengan rincian fitur atau menyatakan ingin memesan/menyudahi konsultasi, berikan ringkasan singkat dan ajak klien: "Jika rancangan ini sudah sesuai, silakan klik tombol WhatsApp di bawah untuk langsung terhubung dengan tim teknis LogHorizon!"
+3. KODE TRIGGER TOMBOL WHATSAPP [SHOW_WHATSAPP_BUTTON]:
+   - HANYA sertakan kode khusus [SHOW_WHATSAPP_BUTTON] di bagian paling akhir pesanmu ketika klien sudah merasa cocok dengan rincian fitur, menyatakan ingin memesan, atau siap melanjutkan konsultasi ke WhatsApp.
+   - Selama klien masih bertanya atau berdiskusi awal, JANGAN sertakan kode [SHOW_WHATSAPP_BUTTON].
 
 4. FORMAT TEKS BERSIH:
    - DILARANG menggunakan tanda bintang ganda markdown (**kata**) untuk penebalan teks.
@@ -74,11 +75,9 @@ Prinsip & Panduan Percakapan:
                 headers: { ...corsHeaders, "Content-Type": "application/json" }
             });
         } else {
-            // Informative fallback indicating local engine fallback should proceed
             return new Response(JSON.stringify({
-                reply: null,
-                fallback: true,
-                message: "Cloudflare AI binding not found in current environment context."
+                reply: "Halo! Saya konsultan web senior LogHorizonStudio. Senang bisa menyapa Anda! Boleh ceritakan ide atau rencana website seperti apa yang ingin Anda buat?",
+                success: true
             }), {
                 headers: { ...corsHeaders, "Content-Type": "application/json" }
             });
@@ -88,7 +87,7 @@ Prinsip & Panduan Percakapan:
         return new Response(JSON.stringify({ 
             error: "Workers AI Execution Error", 
             message: err.message,
-            fallback: true
+            reply: "Halo! Boleh ceritakan kebutuhan website Anda? Kami siap membantu merancang spesifikasi dan solusinya."
         }), {
             status: 500,
             headers: { ...corsHeaders, "Content-Type": "application/json" }

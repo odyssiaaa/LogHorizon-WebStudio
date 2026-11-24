@@ -3926,12 +3926,13 @@ function renderPackages() {
         // =========================================================================
         
         // =========================================================================
-        // AI PROJECT CONSULTANT ENGINE & CHAT CONTROLLER (NATURAL CONVERSATION & END-SESSION CHECKOUT)
+        // AI PROJECT CONSULTANT ENGINE & CHAT CONTROLLER (CLOUDFLARE WORKERS AI - PURE API MODE)
         // =========================================================================
+        // URL Endpoint Cloudflare Worker Anda (Ganti atau sesuaikan dengan domain worker Anda, misal: https://ai-consultant.yourname.workers.dev/api/chat)
+        const AI_WORKER_API_URL = "/api/chat";
+
         let isAiChatOpen = false;
-        let lastAiAnalysis = null;
-        let aiConversationMessages = []; // Multi-turn history: [{ role: "assistant"|"user", content: "..." }]
-        let aiConversationTurnCount = 0;
+        let aiMessagesHistory = []; // Multi-turn messages: [{ role: "user"|"assistant", content: "..." }]
 
         function toggleAiChat(forceState) {
             const chatWindow = document.getElementById('ai-chat-window');
@@ -3962,9 +3963,7 @@ function renderPackages() {
             const messagesContainer = document.getElementById('ai-chat-messages');
             if (!messagesContainer) return;
 
-            aiConversationMessages = [];
-            aiConversationTurnCount = 0;
-            lastAiAnalysis = null;
+            aiMessagesHistory = [];
 
             messagesContainer.innerHTML = `
                 <div class="flex items-start gap-2.5 max-w-[90%]">
@@ -3972,10 +3971,10 @@ function renderPackages() {
                         AI
                     </div>
                     <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/60 dark:border-neutral-700/60 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2">
-                        <p class="font-medium text-neutral-900 dark:text-white">Halo! Saya konsultan web senior dari LogHorizonStudio.</p>
+                        <p class="font-medium text-neutral-900 dark:text-white">Halo! Saya AI Project Consultant resmi dari LogHorizonStudio.</p>
                         <p>Ceritakan santai konsep atau ide website yang ingin Anda kembangkan. Misalnya:</p>
                         <ul class="text-[11px] text-neutral-600 dark:text-neutral-400 list-disc list-inside space-y-0.5">
-                            <li><i>"Halo, kami komunitas game mau buat portal informasi turnamen"</i></li>
+                            <li><i>"Halo, kami komunitas mau buat portal turnamen & jadwal"</i></li>
                             <li><i>"Bikin web resto ada menu QR dan sistem reservasi meja"</i></li>
                             <li><i>"Kalau saya sudah punya hosting sendiri, bagaimana skemanya?"</i></li>
                         </ul>
@@ -3984,11 +3983,11 @@ function renderPackages() {
                 </div>
 
                 <div class="ai-quick-options pt-1 flex flex-wrap gap-1.5">
-                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Halo, kami komunitas mau buat portal informasi turnamen"
+                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Halo, kami komunitas mau buat portal turnamen & jadwal event"
                             class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
                         🎮 Portal Komunitas & Event
                     </button>
-                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Bikin web resto ada menu QR & sistem reservasi meja"
+                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Bikin web resto ada menu QR dan sistem reservasi meja"
                             class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
                         🍽️ Web Resto & Menu QR
                     </button>
@@ -4022,226 +4021,16 @@ function renderPackages() {
             handleAiChatSubmit();
         }
 
-        // Format raw text: sanitize markdown asterisks to clean HTML tags
-        function formatAiReplyText(rawText) {
+        // Membersihkan simbol markdown mentah (**teks**) menjadi <b>teks</b> dan baris baru
+        function cleanAndFormatAiText(rawText) {
             if (!rawText) return "";
-            let formatted = rawText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-            formatted = formatted.replace(/^\*\s+/gm, '• ');
-            formatted = formatted.replace(/\n/g, '<br>');
-            return formatted;
-        }
-
-        // Determine if user or AI explicitly signals checkout/closing intent
-        function isSessionClosingIntent(userQuery, aiReplyText, turnCount) {
-            const combined = (userQuery + " " + aiReplyText).toLowerCase();
-            const strongClosingKeywords = /deal|pesan sekarang|order sekarang|mau pesan|siap pesan|lanjut whatsapp|hubungi wa|checkout|kirim rancangan|tutup konsultasi|kalkulasi final|total harga fix|sudah cukup|sepakat/.test(combined);
-            // Must have had at least 2 real interactive turns to prevent premature checkout card popup
-            return strongClosingKeywords && turnCount >= 2;
-        }
-
-        // Call Cloudflare Workers AI Endpoint (/api/chat) with fallback flag
-        async function queryCloudflareWorkersAi(messagesHistory) {
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ messages: messagesHistory })
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data && data.reply && !data.fallback) {
-                        return { success: true, text: data.reply };
-                    }
-                }
-            } catch (err) {
-                console.warn("Workers AI API call error, engaging intelligent fallback:", err);
-            }
-            return { success: false };
-        }
-
-        // Natural Multi-Turn Fallback Dialog Engine
-        function generateLocalFallbackReply(query, turnCount) {
-            const lower = query.toLowerCase();
-            const isClosing = isSessionClosingIntent(query, "", turnCount);
-
-            // Sapaan Ramah Awal
-            if (/^(halo|hai|hi|hello|selamat pagi|selamat siang|selamat sore|selamat malam|permisi)[\s!\.\?]*$/i.test(lower)) {
-                return {
-                    isCard: false,
-                    text: "Halo! Senang bisa berbincang dengan Anda. Saya konsultan web dari LogHorizonStudio.\n\nBoleh ceritakan sedikit tentang rencana websitenya? Misalnya untuk bidang usaha apa, siapa target pengunjungnya, atau fitur apa yang paling penting untuk ada?",
-                    followUps: [
-                        { label: "🏢 Company profile resmi PT / CV", prompt: "Mau buat company profile resmi perusahaan PT/CV" },
-                        { label: "🍽️ Restoran menu QR & reservasi", prompt: "Bikin web resto ada menu QR & sistem reservasi meja" },
-                        { label: "🛍️ Toko online ada ongkir otomatis", prompt: "Toko online e-commerce lengkap dengan cek ongkir otomatis" },
-                        { label: "🎮 Portal komunitas & turnamen", prompt: "Halo, kami komunitas mau buat portal informasi turnamen" }
-                    ]
-                };
-            }
-
-            // Pertanyaan Hosting Mandiri
-            if (/hosting sendiri|server sendiri|punya hosting|cpanel sendiri|vps sendiri|punya domain/.test(lower) && !isClosing) {
-                return {
-                    isCard: false,
-                    text: "Tentu saja, itu sangat fleksibel! Jika Anda sudah memiliki domain atau sewa hosting sendiri (seperti di cPanel, VPS, Hostinger, atau Cloudflare), kami bisa fokus 100% pada perancangan antarmuka (UI/UX), rekayasa kode responsif, dan instalasi sistemnya saja tanpa membebankan biaya server dari pihak kami.\n\nBiayanya tentu jadi lebih hemat karena Anda hanya membayar jasa pembuatan. Rencana websitenya nanti untuk kebutuhan apa?",
-                    followUps: [
-                        { label: "📄 Landing page 1-3 halaman", prompt: "Landing page 1-3 halaman promosi produk (hosting sendiri)" },
-                        { label: "🏢 Company profile resmi 5-8 halaman", prompt: "Company profile bisnis 5-8 halaman resmi (hosting sendiri)" },
-                        { label: "🛍️ Toko online e-commerce", prompt: "Toko online e-commerce lengkap (hosting sendiri)" }
-                    ]
-                };
-            }
-
-            // Diskusi Komunitas / Turnamen (Turn 1 & 2 dialog)
-            if (/komunitas|community|guild|esports|gaming|himpunan|turnamen|discord/.test(lower) && !isClosing) {
-                return {
-                    isCard: false,
-                    text: "Keren sekali! Untuk website komunitas atau portal event (seperti karya portal komunitas LogHorizon kami), kuncinya adalah desain atmosferik, navigasi divisi yang rapi, jadwal turnamen terpusat, dan integrasi channel Discord/WhatsApp.\n\nBoleh tahu, apakah komunitas Anda lebih membutuhkan <b>portal informasi jadwal & profil yang cepat (statis hemat)</b>, atau butuh <b>fitur formulir pendaftaran anggota / registrasi turnamen online</b>?",
-                    followUps: [
-                        { label: "⚡ Portal info & event (Statis Cepat)", prompt: "Kami butuh portal info jadwal & event komunitas yang statis cepat" },
-                        { label: "📝 Lengkap dengan form pendaftaran online", prompt: "Kami butuh formulir pendaftaran online anggota/turnamen" },
-                        { label: "💰 Berapa estimasi biayanya dan bagaimana cara pesannya?", prompt: "Berapa estimasi biaya paket ini dan cara pesannya?" }
-                    ]
-                };
-            }
-
-            // Diskusi Restoran / Menu QR (Turn 1 & 2 dialog)
-            if (/resto|restoran|cafe|kafe|kuliner|menu qr|reservasi/.test(lower) && !isClosing) {
-                return {
-                    isCard: false,
-                    text: "Konsep yang sangat efektif untuk memangkas antrean kasir dan menaikkan omzet resto! Kami biasa merancang menu digital interaktif berkecepatan tinggi dengan QR code meja siap cetak.\n\nApakah di website tersebut Anda ingin ada <b>sistem reservasi meja otomatis</b> yang langsung masuk ke WhatsApp kasir, atau fokus di katalog menu digital interaktif dulu?",
-                    followUps: [
-                        { label: "🍽️ Menu QR + Sistem Reservasi Meja", prompt: "Mau paket lengkap Menu QR dan sistem reservasi meja" },
-                        { label: "📖 Katalog Menu QR statis saja", prompt: "Katalog menu QR statis saja yang hemat" },
-                        { label: "💰 Berapa estimasi biaya dan cara pemesanannya?", prompt: "Berapa estimasi biaya resto ini dan cara pesannya?" }
-                    ]
-                };
-            }
-
-            // Diskusi Toko Online / E-Commerce (Turn 1 & 2 dialog)
-            if (/toko|shop|e-commerce|ecommerce|jual|produk|belanja|keranjang|ongkir/.test(lower) && !isClosing) {
-                return {
-                    isCard: false,
-                    text: "Untuk platform toko online, kami menyarankan integrasi katalog produk varian (warna/ukuran), keranjang belanja mandiri, dan kalkulator cek ongkir otomatis (JNE, J&T, SiCepat).\n\nBerapa perkiraan jumlah produk yang ingin Anda pajang di tahap awal? Dan apakah sistem pembayarannya ingin diarahkan langsung ke WhatsApp kasir atau payment gateway otomatis?",
-                    followUps: [
-                        { label: "📦 Checkout WhatsApp langsung", prompt: "Toko online katalog produk checkout otomatis ke WhatsApp" },
-                        { label: "💳 Butuh payment gateway & cek ongkir", prompt: "Toko online lengkap ada kalkulator ongkir & payment gateway" },
-                        { label: "💰 Berapa estimasi total biaya paketnya?", prompt: "Berapa estimasi biaya toko online ini dan cara pesannya?" }
-                    ]
-                };
-            }
-
-            // Jika belum ada sinyal closing tapi sudah masuk topik umum
-            if (!isClosing) {
-                return {
-                    isCard: false,
-                    text: "Menarik sekali! Kami di LogHorizonStudio selalu mengutamakan arsitektur kode bersih, kecepatan tinggi (skor Google PageSpeed 95+), dan tampilan responsif yang nyaman dibuka dari layar HP.\n\nApakah Anda memiliki referensi website yang disukai, atau ingin kami berikan rekomendasi struktur halaman yang paling ideal untuk kebutuhan bisnis Anda?",
-                    followUps: [
-                        { label: "💡 Berikan rekomendasi struktur & biaya", prompt: "Bisa berikan rekomendasi paket dan estimasi biayanya?" },
-                        { label: "💬 Saya ingin konsultasi langsung via WhatsApp", prompt: "Saya ingin konsultasi langsung via WhatsApp dengan tim" }
-                    ]
-                };
-            }
-
-            // Klien sudah siap / sepakat / meminta estimasi final -> Tampilkan Kartu Spesifikasi & Tombol WhatsApp
-            return synthesizeProjectSpec(query);
-        }
-
-        function synthesizeProjectSpec(query) {
-            const combined = aiConversationMessages.map(m => m.content).join(" ").toLowerCase();
-            const hasResto = /resto|restoran|cafe|kafe|kuliner|menu qr|qr code|meja|kopi/.test(combined);
-            const hasShop = /toko|shop|e-commerce|ecommerce|jual|produk|belanja|keranjang|ongkir/.test(combined);
-            const hasCustom = /pos|kasir|inventori|gudang|absensi|payroll|crm|dashboard|sistem web|aplikasi web|multi user/.test(combined);
-            const hasCommunity = /komunitas|community|guild|esports|turnamen|discord|organisasi/.test(combined);
-            const isSelfHosting = /hosting sendiri|server sendiri|punya hosting|punya domain/.test(combined);
-
-            if (hasCustom) {
-                return {
-                    isCard: true,
-                    introComment: "Kebutuhan Anda tergolong ke dalam arsitektur <b>Sistem Web Aplikasi Operasional</b> dengan backend database dinamis untuk mengotomatisasi proses bisnis Anda secara aman.",
-                    packageName: "Sistem Web & Aplikasi Kustom (Custom Web App)",
-                    priceIdr: isSelfHosting ? "Mulai Rp 3.800.000 (Jasa Rekayasa)" : "Mulai Rp 4.200.000 – Rp 5.500.000",
-                    priceUsd: isSelfHosting ? "From $250" : "From $275 – $360",
-                    timeEstimate: "8–14 Hari Kerja",
-                    features: [
-                        "Arsitektur Web App Dinamis (Frontend Interaktif + Backend Database)",
-                        "Multi-Role Authentication (Hak Akses Owner, Kasir/Staf & Klien)",
-                        "Fitur Logika Spesifik (Reservasi / Kasir POS / Inventori Stok / Realtime Data)",
-                        "Export Laporan Otomatis (Format PDF & Excel Spreadsheet)",
-                        "Full Database Backup & Lisensi Kepemilikan Sistem Mandiri"
-                    ]
-                };
-            }
-
-            if (hasShop) {
-                return {
-                    isCard: true,
-                    introComment: "Untuk penjualan produk secara digital, rekomendasi terbaik adalah platform <b>E-Commerce Terintegrasi</b> dengan fitur keranjang belanja dan kalkulator ongkir otomatis.",
-                    packageName: "Paket Toko Online & E-Commerce Lengkap",
-                    priceIdr: isSelfHosting ? "Rp 4.100.000 (Tanpa Paket Hosting)" : "Rp 4.750.000 (All-in Tahun 1)",
-                    priceUsd: isSelfHosting ? "$270" : "$310 (Year 1 All-in)",
-                    timeEstimate: "7–12 Hari Kerja",
-                    features: [
-                        isSelfHosting ? "Instalasi & Optimasi di Server Hosting Klien Sendiri" : "Domain Internasional .com + High-Performance Cloud Hosting 1 Tahun Penuh",
-                        "Katalog Produk Unlimited dengan Manajemen Stok & Variasi Warna/Ukuran",
-                        "Keranjang Belanja & Checkout Otomatis Terhubung ke WhatsApp / Payment Gateway",
-                        "Kalkulator Otomatis Cek Ongkos Kirim Realtime (JNE, J&T, SiCepat, dll.)",
-                        "Dashboard Admin Penjualan, Laporan Order & Garansi Maintenance 30 Hari"
-                    ]
-                };
-            }
-
-            if (hasResto) {
-                return {
-                    isCard: true,
-                    introComment: "Kombinasi <b>Menu Digital QR + Reservasi Meja</b> sangat ideal untuk meningkatkan omzet dan efisiensi pelayan di cafe/resto Anda tanpa antrean yang menumpuk.",
-                    packageName: "Paket Restoran & Cafe Pro (Menu QR + Sistem Reservasi)",
-                    priceIdr: "Rp 1.850.000 – Rp 2.450.000",
-                    priceUsd: "$120 – $160",
-                    timeEstimate: "4–6 Hari Kerja",
-                    features: [
-                        "Domain Kustom 1 Tahun + Edge Hosting Super Cepat (Tanpa Biaya Server Bulanan)",
-                        "Buku Menu Digital Interaktif + Generate QR Code Meja Siap Cetak (File PDF)",
-                        "Formulir Reservasi Meja / Booking Jam Kedatangan Terhubung Otomatis ke WhatsApp",
-                        "Integrasi Google Maps Lokasi Usaha & Tombol Direct WhatsApp Kasir",
-                        "Tampilan Mobile-First Mewah untuk Memikat Pengunjung Cafe/Resto"
-                    ]
-                };
-            }
-
-            if (hasCommunity) {
-                return {
-                    isCard: true,
-                    introComment: "Platform komunitas statis berkecepatan tinggi memanfaatkan infrastruktur edge global (Cloudflare/Vercel) sehingga <b>super cepat, tahan lonjakan traffic turnamen, dan bebas biaya sewa server tahunan selamanya</b>.",
-                    packageName: "Portal Komunitas & Event (Statis Cepat)",
-                    priceIdr: isSelfHosting ? "Rp 950.000 (Jasa Rekayasa Kode)" : "Rp 1.250.000 (Termasuk Domain 1 Thn)",
-                    priceUsd: isSelfHosting ? "$65" : "$85",
-                    timeEstimate: "3–4 Hari Kerja",
-                    features: [
-                        isSelfHosting ? "Setup di Domain/Server Mandiri Klien" : "Domain Kustom 1 Tahun + Edge Serverless Hosting (Zero Server Rent)",
-                        "Showcase Profil Komunitas, Struktur Pengurus / Roster Member & Galeri",
-                        "Papan Pengumuman Jadwal Event / Bagan Turnamen Responsif",
-                        "Integrasi Tombol Komunitas (Discord Invite, WhatsApp Group & Instagram)",
-                        "Performa PageSpeed 95+ (Ringan & Cepat Diakses dari HP Anggota)"
-                    ]
-                };
-            }
-
-            return {
-                isCard: true,
-                introComment: "Rekomendasi terbaik bagi profil bisnis yang menginginkan website elegan, kredibel, super cepat, dan <b>bebas biaya server tahunan selamanya</b>.",
-                packageName: "Paket Company Profile Statis Pro [Best Seller]",
-                priceIdr: "Rp 1.450.000 (Tanpa Sewa Server)",
-                priceUsd: "$95 (Zero Server Rent)",
-                timeEstimate: "3–5 Hari Kerja",
-                features: [
-                    "Gratis Domain Internasional (.com) 1 Tahun Penuh",
-                    "Hosting Serverless Cloudflare / Vercel (Gratis Selamanya, Zero Monthly Fee)",
-                    "3–5 Halaman Terstruktur (Beranda, Profil, Layanan, Portofolio & Kontak)",
-                    "Skor Google PageSpeed 95+ (Super Cepat, Ringan & Optimal SEO)",
-                    "Dokumen Resmi: Invoice & Kwitansi Berstempel untuk Pembukuan Bisnis"
-                ]
-            };
+            // Ganti markdown bold **teks** menjadi <b>teks</b>
+            let text = rawText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            // Ganti bullet list markdown * menjadi •
+            text = text.replace(/^\*\s+/gm, '• ');
+            // Ganti newline menjadi <br>
+            text = text.replace(/\n/g, '<br>');
+            return text;
         }
 
         async function handleAiChatSubmit(e) {
@@ -4251,18 +4040,18 @@ function renderPackages() {
             const typingIndicator = document.getElementById('ai-typing-indicator');
 
             if (!input || !messagesContainer) return;
-            const query = input.value.trim();
-            if (!query) return;
+            const userText = input.value.trim();
+            if (!userText) return;
 
-            // Remove existing quick option containers once a choice is selected
+            // Hapus pill opsi cepat lama jika ada
             const existingOptions = messagesContainer.querySelectorAll('.ai-quick-options');
             existingOptions.forEach(el => el.remove());
 
-            // Append User Message Bubble
+            // Tampilkan Chat Bubble Klien
             const userMsgHtml = `
                 <div class="flex items-start justify-end gap-2.5">
                     <div class="p-3 rounded-2xl rounded-tr-sm bg-violet-600 text-white font-medium shadow-sm max-w-[85%] text-left">
-                        <p>${escapeHtml(query)}</p>
+                        <p>${escapeHtml(userText)}</p>
                     </div>
                 </div>
             `;
@@ -4270,182 +4059,102 @@ function renderPackages() {
             input.value = '';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-            // Save to multi-turn conversation history
-            aiConversationMessages.push({ role: "user", content: query });
-            aiConversationTurnCount++;
+            // Simpan riwayat percakapan klien
+            aiMessagesHistory.push({ role: "user", content: userText });
 
-            // Show Typing Indicator
+            // Tampilkan Indikator Typing
             if (typingIndicator) {
                 typingIndicator.classList.remove('hidden');
                 typingIndicator.classList.add('flex');
             }
 
-            // 1. Try Cloudflare Workers AI backend first
-            const workersAiResult = await queryCloudflareWorkersAi(aiConversationMessages);
+            try {
+                // Kirim array messages via POST ke Cloudflare Worker
+                const response = await fetch(AI_WORKER_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messages: aiMessagesHistory })
+                });
 
-            if (typingIndicator) {
-                typingIndicator.classList.add('hidden');
-                typingIndicator.classList.remove('flex');
-            }
-
-            if (workersAiResult.success && workersAiResult.text) {
-                const replyText = workersAiResult.text;
-                aiConversationMessages.push({ role: "assistant", content: replyText });
-                const formattedText = formatAiReplyText(replyText);
-
-                // STRICT: WhatsApp CTA only appears when session closing intent is confirmed
-                const showCheckout = isSessionClosingIntent(query, replyText, aiConversationTurnCount);
-
-                if (showCheckout) {
-                    lastAiAnalysis = synthesizeProjectSpec(query);
+                if (typingIndicator) {
+                    typingIndicator.classList.add('hidden');
+                    typingIndicator.classList.remove('flex');
                 }
 
-                const replyHtml = `
-                    <div class="flex items-start gap-2.5 max-w-[92%] animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <div class="w-7 h-7 rounded-lg bg-violet-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">
-                            AI
-                        </div>
-                        <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/80 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-3">
-                            <div class="text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">${formattedText}</div>
-                            
-                            ${showCheckout ? `
-                                <div class="pt-2 border-t border-neutral-200 dark:border-neutral-700">
-                                    <button type="button" onclick="sendAiAnalysisToWhatsApp()"
-                                            class="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer active:scale-95 select-none">
-                                        <i data-lucide="message-square" class="w-4 h-4"></i>
-                                        <span>Kirim Rancangan Ini via WhatsApp ke Tim LogHorizon</span>
-                                    </button>
-                                </div>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-                messagesContainer.insertAdjacentHTML('beforeend', replyHtml);
+                if (response.ok) {
+                    const data = await response.json();
+                    let aiReply = data.reply || "";
 
-            } else {
-                // 2. Intelligent Local Conversational Engine fallback
-                const localResult = generateLocalFallbackReply(query, aiConversationTurnCount);
+                    // Cek keberadaan kode [SHOW_WHATSAPP_BUTTON]
+                    const hasWhatsappTrigger = aiReply.includes("[SHOW_WHATSAPP_BUTTON]");
+                    // Hapus kode [SHOW_WHATSAPP_BUTTON] dari teks tampilan chat
+                    aiReply = aiReply.replace(/\[SHOW_WHATSAPP_BUTTON\]/g, "").trim();
 
-                if (!localResult.isCard) {
-                    aiConversationMessages.push({ role: "assistant", content: localResult.text });
-                    const followUpPillsHtml = (localResult.followUps || []).map(item => {
-                        const labelText = typeof item === "string" ? item : item.label;
-                        const promptVal = typeof item === "string" ? item : (item.prompt || item.label);
-                        return `
-                            <button type="button" onclick="sendQuickPrompt(this)" data-prompt="${escapeHtml(promptVal)}"
-                                    class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
-                                ${escapeHtml(labelText)}
-                            </button>
-                        `;
-                    }).join('');
+                    // Simpan ke riwayat asisten
+                    aiMessagesHistory.push({ role: "assistant", content: aiReply });
 
-                    const formattedMessage = formatAiReplyText(localResult.text);
+                    // Bersihkan formatting markdown menjadi tag HTML rapi
+                    const formattedHtml = cleanAndFormatAiText(aiReply);
 
                     const replyHtml = `
                         <div class="flex items-start gap-2.5 max-w-[92%] animate-in fade-in slide-in-from-bottom-2 duration-300">
                             <div class="w-7 h-7 rounded-lg bg-violet-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">
                                 AI
                             </div>
-                            <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/80 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2.5">
-                                <div class="text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">${formattedMessage}</div>
-                                ${followUpPillsHtml ? `
-                                    <div class="ai-quick-options pt-1 flex flex-wrap gap-1.5">
-                                        ${followUpPillsHtml}
+                            <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/80 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-3">
+                                <div class="text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">${formattedHtml}</div>
+                                
+                                ${hasWhatsappTrigger ? `
+                                    <div class="pt-2 border-t border-neutral-200 dark:border-neutral-700 animate-in fade-in duration-300">
+                                        <button type="button" onclick="checkoutViaWhatsApp()"
+                                                class="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer active:scale-95 select-none">
+                                            <i data-lucide="message-square" class="w-4 h-4"></i>
+                                            <span>Lanjut Konsultasi & Order via WhatsApp</span>
+                                        </button>
                                     </div>
                                 ` : ''}
                             </div>
                         </div>
                     `;
                     messagesContainer.insertAdjacentHTML('beforeend', replyHtml);
+
                 } else {
-                    lastAiAnalysis = localResult;
-                    aiConversationMessages.push({ role: "assistant", content: `${localResult.packageName} - ${localResult.priceIdr}` });
-
-                    const featuresListHtml = localResult.features.map(f => `
-                        <li class="flex items-start gap-1.5 py-0.5">
-                            <span class="text-emerald-500 font-bold shrink-0">✓</span>
-                            <span class="text-neutral-700 dark:text-neutral-300">${escapeHtml(f)}</span>
-                        </li>
-                    `).join('');
-
-                    const aiReplyHtml = `
-                        <div class="flex items-start gap-2.5 max-w-[95%] animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <div class="w-7 h-7 rounded-lg bg-violet-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">
-                                AI
-                            </div>
-                            <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/90 border border-neutral-200/80 dark:border-neutral-700/80 text-neutral-800 dark:text-neutral-200 shadow-md space-y-3">
-                                <div>
-                                    <div class="text-xs text-neutral-700 dark:text-neutral-300 mb-2 leading-relaxed">${localResult.introComment}</div>
-                                    <span class="font-mono text-[10px] uppercase font-bold text-violet-600 dark:text-violet-400">Rancangan Spesifikasi Terpilih</span>
-                                    <h4 class="font-bold text-sm text-neutral-900 dark:text-white mt-0.5">${escapeHtml(localResult.packageName)}</h4>
-                                </div>
-
-                                <div class="p-2.5 rounded-xl bg-surfaceLight/80 dark:bg-surfaceDark/80 border border-borderLight dark:border-borderDark grid grid-cols-2 gap-2">
-                                    <div>
-                                        <span class="font-mono text-[9.5px] uppercase text-neutral-500 block">Estimasi Biaya</span>
-                                        <span class="font-mono text-xs font-extrabold text-neutral-900 dark:text-white">${escapeHtml(localResult.priceIdr)}</span>
-                                    </div>
-                                    <div>
-                                        <span class="font-mono text-[9.5px] uppercase text-neutral-500 block">Waktu Rilis</span>
-                                        <span class="font-mono text-xs font-extrabold text-emerald-600 dark:text-emerald-400">${escapeHtml(localResult.timeEstimate)}</span>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <span class="font-mono text-[10px] uppercase text-neutral-500 block mb-1">Rincian Fitur Utama:</span>
-                                    <ul class="text-[11px] space-y-1">
-                                        ${featuresListHtml}
-                                    </ul>
-                                </div>
-
-                                <!-- WhatsApp Handoff CTA Button -->
-                                <div class="pt-1 border-t border-neutral-200 dark:border-neutral-700">
-                                    <button type="button" onclick="sendAiAnalysisToWhatsApp()"
-                                            class="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer active:scale-95 select-none">
-                                        <i data-lucide="message-square" class="w-4 h-4"></i>
-                                        <span>Kirim Rancangan Ini via WhatsApp ke Tim LogHorizon</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    messagesContainer.insertAdjacentHTML('beforeend', aiReplyHtml);
+                    throw new Error("HTTP " + response.status);
                 }
+
+            } catch (err) {
+                if (typingIndicator) {
+                    typingIndicator.classList.add('hidden');
+                    typingIndicator.classList.remove('flex');
+                }
+                console.error("Worker API Error:", err);
+                const errorHtml = `
+                    <div class="flex items-start gap-2.5 max-w-[92%]">
+                        <div class="w-7 h-7 rounded-lg bg-red-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">!</div>
+                        <div class="p-3.5 rounded-2xl rounded-tl-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-800 dark:text-red-200 text-xs">
+                            Maaf, terjadi gangguan koneksi ke server AI. Anda dapat langsung mengklik <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" class="underline font-bold text-emerald-600">Konsultasi WhatsApp Langsung</a>.
+                        </div>
+                    </div>
+                `;
+                messagesContainer.insertAdjacentHTML('beforeend', errorHtml);
             }
 
             if (window.lucide) lucide.createIcons();
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        function sendAiAnalysisToWhatsApp() {
-            if (!lastAiAnalysis) {
-                const userMessages = aiConversationMessages.filter(m => m.role === "user").map(m => m.content);
-                const lastQuery = userMessages[userMessages.length - 1] || "Konsultasi Website";
-                const message = "Halo LogHorizonStudio, saya ingin mendiskusikan rencana pembuatan website berikut:\n\n" +
-                    "📋 *Rencana Proyek:* \"" + lastQuery + "\"\n\n" +
-                    "Mohon info rekomendasi arsitektur dan estimasi biayanya. Terima kasih!";
-                const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-                window.open(url, "_blank", "noopener,noreferrer");
-                return;
-            }
+        function checkoutViaWhatsApp() {
+            // Ambil pesan-pesan penting dari riwayat percakapan sesi
+            const userChats = aiMessagesHistory.filter(m => m.role === "user").map(m => m.content);
+            const userSummary = userChats.slice(-3).join(" -> ") || "Konsultasi Website";
 
-            const analysis = lastAiAnalysis;
-            const featuresFormatted = (analysis.features || []).map(function(f) { return "• " + f; }).join("\n");
-            const userMessages = aiConversationMessages.filter(m => m.role === "user").map(m => m.content);
-            const userSummary = userMessages.join(" -> ") || analysis.userPrompt || "Konsultasi Website";
-            
-            const message = "Halo LogHorizonStudio, saya telah berkonsultasi dengan fitur AI Project Consultant di website dan tertarik dengan rancangan proyek berikut:\n\n" +
-                "📋 *Kebutuhan Klien:* \"" + userSummary + "\"\n" +
-                "🎯 *Rekomendasi Paket:* " + analysis.packageName + "\n" +
-                "💰 *Estimasi Biaya:* " + analysis.priceIdr + " (≈ " + analysis.priceUsd + ")\n" +
-                "⏱️ *Estimasi Pengerjaan:* " + analysis.timeEstimate + "\n\n" +
-                "*Rincian Fitur Utama:*\n" +
-                featuresFormatted + "\n\n" +
-                "Mohon info ketersediaan slot pengerjaan dan langkah selanjutnya. Terima kasih!";
+            const message = "Halo LogHorizonStudio, saya telah berkonsultasi dengan fitur AI Project Consultant di website dan ingin melanjutkan pemesanan dengan detail berikut:\n\n" +
+                "📋 *Topik & Kebutuhan Proyek:*\n\"" + userSummary + "\"\n\n" +
+                "Mohon panduan pengerjaan, ketersediaan slot, dan langkah pembayaran selanjutnya. Terima kasih!";
 
             const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
             window.open(url, "_blank", "noopener,noreferrer");
-            showToast("Membuka WhatsApp untuk mengirim rancangan AI...");
+            showToast("Membuka WhatsApp untuk mengirim hasil konsultasi...");
         }
 
         function escapeHtml(string) {
