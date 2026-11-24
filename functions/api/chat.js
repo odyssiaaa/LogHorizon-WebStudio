@@ -59,19 +59,40 @@ Prinsip & Panduan Percakapan:
             throw new Error("Cloudflare Workers AI binding (context.env.AI) is not configured");
         }
 
-        let aiResponse;
-        try {
-            aiResponse = await context.env.AI.run('@cf/cloudflare/clairic-flash', { messages });
-            const checkContent = aiResponse?.response || aiResponse?.choices?.[0]?.message?.content || aiResponse?.text;
-            if (!checkContent || (typeof checkContent === "string" && !checkContent.trim())) {
-                throw new Error("Empty or incompatible response from @cf/cloudflare/clairic-flash");
+        // Active models chain on Cloudflare Workers AI
+        const candidateModels = [
+            '@cf/cloudflare/clairic-flash',
+            '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+            '@cf/meta/llama-3.2-3b-instruct',
+            '@cf/mistral/mistral-7b-instruct-v0.2'
+        ];
+
+        let aiResponse = null;
+        let successfulModel = null;
+        const attemptErrors = [];
+
+        for (const model of candidateModels) {
+            try {
+                const res = await context.env.AI.run(model, { messages });
+                const extractedText = res?.response || res?.choices?.[0]?.message?.content || res?.text;
+                if (!extractedText || (typeof extractedText === "string" && !extractedText.trim())) {
+                    throw new Error("Empty response returned from model");
+                }
+                aiResponse = res;
+                successfulModel = model;
+                break;
+            } catch (modelErr) {
+                const errMsg = modelErr?.message || String(modelErr);
+                console.warn(`Attempt with ${model} failed:`, errMsg);
+                attemptErrors.push(`[${model}]: ${errMsg}`);
             }
-        } catch (firstErr) {
-            console.warn("Primary model error, falling back to @cf/meta/llama-3.1-8b-instruct:", firstErr?.message || firstErr);
-            aiResponse = await context.env.AI.run('@cf/meta/llama-3.1-8b-instruct', { messages });
         }
 
-        // Safely parse AI response (supports response.response or OpenAI-compatible response.choices[0].message.content)
+        if (!aiResponse) {
+            throw new Error(`All active AI models failed to respond. Attempts: ${attemptErrors.join(" | ")}`);
+        }
+
+        // Safely parse AI response (supports res.response and res.choices?.[0]?.message?.content)
         let replyContent = "";
         if (typeof aiResponse === "string") {
             replyContent = aiResponse;
@@ -95,6 +116,7 @@ Prinsip & Panduan Percakapan:
 
         return new Response(JSON.stringify({ 
             reply: replyContent,
+            model: successfulModel,
             success: true 
         }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
