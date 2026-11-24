@@ -38,15 +38,15 @@ Prinsip & Panduan Percakapan:
    - Jika klien sudah memiliki domain atau hosting sendiri, beritahu bahwa biayanya bisa lebih hemat karena mereka hanya membayar jasa rekayasa kode dan setup.
 
 3. KODE TRIGGER TOMBOL WHATSAPP [SHOW_WHATSAPP_BUTTON]:
-   - HANYA sertakan kode khusus [SHOW_WHATSAPP_BUTTON] di bagian paling akhir pesanmu ketika klien sudah merasa cocok dengan rincian fitur, menyatakan ingin memesan, atau siap melanjutkan konsultasi ke WhatsApp.
+   - HANYA sertakan kode khusus [SHOW_WHATSAPP_BUTTON] di bagian paling akhir pesanmu ketika klien sudah merasa cocok dengan rincian fitur, menyatakan ingin memesan/deal, atau meminta kesimpulan akhir untuk diarahkan ke WhatsApp 6281211713200.
    - Selama klien masih bertanya atau berdiskusi awal, JANGAN sertakan kode [SHOW_WHATSAPP_BUTTON].
 
 4. FORMAT TEKS BERSIH:
-   - DILARANG menggunakan tanda bintang ganda markdown (**kata**) untuk penebalan teks.
+   - DILARANG menggunakan simbol markdown mentah seperti bintang ganda (**) untuk bold atau tanda pagar (#) untuk heading.
    - Gunakan tag HTML <b>kata</b> untuk cetak tebal dan tag <i>kata</i> jika ingin memiringkan.
    - Pisahkan paragraf dengan baris baru yang rapi agar nyaman dibaca di layar HP.`;
 
-        // Format conversation history for @cf/meta/llama-3-8b-instruct
+        // Format conversation history for @cf/cloudflare/clairic-flash
         const conversation = [
             { role: "system", content: systemPrompt },
             ...messages.map(m => ({
@@ -57,16 +57,17 @@ Prinsip & Panduan Percakapan:
 
         // Access Cloudflare Workers AI via binding
         if (env && env.AI) {
-            const aiResponse = await env.AI.run("@cf/meta/llama-3-8b-instruct", {
+            const aiResponse = await env.AI.run("@cf/cloudflare/clairic-flash", {
                 messages: conversation,
-                max_tokens: 500,
+                max_tokens: 600,
                 temperature: 0.65
             });
 
             let replyContent = aiResponse.response || aiResponse.text || "";
             
-            // Clean any residual raw markdown bold formatting to clean HTML <b>
+            // Clean any residual raw markdown symbols to clean HTML
             replyContent = replyContent.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+            replyContent = replyContent.replace(/#{1,6}\s+(.*?)(\n|$)/g, "<b>$1</b>$2");
 
             return new Response(JSON.stringify({ 
                 reply: replyContent,
