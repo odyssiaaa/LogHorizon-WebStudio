@@ -10,7 +10,8 @@
     <meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230A0A0A'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' letter-spacing='-1'>LH</text></svg>">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
 
     <!-- Open Graph / Meta Social -->
     <meta property="og:type" content="website">
@@ -72,6 +73,25 @@
                 linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
+        
+        /* Mobile Touch & Viewport Stability */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100vw;
+            -webkit-text-size-adjust: 100%;
+        }
+        button, a, input, select, textarea {
+            touch-action: manipulation;
+        }
+        .custom-scrollbar {
+            -webkit-overflow-scrolling: touch;
+        }
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .safe-bottom-padding {
+                padding-bottom: max(1rem, env(safe-area-inset-bottom));
+            }
+        }
+
         /* Smooth Scroll Reveal */
         .reveal-on-scroll {
             opacity: 0;
@@ -164,16 +184,14 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Brand Mark & Live Availability -->
-                <div class="flex items-center gap-4">
-                    <a href="#" class="flex items-center gap-2.5 group">
-                        <span class="w-7 h-7 rounded-md bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-mono text-xs font-bold flex items-center justify-center tracking-tighter">
-                            LH
-                        </span>
-                        <span class="font-bold tracking-tight text-sm sm:text-base">
-                            LogHorizonStudio
+                <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <a href="#" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+                        <img src="logo.png" alt="LogHorizonStudio" class="h-8 sm:h-9 md:h-10 w-auto object-contain shrink-0 transition-transform duration-200 group-hover:scale-105" />
+                        <span class="font-bold tracking-tight text-sm sm:text-base md:text-lg text-neutral-900 dark:text-white truncate">
+                            LogHorizon<span class="text-violet-600 dark:text-violet-400">Studio</span>
                         </span>
                     </a>
-                    <span class="hidden xl:inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-[11px] text-neutral-600 dark:text-neutral-400">
+                    <span class="hidden xl:inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-[11px] text-neutral-600 dark:text-neutral-400 shrink-0">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span data-i18n="navStatus">OPEN FOR Q4 PROJECTS</span>
                     </span>
@@ -190,30 +208,30 @@
                 </nav>
 
                 <!-- Utility Controls: Lang/Currency, Theme, Consult CTA -->
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
                     <!-- Bilingual + Dual Currency Switcher -->
                     <button id="lang-toggle" onclick="toggleLanguage()" title="Switch Language & Currency"
-                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-neutral-600 font-mono text-xs font-medium transition-colors cursor-pointer">
+                            class="px-2 sm:px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-neutral-600 font-mono text-xs font-medium transition-colors cursor-pointer min-h-[36px] flex items-center justify-center">
                         ID · IDR
                     </button>
 
                     <!-- Theme Switcher -->
                     <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme"
-                            class="p-2 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors cursor-pointer">
+                            class="p-2 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center">
                         <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
                         <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
                     </button>
 
                     <!-- Primary Consult CTA -->
                     <a href="#brief"
-                       class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-semibold hover:opacity-90 transition-opacity">
+                       class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-semibold hover:opacity-90 transition-opacity min-h-[36px]">
                         <span data-i18n="navConsult">Consult</span>
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </a>
 
                     <!-- Mobile Menu Toggle -->
                     <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu"
-                            class="md:hidden p-2 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
+                            class="md:hidden p-2 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-neutral-600 min-w-[36px] min-h-[36px] flex items-center justify-center transition-colors">
                         <i data-lucide="menu" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -221,15 +239,33 @@
         </div>
 
         <!-- Mobile Dropdown Drawer -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark px-4 py-4 space-y-3">
-            <a href="#deals" onclick="toggleMobileMenu()" class="block py-1.5 text-sm font-medium" data-i18n="navDeals">Offers</a>
-            <a href="#work" onclick="toggleMobileMenu()" class="block py-1.5 text-sm font-medium" data-i18n="navWork">Selected Work</a>
-            <a href="#packages" onclick="toggleMobileMenu()" class="block py-1.5 text-sm font-medium" data-i18n="navPackages">Packages</a>
-            <a href="#addons" onclick="toggleMobileMenu()" class="block py-1.5 text-sm font-medium" data-i18n="navAddons">Add-Ons</a>
-            <a href="#estimator" onclick="toggleMobileMenu()" class="block py-1.5 text-sm font-medium" data-i18n="navEstimator">Estimator</a>
-            <a href="#process" onclick="toggleMobileMenu()" class="block py-1.5 text-sm font-medium" data-i18n="navProcess">Process &amp; FAQ</a>
-            <div class="pt-2 border-t border-borderLight dark:border-borderDark">
-                <a href="#brief" onclick="toggleMobileMenu()" class="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-lg bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-semibold">
+        <div id="mobile-menu" class="hidden md:hidden border-t border-borderLight dark:border-borderDark bg-surfaceLight/98 dark:bg-surfaceDark/98 backdrop-blur-xl px-4 py-4 space-y-1 shadow-xl">
+            <a href="#deals" onclick="toggleMobileMenu()" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" data-i18n="navDeals">
+                <span>Offers</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <a href="#work" onclick="toggleMobileMenu()" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" data-i18n="navWork">
+                <span>Selected Work</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <a href="#packages" onclick="toggleMobileMenu()" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" data-i18n="navPackages">
+                <span>Packages</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <a href="#addons" onclick="toggleMobileMenu()" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" data-i18n="navAddons">
+                <span>Add-Ons</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <a href="#estimator" onclick="toggleMobileMenu()" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" data-i18n="navEstimator">
+                <span>Estimator</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <a href="#process" onclick="toggleMobileMenu()" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" data-i18n="navProcess">
+                <span>Process &amp; FAQ</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <div class="pt-3 mt-2 border-t border-borderLight dark:border-borderDark">
+                <a href="#brief" onclick="toggleMobileMenu()" class="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-bold shadow-md">
                     <span data-i18n="navConsult">Start a Project</span>
                     <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                 </a>
@@ -291,34 +327,34 @@
          2. EDITORIAL HERO SECTION
          ========================================================================= -->
     <section class="relative hairline-grid border-b border-borderLight dark:border-borderDark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28">
+        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-28">
             <div class="max-w-4xl">
                 <!-- Eyebrow Metadata -->
-                <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-md border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-xs text-neutral-600 dark:text-neutral-400 mb-6">
-                    <span>LOGHORIZONSTUDIO</span>
+                <div class="inline-flex flex-wrap items-center gap-2 px-2.5 sm:px-3 py-1 rounded-md border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-[11px] sm:text-xs text-neutral-600 dark:text-neutral-400 mb-5 sm:mb-6">
+                    <span class="font-semibold text-neutral-900 dark:text-neutral-200">LOGHORIZONSTUDIO</span>
                     <span class="text-neutral-300 dark:text-neutral-700">/</span>
                     <span data-i18n="heroBadge">INDONESIA &amp; GLOBAL REMOTE</span>
                 </div>
 
                 <!-- Main Display Headline -->
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-neutral-900 dark:text-white mb-6" data-i18n="heroTitle">
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] sm:leading-[1.08] break-words text-neutral-900 dark:text-white mb-5 sm:mb-6" data-i18n="heroTitle">
                     Rekayasa Web Presisi untuk Bisnis, Institusi &amp; Produk Digital.
                 </h1>
 
                 <!-- Subtitle -->
-                <p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mb-10" data-i18n="heroDesc">
+                <p class="text-sm sm:text-base md:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mb-8 sm:mb-10" data-i18n="heroDesc">
                     Kami merancang dan membangun website berkecepatan tinggi, sistem operasional berbasis web, dan platform e-commerce dengan struktur kode bersih, harga transparan, serta siap pakai tanpa kerumitan teknis.
                 </p>
 
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <a href="#packages"
-                       class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-sm font-semibold hover:opacity-90 transition-opacity">
+                       class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-sm font-semibold hover:opacity-90 transition-opacity min-h-[48px] shadow-sm">
                         <span data-i18n="heroCtaPrimary">Eksplorasi Paket &amp; Harga</span>
                         <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
                     </a>
                     <button onclick="openWhatsAppDirect()"
-                            class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-neutral-600 text-sm font-semibold transition-colors cursor-pointer">
+                            class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-neutral-600 text-sm font-semibold transition-colors cursor-pointer min-h-[48px]">
                         <i data-lucide="message-square" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                         <span data-i18n="heroCtaSecondary">Konsultasi Gratis via WhatsApp</span>
                     </button>
@@ -326,18 +362,18 @@
             </div>
 
             <!-- Key Architectural Proof Strip -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-px bg-borderLight dark:bg-borderDark border border-borderLight dark:border-borderDark rounded-2xl overflow-hidden mt-14 sm:mt-20">
-                <div class="bg-surfaceLight dark:bg-surfaceDark p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-px bg-borderLight dark:border-borderDark border border-borderLight dark:border-borderDark rounded-2xl overflow-hidden mt-10 sm:mt-16">
+                <div class="bg-surfaceLight dark:bg-surfaceDark p-5 sm:p-6">
                     <p class="font-mono text-xs text-neutral-500 uppercase mb-1" data-i18n="metric1Label">01 / ARSITEKTUR</p>
                     <p class="text-base sm:text-lg font-bold" data-i18n="metric1Title">100% Custom &amp; CMS Ready</p>
                     <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1" data-i18n="metric1Sub">Desain responsif mobile-first dengan dashboard admin mudah dikelola.</p>
                 </div>
-                <div class="bg-surfaceLight dark:bg-surfaceDark p-6">
+                <div class="bg-surfaceLight dark:bg-surfaceDark p-5 sm:p-6">
                     <p class="font-mono text-xs text-neutral-500 uppercase mb-1" data-i18n="metric2Label">02 / KECEPATAN RILIS</p>
                     <p class="text-base sm:text-lg font-bold" data-i18n="metric2Title">Mulai 2 Hari Kerja</p>
                     <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1" data-i18n="metric2Sub">Alur kerja terstruktur dengan staging link live sebelum pelunasan.</p>
                 </div>
-                <div class="bg-surfaceLight dark:bg-surfaceDark p-6">
+                <div class="bg-surfaceLight dark:bg-surfaceDark p-5 sm:p-6">
                     <p class="font-mono text-xs text-neutral-500 uppercase mb-1" data-i18n="metric3Label">03 / LEGALITAS &amp; DOKUMEN</p>
                     <p class="text-base sm:text-lg font-bold" data-i18n="metric3Title">Invoice, Kwitansi &amp; MoU Resmi</p>
                     <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1" data-i18n="metric3Sub">Mendukung administrasi perusahaan, sekolah, kampus &amp; lembaga.</p>
@@ -349,7 +385,7 @@
     <!-- =========================================================================
          2B. SPECIAL DEALS & LIMITED OFFERS (PROMO STRATEGIS)
          ========================================================================= -->
-    <section id="deals" class="reveal-on-scroll py-16 sm:py-20 border-b border-borderLight dark:border-borderDark bg-surfaceLight/50 dark:bg-surfaceDark/50">
+    <section id="deals" class="reveal-on-scroll py-12 sm:py-16 lg:py-20 border-b border-borderLight dark:border-borderDark bg-surfaceLight/50 dark:bg-surfaceDark/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
@@ -369,9 +405,9 @@
             </div>
 
             <!-- 3 Editorial Deal Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
                 <!-- Deal 1: Mahasiswa & BEM -->
-                <div class="p-6 sm:p-7 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark flex flex-col justify-between hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors">
+                <div class="p-5 sm:p-7 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark flex flex-col justify-between hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-4">
                             <span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-bold uppercase tracking-wider">
@@ -408,7 +444,7 @@
                 </div>
 
                 <!-- Deal 2: Startup & UMKM Bundling -->
-                <div class="p-6 sm:p-7 rounded-2xl border-2 border-neutral-900 dark:border-white bg-surfaceLight dark:bg-surfaceDark flex flex-col justify-between shadow-lg shadow-neutral-200/50 dark:shadow-none">
+                <div class="p-5 sm:p-7 rounded-2xl border-2 border-neutral-900 dark:border-white bg-surfaceLight dark:bg-surfaceDark flex flex-col justify-between shadow-lg shadow-neutral-200/50 dark:shadow-none">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-4">
                             <span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-bold uppercase tracking-wider">
@@ -445,7 +481,7 @@
                 </div>
 
                 <!-- Deal 3: Maintenance & Bug Warranty -->
-                <div class="p-6 sm:p-7 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark flex flex-col justify-between hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors">
+                <div class="p-5 sm:p-7 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark flex flex-col justify-between hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-4">
                             <span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 font-bold uppercase tracking-wider">
@@ -487,7 +523,7 @@
     <!-- =========================================================================
          3. SELECTED WORK SHOWCASE (FEATURED LIVE CASE STUDY)
          ========================================================================= -->
-    <section id="work" class="reveal-on-scroll py-20 sm:py-24 border-b border-borderLight dark:border-borderDark">
+    <section id="work" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
@@ -503,7 +539,7 @@
             <!-- Case Study 01: LogHorizon -->
             <div class="rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark overflow-hidden mb-8">
                 <!-- Top Browser Chrome -->
-                <div class="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3 border-b border-borderLight dark:border-borderDark bg-neutral-100/70 dark:bg-neutral-900/70">
+                <div class="flex flex-wrap items-center justify-between gap-2.5 px-3.5 sm:px-6 py-3 border-b border-borderLight dark:border-borderDark bg-neutral-100/70 dark:bg-neutral-900/70">
                     <div class="flex items-center gap-3">
                         <div class="flex items-center gap-1.5">
                             <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
@@ -514,31 +550,31 @@
                     </div>
 
                     <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-xs hover:border-neutral-500 transition-colors">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span>loghorizon.vercel.app</span>
-                        <i data-lucide="external-link" class="w-3 h-3 text-neutral-400"></i>
+                       class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-xs hover:border-neutral-500 transition-colors truncate">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                        <span class="truncate">loghorizon.vercel.app</span>
+                        <i data-lucide="external-link" class="w-3 h-3 text-neutral-400 shrink-0"></i>
                     </a>
 
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-1.5 sm:gap-2">
                         <!-- Device Simulation Toggle (Desktop vs Mobile) -->
                         <div class="inline-flex items-center rounded-lg border border-borderLight dark:border-borderDark p-0.5 bg-surfaceLight dark:bg-surfaceDark font-mono text-xs">
                             <button id="view-desktop-btn" type="button" onclick="setIframeDevice('desktop')"
-                                    class="px-2.5 py-1 rounded-md text-[11px] font-medium bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 transition-colors flex items-center gap-1.5 cursor-pointer">
+                                    class="px-2 sm:px-2.5 py-1 rounded-md text-[11px] font-medium bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 transition-colors flex items-center gap-1 cursor-pointer">
                                 <i data-lucide="monitor" class="w-3 h-3"></i>
                                 <span data-i18n="viewDesktop">Desktop</span>
                             </button>
                             <button id="view-mobile-btn" type="button" onclick="setIframeDevice('mobile')"
-                                    class="px-2.5 py-1 rounded-md text-[11px] font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
+                                    class="px-2 sm:px-2.5 py-1 rounded-md text-[11px] font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors flex items-center gap-1 cursor-pointer">
                                 <i data-lucide="smartphone" class="w-3 h-3"></i>
-                                <span data-i18n="viewMobile">Mobile (375px)</span>
+                                <span data-i18n="viewMobile">Mobile</span>
                             </button>
                         </div>
 
                         <button id="preview-mode-btn" onclick="togglePreviewMode()"
-                                class="px-2.5 py-1 rounded-md border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-[11px] hover:border-neutral-500 transition-colors cursor-pointer"
+                                class="px-2.5 py-1 rounded-md border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark font-mono text-[11px] hover:border-neutral-500 transition-colors cursor-pointer shrink-0"
                                 data-i18n="togglePreviewBtn">
-                            Mode: Pratinjau UI
+                            Mode: Pratinjau
                         </button>
                     </div>
                 </div>
@@ -833,7 +869,7 @@
     <!-- =========================================================================
          4. COMPREHENSIVE SERVICE & PRICING CATALOG
          ========================================================================= -->
-    <section id="packages" class="reveal-on-scroll py-20 sm:py-24 border-b border-borderLight dark:border-borderDark">
+    <section id="packages" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
@@ -863,7 +899,7 @@
             </div>
 
             <!-- Packages Grid -->
-            <div id="packages-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="packages-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 <!-- Rendered dynamically via JS -->
             </div>
 
@@ -893,7 +929,7 @@
     <!-- =========================================================================
          5. TRANSPARENT ADD-ONS & À LA CARTE CATALOG
          ========================================================================= -->
-    <section id="addons" class="reveal-on-scroll py-20 sm:py-24 border-b border-borderLight dark:border-borderDark">
+    <section id="addons" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
                 <div>
@@ -906,7 +942,7 @@
             </div>
 
             <!-- 3 Structured Columns -->
-            <div id="addons-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div id="addons-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
                 <!-- Rendered dynamically via JS -->
             </div>
         </div>
@@ -915,7 +951,7 @@
     <!-- =========================================================================
          5B. INTERACTIVE COST ESTIMATOR & SERVICE BUILDER
          ========================================================================= -->
-    <section id="estimator" class="reveal-on-scroll py-20 sm:py-24 border-b border-borderLight dark:border-borderDark relative bg-surfaceLight/40 dark:bg-surfaceDark/40">
+    <section id="estimator" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark relative bg-surfaceLight/40 dark:bg-surfaceDark/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
@@ -942,11 +978,11 @@
             </div>
 
             <!-- Main Builder Grid: Left Choices (8 Cols) vs Right Sticky Receipt (4 Cols) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
                 <!-- Left Configurator Panels (8 cols) -->
                 <div class="lg:col-span-8 space-y-8">
                     <!-- STEP 1: PILIH LAYANAN UTAMA (Single Select) -->
-                    <div class="p-6 sm:p-8 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
+                    <div class="p-5 sm:p-7 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
                         <div class="flex items-center justify-between mb-3 pb-3 border-b border-borderLight dark:border-borderDark">
                             <div class="flex items-center gap-2.5">
                                 <span class="w-6 h-6 rounded-md bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-mono text-xs font-bold flex items-center justify-center">1</span>
@@ -963,7 +999,7 @@
                     </div>
 
                     <!-- STEP 2: KUANTITAS & SKALA KONTEN (Tombol Stepper +/-) -->
-                    <div class="p-6 sm:p-8 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
+                    <div class="p-5 sm:p-7 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
                         <div class="flex items-center justify-between mb-3 pb-3 border-b border-borderLight dark:border-borderDark">
                             <div class="flex items-center gap-2.5">
                                 <span class="w-6 h-6 rounded-md bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-mono text-xs font-bold flex items-center justify-center">2</span>
@@ -1066,7 +1102,7 @@
                     </div>
 
                     <!-- STEP 3: PILIH ADD-ONS MODULAR (Multi-select Checkboxes) -->
-                    <div class="p-6 sm:p-8 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
+                    <div class="p-5 sm:p-7 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
                         <div class="flex items-center justify-between mb-3 pb-3 border-b border-borderLight dark:border-borderDark">
                             <div class="flex items-center gap-2.5">
                                 <span class="w-6 h-6 rounded-md bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-mono text-xs font-bold flex items-center justify-center">3</span>
@@ -1085,7 +1121,7 @@
 
                 <!-- Right Sticky Summary / Receipt Order Slip (4 cols) -->
                 <div class="lg:col-span-4 lg:sticky lg:top-24">
-                    <div class="rounded-2xl border-2 border-neutral-900 dark:border-white bg-surfaceLight dark:bg-surfaceDark p-6 sm:p-7 shadow-xl shadow-neutral-200/50 dark:shadow-none">
+                    <div class="rounded-2xl border-2 border-neutral-900 dark:border-white bg-surfaceLight dark:bg-surfaceDark p-5 sm:p-6 shadow-xl shadow-neutral-200/50 dark:shadow-none">
                         <!-- Slip Header -->
                         <div class="flex items-center justify-between pb-4 border-b border-dashed border-borderLight dark:border-borderDark mb-5">
                             <div>
@@ -1219,7 +1255,7 @@
     <!-- =========================================================================
          6. WORKFLOW PROCESS, CLIENT CHECKLIST & FAQ
          ========================================================================= -->
-    <section id="process" class="reveal-on-scroll py-20 sm:py-24 border-b border-borderLight dark:border-borderDark">
+    <section id="process" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
                 <!-- Left Column (7 cols): 5-Step Workflow + Client Readiness Checklist -->
@@ -1234,7 +1270,7 @@
                     </div>
 
                     <!-- Client Preparation Checklist -->
-                    <div class="p-6 sm:p-8 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
+                    <div class="p-5 sm:p-7 rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold" data-i18n="checkTitle">Checklist Materi Klien</h3>
                             <span class="font-mono text-xs text-neutral-500" data-i18n="checkBadge">PERSIAPAN AWAL</span>
@@ -1264,12 +1300,12 @@
     <!-- =========================================================================
          7. INTERACTIVE PROJECT BRIEF & DIRECT WHATSAPP LAUNCHER
          ========================================================================= -->
-    <section id="brief" class="reveal-on-scroll py-20 sm:py-24">
+    <section id="brief" class="reveal-on-scroll py-12 sm:py-20 lg:py-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark overflow-hidden">
                 <div class="grid lg:grid-cols-12">
                     <!-- Left Info Panel -->
-                    <div class="lg:col-span-5 p-8 sm:p-10 lg:p-12 border-b lg:border-b-0 lg:border-r border-borderLight dark:border-borderDark flex flex-col justify-between bg-neutral-100/50 dark:bg-neutral-900/40">
+                    <div class="lg:col-span-5 p-5 sm:p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-borderLight dark:border-borderDark flex flex-col justify-between bg-neutral-100/50 dark:bg-neutral-900/40">
                         <div>
                             <p class="font-mono text-xs uppercase tracking-wider text-neutral-500 mb-3" data-i18n="briefEyebrow">07 — INITIATE PROJECT</p>
                             <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4" data-i18n="briefTitle">
@@ -1308,7 +1344,7 @@
                     </div>
 
                     <!-- Right Interactive Form -->
-                    <div class="lg:col-span-7 p-8 sm:p-10 lg:p-12">
+                    <div class="lg:col-span-7 p-5 sm:p-8 lg:p-12">
                         <form id="brief-form" onsubmit="submitWhatsAppBrief(event)" class="space-y-6">
                             <!-- 1. Client Identity Input -->
                             <div>
@@ -1317,7 +1353,7 @@
                                 </label>
                                 <input type="text" id="client-name" required
                                        placeholder="Contoh: Budi Santoso / PT Maju Gemilang"
-                                       class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
+                                       class="w-full min-h-[44px] px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-base sm:text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
                             </div>
 
                             <!-- 2. Interactive Service Selection (Modular Card Selector) -->
@@ -1362,7 +1398,7 @@
                                     </label>
                                     <input type="text" id="domain-pref"
                                            placeholder="Contoh: namabisnis.com / butuh saran"
-                                           class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
+                                           class="w-full min-h-[44px] px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-base sm:text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
                                 </div>
 
                                 <div>
@@ -1371,7 +1407,7 @@
                                     </label>
                                     <input type="text" id="timeline-pref"
                                            placeholder="Contoh: 1–2 Minggu / Mendesak"
-                                           class="w-full px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
+                                           class="w-full min-h-[44px] px-4 py-3 rounded-xl border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian text-base sm:text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-white transition-colors">
                                 </div>
                             </div>
 
@@ -1406,28 +1442,29 @@
     <!-- =========================================================================
          8. MINIMALIST FOOTER
          ========================================================================= -->
-    <footer class="border-t border-borderLight dark:border-borderDark py-10 pb-28 lg:pb-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <span class="font-mono text-xs font-bold">LOGHORIZONSTUDIO</span>
+    <footer class="border-t border-borderLight dark:border-borderDark py-8 sm:py-10 pb-28 lg:pb-10 bg-surfaceLight/40 dark:bg-surfaceDark/40">
+        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+            <div class="flex items-center gap-2.5">
+                <img src="logo.png" alt="LogHorizonStudio" class="h-6 w-auto object-contain" />
+                <span class="font-mono text-xs font-bold tracking-tight text-neutral-900 dark:text-white">LOGHORIZONSTUDIO</span>
                 <span class="text-neutral-300 dark:text-neutral-700">|</span>
-                <span class="font-mono text-xs text-neutral-500">© 2026 loghorizon.studio</span>
+                <span class="font-mono text-xs text-neutral-500">© 2026 loghorizonstudio.web.id</span>
             </div>
 
-            <div class="flex items-center gap-6 font-mono text-xs text-neutral-500">
-                <a href="mailto:hello@loghorizon.studio" class="hover:text-neutral-900 dark:hover:text-white transition-colors">
+            <div class="flex flex-wrap items-center justify-center sm:justify-end gap-x-5 gap-y-2 font-mono text-xs text-neutral-500">
+                <a href="mailto:hello@loghorizon.studio" class="hover:text-neutral-900 dark:hover:text-white transition-colors py-1">
                     hello@loghorizon.studio
                 </a>
-                <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer" class="hover:text-neutral-900 dark:hover:text-white transition-colors">
+                <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer" class="hover:text-neutral-900 dark:hover:text-white transition-colors py-1">
                     LogHorizon Live
                 </a>
-                <a href="#packages" class="hover:text-neutral-900 dark:hover:text-white transition-colors" data-i18n="footerCatalog">
+                <a href="#packages" class="hover:text-neutral-900 dark:hover:text-white transition-colors py-1" data-i18n="footerCatalog">
                     Katalog Harga
                 </a>
-                <a href="#estimator" class="hover:text-neutral-900 dark:hover:text-white transition-colors" data-i18n="footerEstimator">
+                <a href="#estimator" class="hover:text-neutral-900 dark:hover:text-white transition-colors py-1" data-i18n="footerEstimator">
                     Kalkulator Biaya
                 </a>
-                <button onclick="openWhatsAppDirect()" class="hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer">
+                <button onclick="openWhatsAppDirect()" class="hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer py-1">
                     WhatsApp
                 </button>
             </div>
@@ -1439,36 +1476,36 @@
          SMART COLLAPSIBLE MOBILE ESTIMATOR BAR & QUICK ACTION
          ========================================================================= -->
     <div id="mobile-sticky-bar"
-         class="fixed bottom-4 inset-x-3 z-40 lg:hidden transition-all duration-300 transform translate-y-24 opacity-0 pointer-events-none">
+         class="fixed bottom-3 inset-x-3 z-40 lg:hidden transition-all duration-300 transform translate-y-28 opacity-0 pointer-events-none">
         
         <!-- Expanded Full Card State -->
         <div id="mobile-bar-expanded"
              class="bg-surfaceLight/95 dark:bg-surfaceDark/95 backdrop-blur-xl border border-borderLight dark:border-borderDark rounded-2xl p-3 shadow-2xl transition-all duration-300">
-            <div class="flex items-center justify-between gap-2.5">
+            <div class="flex items-center justify-between gap-2">
                 <!-- Clickable summary leading to Estimator -->
                 <a href="#estimator" class="flex flex-col min-w-0 pr-1 group">
                     <div class="flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span class="font-mono text-[10px] uppercase text-neutral-500 truncate" data-i18n="mobileEstLabel">Total Estimasi</span>
                     </div>
-                    <span id="mobile-bar-total" class="font-mono text-base font-extrabold tracking-tight truncate group-hover:text-primary transition-colors">Rp 850.000</span>
+                    <span id="mobile-bar-total" class="font-mono text-sm sm:text-base font-extrabold tracking-tight truncate group-hover:text-primary transition-colors">Rp 850.000</span>
                 </a>
 
                 <!-- Actions: Detail button, WhatsApp action, and Collapse Toggle -->
                 <div class="flex items-center gap-1.5 shrink-0">
                     <a href="#estimator"
-                       class="min-h-[44px] px-3 inline-flex items-center justify-center rounded-xl border border-borderLight dark:border-borderDark text-xs font-bold hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors select-none"
+                       class="min-h-[42px] px-3 inline-flex items-center justify-center rounded-xl border border-borderLight dark:border-borderDark text-xs font-bold hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors select-none"
                        data-i18n="mobileDetailBtn">
                         Rincian
                     </a>
                     <button type="button" onclick="checkoutWhatsAppEstimator()"
-                            class="min-h-[44px] inline-flex items-center gap-1 px-3.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-bold cursor-pointer hover:opacity-90 active:scale-95 transition-all select-none">
+                            class="min-h-[42px] inline-flex items-center gap-1 px-3.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-bold cursor-pointer hover:opacity-90 active:scale-95 transition-all select-none shadow-md">
                         <span>Pesan</span>
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </button>
                     <!-- Minimize Button -->
                     <button type="button" onclick="toggleMobileBarCollapse()" aria-label="Minimize Estimator Bar"
-                            class="min-w-[40px] min-h-[44px] inline-flex items-center justify-center rounded-xl text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition-colors select-none">
+                            class="min-w-[38px] min-h-[42px] inline-flex items-center justify-center rounded-xl text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition-colors select-none">
                         <i data-lucide="chevron-down" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -1479,7 +1516,7 @@
         <div id="mobile-bar-collapsed"
              class="hidden items-center justify-end">
             <button type="button" onclick="toggleMobileBarCollapse()"
-                    class="min-h-[44px] flex items-center gap-2 px-4 py-2.5 rounded-full bg-neutral-900/95 dark:bg-white/95 text-white dark:text-neutral-900 shadow-2xl border border-neutral-700/50 dark:border-neutral-200/60 backdrop-blur-md active:scale-95 transition-all select-none cursor-pointer">
+                    class="min-h-[42px] flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-900/95 dark:bg-white/95 text-white dark:text-neutral-900 shadow-2xl border border-neutral-700/50 dark:border-neutral-200/60 backdrop-blur-md active:scale-95 transition-all select-none cursor-pointer">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span id="mobile-pill-total" class="font-mono text-xs font-bold tracking-tight">Rp 850.000</span>
                 <i data-lucide="chevron-up" class="w-3.5 h-3.5 text-neutral-400 dark:text-neutral-500"></i>
@@ -1490,54 +1527,54 @@
     <!-- =========================================================================
          AI PROJECT CONSULTANT & FLOATING ACTION STACK
          ========================================================================= -->
-    <div id="ai-consultant-root" class="fixed bottom-5 right-4 sm:right-6 z-50 flex flex-col items-end gap-3 pointer-events-auto">
+    <div id="ai-consultant-root" class="fixed bottom-4 right-3.5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-2.5 pointer-events-auto transition-[bottom] duration-300">
 
-        <!-- AI Consultant Chat Window (Modal Panel) -->
+        <!-- AI Consultant Chat Window (Responsive Modal Panel / Mobile Drawer) -->
         <div id="ai-chat-window"
-             class="hidden flex-col w-[calc(100vw-24px)] sm:w-[430px] h-[600px] max-h-[84vh] bg-surfaceLight/95 dark:bg-surfaceDark/95 backdrop-blur-2xl border border-borderLight dark:border-borderDark rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 transform origin-bottom-right z-50">
+             class="hidden flex-col fixed inset-x-3 bottom-3 sm:static sm:inset-x-auto sm:bottom-auto w-auto sm:w-[420px] max-h-[85vh] sm:max-h-[620px] h-[580px] bg-surfaceLight/98 dark:bg-surfaceDark/98 backdrop-blur-2xl border border-borderLight dark:border-borderDark rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 z-50">
             
             <!-- Window Header -->
-            <div class="px-4 py-3.5 border-b border-borderLight dark:border-borderDark bg-surfaceLight/80 dark:bg-surfaceDark/80 flex items-center justify-between shrink-0">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-xl bg-violet-600/10 dark:bg-violet-500/20 text-violet-600 dark:text-violet-400 flex items-center justify-center border border-violet-500/30">
+            <div class="px-4 py-3 border-b border-borderLight dark:border-borderDark bg-surfaceLight/80 dark:bg-surfaceDark/80 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-xl bg-violet-600/10 dark:bg-violet-500/20 text-violet-600 dark:text-violet-400 flex items-center justify-center border border-violet-500/30 shrink-0">
                         <i data-lucide="sparkles" class="w-4 h-4 animate-pulse"></i>
                     </div>
-                    <div>
+                    <div class="min-w-0">
                         <div class="flex items-center gap-1.5">
-                            <span class="font-bold text-xs tracking-tight text-neutral-900 dark:text-white">AI Project Consultant</span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="font-bold text-xs tracking-tight text-neutral-900 dark:text-white truncate">AI Project Consultant</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                         </div>
-                        <p class="font-mono text-[10px] text-neutral-500 dark:text-neutral-400">LogHorizonStudio • Instant Analysis</p>
+                        <p class="font-mono text-[10px] text-neutral-500 dark:text-neutral-400 truncate">LogHorizonStudio • Instant Analysis</p>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1 shrink-0">
                     <button type="button" onclick="resetAiChat()" title="Reset Percakapan"
-                            class="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
+                            class="p-2 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center">
                         <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                     </button>
                     <button type="button" onclick="toggleAiChat(false)" title="Tutup Chat"
-                            class="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
+                            class="p-2 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center">
                         <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Messages Stream Area -->
-            <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 text-xs leading-relaxed custom-scrollbar">
+            <div id="ai-chat-messages" class="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-3 text-xs leading-relaxed custom-scrollbar">
                 <!-- Initial Welcome Message from AI -->
-                <div class="flex items-start gap-2.5 max-w-[90%]">
+                <div class="flex items-start gap-2.5 max-w-[92%]">
                     <div class="w-7 h-7 rounded-lg bg-violet-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">
                         AI
                     </div>
-                    <div class="p-3 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/60 dark:border-neutral-700/60 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2">
-                        <p>Halo! Ceritakan konsep website impian Anda dengan bahasa sehari-hari. Contoh:</p>
+                    <div class="p-3 sm:p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/60 dark:border-neutral-700/60 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2">
+                        <p class="font-semibold text-neutral-900 dark:text-white">Halo! Ceritakan konsep website impian Anda:</p>
                         <ul class="text-[11px] text-neutral-600 dark:text-neutral-400 list-disc list-inside space-y-0.5">
                             <li><i>"Bikin web resto ada menu QR dan sistem reservasi meja"</i></li>
-                            <li><i>"Toko online jualan fashion hijab ada hitung ongkir otomatis"</i></li>
-                            <li><i>"Company profile PT konsultan 5 halaman dokumen resmi"</i></li>
+                            <li><i>"Toko online fashion hijab cek ongkir otomatis"</i></li>
+                            <li><i>"Company profile PT konsultan 5 halaman resmi"</i></li>
                         </ul>
-                        <p class="text-[11px] font-medium text-violet-600 dark:text-violet-400">Saya akan langsung merancang estimasi fitur, waktu & biaya pengerjaannya!</p>
+                        <p class="text-[11px] font-medium text-violet-600 dark:text-violet-400">Saya akan langsung menganalisis estimasi fitur &amp; biaya pengerjaannya!</p>
                     </div>
                 </div>
 
@@ -1562,7 +1599,7 @@
                 </div>
             </div>
 
-            <!-- Typing Indicator (Hidden by default) -->
+            <!-- Typing Indicator -->
             <div id="ai-typing-indicator" class="hidden px-4 py-2 border-t border-borderLight dark:border-borderDark bg-surfaceLight/50 dark:bg-surfaceDark/50 text-neutral-500 font-mono text-[11px] flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-ping"></span>
                 <span>AI sedang menganalisis kebutuhan proyek...</span>
@@ -1570,39 +1607,34 @@
 
             <!-- Input Box Form -->
             <form id="ai-chat-form" onsubmit="handleAiChatSubmit(event)"
-                  class="p-2.5 border-t border-borderLight dark:border-borderDark bg-surfaceLight/95 dark:bg-surfaceDark/95 flex items-center gap-2 shrink-0">
+                  class="p-2.5 sm:p-3 border-t border-borderLight dark:border-borderDark bg-surfaceLight/95 dark:bg-surfaceDark/95 flex items-center gap-2 shrink-0">
                 <input type="text" id="ai-chat-input"
                        placeholder="Ketik ide website Anda di sini..."
                        autocomplete="off"
-                       class="flex-1 px-3.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-violet-500 transition-all font-sans">
+                       class="flex-1 px-3.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark text-base sm:text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-violet-500 transition-all font-sans min-h-[44px]">
                 <button type="submit" id="ai-chat-send-btn"
-                        class="min-w-[40px] min-h-[40px] px-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-md">
+                        class="min-w-[44px] min-h-[44px] px-3.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-md shrink-0">
                     <i data-lucide="send" class="w-4 h-4"></i>
                 </button>
             </form>
         </div>
 
         <!-- Floating Buttons Group (AI Widget Trigger + WhatsApp Direct Button) -->
-        <div class="flex items-center gap-2.5">
+        <div id="floating-triggers-group" class="flex items-center gap-2 sm:gap-2.5">
             <!-- WhatsApp Direct Floating Button -->
             <button onclick="openWhatsAppDirect()" aria-label="Chat WhatsApp" title="Konsultasi WhatsApp Langsung"
-                    class="hidden sm:flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-surfaceLight/90 dark:bg-surfaceDark/90 text-neutral-800 dark:text-neutral-200 shadow-xl border border-borderLight dark:border-borderDark hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer backdrop-blur-md">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                <i data-lucide="message-square" class="w-4 h-4 text-emerald-500 shrink-0"></i>
-                <span class="font-mono text-xs font-semibold">WhatsApp</span>
+                    class="flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer min-h-[44px] border border-emerald-400/40">
+                <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse shrink-0"></span>
+                <i data-lucide="message-square" class="w-4 h-4 shrink-0"></i>
+                <span class="hidden sm:inline font-mono text-xs font-semibold">WhatsApp</span>
             </button>
 
             <!-- Main AI Consultant Trigger Button -->
             <button id="ai-widget-trigger-btn" onclick="toggleAiChat()" aria-label="Open AI Project Consultant" title="Konsultasi Otomatis AI"
-                    class="relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-2xl border border-violet-500/50 hover:border-violet-500 hover:scale-105 active:scale-95 transition-all duration-200 group cursor-pointer">
-                <!-- Glowing Aura -->
-                <span class="absolute -inset-0.5 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 opacity-60 blur-sm group-hover:opacity-100 transition duration-300"></span>
-                
-                <span class="relative flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-violet-400 animate-ping shrink-0"></span>
-                    <i data-lucide="sparkles" class="w-4 h-4 text-violet-300 dark:text-violet-600 shrink-0"></i>
-                    <span class="font-mono text-xs font-extrabold tracking-tight">AI Consultant</span>
-                </span>
+                    class="relative flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-2xl border border-violet-500/50 hover:border-violet-500 hover:scale-105 active:scale-95 transition-all duration-200 group cursor-pointer min-h-[44px]">
+                <span class="w-2 h-2 rounded-full bg-violet-400 animate-ping shrink-0"></span>
+                <i data-lucide="sparkles" class="w-4 h-4 text-violet-300 dark:text-violet-600 shrink-0"></i>
+                <span class="font-mono text-xs font-extrabold tracking-tight">AI Consultant</span>
             </button>
         </div>
     </div>
@@ -2623,7 +2655,7 @@ function renderPackages() {
                 const features = currentLang === 'id' ? pkg.featuresId : pkg.featuresEn;
 
                 return `
-                    <div class="rounded-2xl border ${pkg.popular ? 'border-neutral-900 dark:border-white ring-1 ring-neutral-900 dark:ring-white' : 'border-borderLight dark:border-borderDark'} bg-surfaceLight dark:bg-surfaceDark p-6 sm:p-7 flex flex-col justify-between">
+                    <div class="rounded-2xl border ${pkg.popular ? 'border-neutral-900 dark:border-white ring-1 ring-neutral-900 dark:ring-white' : 'border-borderLight dark:border-borderDark'} bg-surfaceLight dark:bg-surfaceDark p-5 sm:p-7 flex flex-col justify-between">
                         <div>
                             <!-- Top Metadata Row -->
                             <div class="flex items-center justify-between gap-2 mb-4">
@@ -2658,7 +2690,7 @@ function renderPackages() {
                         </div>
 
                         <button onclick="selectPackageForBrief('${name.replace(/'/g, "\\'")} (${price})')"
-                                class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl ${
+                                class="w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl ${
                                     pkg.popular
                                         ? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900'
                                         : 'border border-borderLight dark:border-borderDark hover:border-neutral-500'
@@ -3360,7 +3392,7 @@ function renderPackages() {
             if (mode === 'mobile') {
                 if (desktopView) desktopView.classList.add('hidden');
                 if (mobileView) mobileView.classList.remove('hidden');
-                wrapper.className = "w-[300px] sm:w-[340px] h-[480px] sm:h-[500px] mx-auto rounded-[2.2rem] border-4 border-neutral-800 bg-[#0A0713] shadow-2xl overflow-hidden my-3 relative transition-all duration-300 flex flex-col";
+                wrapper.className = "w-[300px] sm:w-[340px] max-w-[calc(100%-1rem)] h-[480px] sm:h-[500px] mx-auto rounded-[2.2rem] border-4 border-neutral-800 bg-[#0A0713] shadow-2xl overflow-hidden my-3 relative transition-all duration-300 flex flex-col";
                 mobileBtn.className = "px-2.5 py-1 rounded-md text-[11px] font-medium bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 transition-colors flex items-center gap-1.5 cursor-pointer";
                 desktopBtn.className = "px-2.5 py-1 rounded-md text-[11px] font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer";
             } else {
@@ -3936,6 +3968,7 @@ function renderPackages() {
 
         function toggleAiChat(forceState) {
             const chatWindow = document.getElementById('ai-chat-window');
+            const triggers = document.getElementById('floating-triggers-group');
             if (!chatWindow) return;
 
             if (typeof forceState === 'boolean') {
@@ -3947,6 +3980,9 @@ function renderPackages() {
             if (isAiChatOpen) {
                 chatWindow.classList.remove('hidden');
                 chatWindow.classList.add('flex');
+                if (triggers && window.innerWidth < 640) {
+                    triggers.classList.add('hidden');
+                }
                 setTimeout(() => {
                     const input = document.getElementById('ai-chat-input');
                     if (input) input.focus();
@@ -3954,6 +3990,9 @@ function renderPackages() {
             } else {
                 chatWindow.classList.add('hidden');
                 chatWindow.classList.remove('flex');
+                if (triggers) {
+                    triggers.classList.remove('hidden');
+                }
             }
 
             if (window.lucide) lucide.createIcons();
@@ -4209,14 +4248,16 @@ function renderPackages() {
             const footerEl = document.querySelector('footer');
 
             function handleScroll() {
+                const aiRoot = document.getElementById('ai-consultant-root');
+
                 // Only on mobile / tablet screens (< 1024px)
                 if (window.innerWidth >= 1024) {
-                    bar.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                    bar.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
+                    if (aiRoot) aiRoot.style.bottom = '';
                     return;
                 }
 
                 const scrollY = window.scrollY || window.pageYOffset;
-                const windowHeight = window.innerHeight;
 
                 // Thresholds
                 const packagesTop = packagesSection ? packagesSection.offsetTop - 200 : 800;
@@ -4227,11 +4268,13 @@ function renderPackages() {
                 const isInEstimatorZone = scrollY >= packagesTop && scrollY < briefTop && scrollY < footerTop;
 
                 if (isInEstimatorZone) {
-                    bar.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+                    bar.classList.remove('translate-y-28', 'opacity-0', 'pointer-events-none');
                     bar.classList.add('translate-y-0', 'opacity-100');
+                    if (aiRoot) aiRoot.style.bottom = '82px';
                 } else {
-                    bar.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                    bar.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
                     bar.classList.remove('translate-y-0', 'opacity-100');
+                    if (aiRoot) aiRoot.style.bottom = '';
                 }
             }
 
