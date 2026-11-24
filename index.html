@@ -3926,7 +3926,7 @@ function renderPackages() {
         // =========================================================================
         
         // =========================================================================
-        // AI PROJECT CONSULTANT ENGINE & CHAT CONTROLLER (CLOUDFLARE WORKERS AI + LOCAL FALLBACK)
+        // AI PROJECT CONSULTANT ENGINE & CHAT CONTROLLER (NATURAL CONVERSATION & END-SESSION CHECKOUT)
         // =========================================================================
         let isAiChatOpen = false;
         let lastAiAnalysis = null;
@@ -3972,19 +3972,19 @@ function renderPackages() {
                         AI
                     </div>
                     <div class="p-3.5 rounded-2xl rounded-tl-sm bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/60 dark:border-neutral-700/60 text-neutral-800 dark:text-neutral-200 shadow-sm space-y-2">
-                        <p class="font-medium text-neutral-900 dark:text-white">Halo! Saya AI Project Consultant resmi dari LogHorizonStudio.</p>
-                        <p>Ceritakan rencana atau ide website yang ingin Anda kembangkan dengan bahasa santai sehari-hari. Contohnya:</p>
+                        <p class="font-medium text-neutral-900 dark:text-white">Halo! Saya konsultan web senior dari LogHorizonStudio.</p>
+                        <p>Ceritakan santai konsep atau ide website yang ingin Anda kembangkan. Misalnya:</p>
                         <ul class="text-[11px] text-neutral-600 dark:text-neutral-400 list-disc list-inside space-y-0.5">
-                            <li><i>"Halo, kami komunitas game mau buat portal informasi & pendaftaran turnamen"</i></li>
+                            <li><i>"Halo, kami komunitas game mau buat portal informasi turnamen"</i></li>
                             <li><i>"Bikin web resto ada menu QR dan sistem reservasi meja"</i></li>
                             <li><i>"Kalau saya sudah punya hosting sendiri, bagaimana skemanya?"</i></li>
                         </ul>
-                        <p class="text-[11px] font-medium text-violet-600 dark:text-violet-400">Silakan ketik langsung atau klik salah satu topik cepat di bawah untuk berdiskusi!</p>
+                        <p class="text-[11px] font-medium text-violet-600 dark:text-violet-400">Silakan ketik langsung atau klik topik di bawah untuk mulai berdiskusi!</p>
                     </div>
                 </div>
 
                 <div class="ai-quick-options pt-1 flex flex-wrap gap-1.5">
-                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Halo, kami komunitas mau buat portal informasi & pendaftaran"
+                    <button type="button" onclick="sendQuickPrompt(this)" data-prompt="Halo, kami komunitas mau buat portal informasi turnamen"
                             class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500 font-mono text-[10.5px] text-neutral-600 dark:text-neutral-300 transition-colors text-left cursor-pointer active:scale-95">
                         🎮 Portal Komunitas & Event
                     </button>
@@ -4022,19 +4022,24 @@ function renderPackages() {
             handleAiChatSubmit();
         }
 
-        // Clean raw markdown like **bold** to <b>bold</b> and sanitize HTML safely
+        // Format raw text: sanitize markdown asterisks to clean HTML tags
         function formatAiReplyText(rawText) {
             if (!rawText) return "";
-            // Replace double asterisks with <b>...</b>
             let formatted = rawText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-            // Clean up standalone bullets
             formatted = formatted.replace(/^\*\s+/gm, '• ');
-            // Convert newlines to <br>
             formatted = formatted.replace(/\n/g, '<br>');
             return formatted;
         }
 
-        // Call Cloudflare Workers AI Endpoint (/api/chat) with graceful fallback
+        // Determine if user or AI explicitly signals checkout/closing intent
+        function isSessionClosingIntent(userQuery, aiReplyText, turnCount) {
+            const combined = (userQuery + " " + aiReplyText).toLowerCase();
+            const strongClosingKeywords = /deal|pesan sekarang|order sekarang|mau pesan|siap pesan|lanjut whatsapp|hubungi wa|checkout|kirim rancangan|tutup konsultasi|kalkulasi final|total harga fix|sudah cukup|sepakat/.test(combined);
+            // Must have had at least 2 real interactive turns to prevent premature checkout card popup
+            return strongClosingKeywords && turnCount >= 2;
+        }
+
+        // Call Cloudflare Workers AI Endpoint (/api/chat) with fallback flag
         async function queryCloudflareWorkersAi(messagesHistory) {
             try {
                 const response = await fetch('/api/chat', {
@@ -4050,35 +4055,35 @@ function renderPackages() {
                     }
                 }
             } catch (err) {
-                console.warn("Workers AI API unavailable, utilizing smart local engine:", err);
+                console.warn("Workers AI API call error, engaging intelligent fallback:", err);
             }
             return { success: false };
         }
 
-        // Smart Local Conversational & Specification Engine (Acts as local backup & spec synthesizer)
+        // Natural Multi-Turn Fallback Dialog Engine
         function generateLocalFallbackReply(query, turnCount) {
             const lower = query.toLowerCase();
-            const isReadyForCheckout = turnCount >= 2 || /deal|pesan|order|buatkan|lanjut|hubungi whatsapp|kontak|siap|harga fix|total biaya|rekomendasi akhir/.test(lower);
+            const isClosing = isSessionClosingIntent(query, "", turnCount);
 
-            // Sapaan murni
+            // Sapaan Ramah Awal
             if (/^(halo|hai|hi|hello|selamat pagi|selamat siang|selamat sore|selamat malam|permisi)[\s!\.\?]*$/i.test(lower)) {
                 return {
                     isCard: false,
-                    text: "Halo! Senang bisa menyapa Anda. Saya konsultan web senior dari LogHorizonStudio.\n\nBoleh ceritakan seperti apa website yang ingin Anda buat? Misalnya jenis usaha, target pengunjung, atau fitur khusus yang paling Anda harapkan?",
+                    text: "Halo! Senang bisa berbincang dengan Anda. Saya konsultan web dari LogHorizonStudio.\n\nBoleh ceritakan sedikit tentang rencana websitenya? Misalnya untuk bidang usaha apa, siapa target pengunjungnya, atau fitur apa yang paling penting untuk ada?",
                     followUps: [
                         { label: "🏢 Company profile resmi PT / CV", prompt: "Mau buat company profile resmi perusahaan PT/CV" },
                         { label: "🍽️ Restoran menu QR & reservasi", prompt: "Bikin web resto ada menu QR & sistem reservasi meja" },
                         { label: "🛍️ Toko online ada ongkir otomatis", prompt: "Toko online e-commerce lengkap dengan cek ongkir otomatis" },
-                        { label: "🎮 Portal komunitas & turnamen", prompt: "Halo, kami komunitas mau buat portal informasi & pendaftaran" }
+                        { label: "🎮 Portal komunitas & turnamen", prompt: "Halo, kami komunitas mau buat portal informasi turnamen" }
                     ]
                 };
             }
 
-            // Hosting mandiri
-            if (/hosting sendiri|server sendiri|punya hosting|cpanel sendiri|vps sendiri|punya domain/.test(lower)) {
+            // Pertanyaan Hosting Mandiri
+            if (/hosting sendiri|server sendiri|punya hosting|cpanel sendiri|vps sendiri|punya domain/.test(lower) && !isClosing) {
                 return {
                     isCard: false,
-                    text: "Tentu saja, itu opsi yang sangat bagus dan fleksibel! Jika Anda sudah memiliki domain atau sewa hosting server sendiri (seperti cPanel, VPS, Hostinger, atau Cloudflare), kami dapat fokus 100% pada perancangan antarmuka (UI/UX), rekayasa kode responsif, dan instalasi sistemnya saja tanpa membebankan biaya server dari pihak kami.\n\nBiaya pengerjaan tentu menjadi lebih hemat. Rencana websitenya nanti diperuntukkan bagi kebutuhan apa?",
+                    text: "Tentu saja, itu sangat fleksibel! Jika Anda sudah memiliki domain atau sewa hosting sendiri (seperti di cPanel, VPS, Hostinger, atau Cloudflare), kami bisa fokus 100% pada perancangan antarmuka (UI/UX), rekayasa kode responsif, dan instalasi sistemnya saja tanpa membebankan biaya server dari pihak kami.\n\nBiayanya tentu jadi lebih hemat karena Anda hanya membayar jasa pembuatan. Rencana websitenya nanti untuk kebutuhan apa?",
                     followUps: [
                         { label: "📄 Landing page 1-3 halaman", prompt: "Landing page 1-3 halaman promosi produk (hosting sendiri)" },
                         { label: "🏢 Company profile resmi 5-8 halaman", prompt: "Company profile bisnis 5-8 halaman resmi (hosting sendiri)" },
@@ -4087,20 +4092,58 @@ function renderPackages() {
                 };
             }
 
-            // Komunitas
-            if (/komunitas|community|guild|esports|gaming|himpunan|turnamen|discord/.test(lower) && !isReadyForCheckout) {
+            // Diskusi Komunitas / Turnamen (Turn 1 & 2 dialog)
+            if (/komunitas|community|guild|esports|gaming|himpunan|turnamen|discord/.test(lower) && !isClosing) {
                 return {
                     isCard: false,
-                    text: "Keren sekali! Untuk website komunitas atau organisasi (seperti studi kasus portal LogHorizon kami), kuncinya adalah desain atmosferik, struktur navigasi divisi/member yang rapi, jadwal event/turnamen terpusat, dan integrasi channel Discord/WhatsApp.\n\nApakah komunitas Anda lebih membutuhkan <b>portal showcase info event (statis cepat & hemat)</b>, atau butuh <b>fitur formulir pendaftaran anggota / turnamen online</b>?",
+                    text: "Keren sekali! Untuk website komunitas atau portal event (seperti karya portal komunitas LogHorizon kami), kuncinya adalah desain atmosferik, navigasi divisi yang rapi, jadwal turnamen terpusat, dan integrasi channel Discord/WhatsApp.\n\nBoleh tahu, apakah komunitas Anda lebih membutuhkan <b>portal informasi jadwal & profil yang cepat (statis hemat)</b>, atau butuh <b>fitur formulir pendaftaran anggota / registrasi turnamen online</b>?",
                     followUps: [
-                        { label: "⚡ Portal info & event komunitas (Statis Cepat)", prompt: "Portal info & event komunitas (Statis Cepat)" },
-                        { label: "📝 Lengkap dengan form pendaftaran online", prompt: "Komunitas dengan formulir pendaftaran online anggota/turnamen" },
-                        { label: "📰 Portal dinamis dengan CMS artikel", prompt: "Portal komunitas dinamis dengan CMS update artikel" }
+                        { label: "⚡ Portal info & event (Statis Cepat)", prompt: "Kami butuh portal info jadwal & event komunitas yang statis cepat" },
+                        { label: "📝 Lengkap dengan form pendaftaran online", prompt: "Kami butuh formulir pendaftaran online anggota/turnamen" },
+                        { label: "💰 Berapa estimasi biayanya dan bagaimana cara pesannya?", prompt: "Berapa estimasi biaya paket ini dan cara pesannya?" }
                     ]
                 };
             }
 
-            // Synthesize Full Specification when ready
+            // Diskusi Restoran / Menu QR (Turn 1 & 2 dialog)
+            if (/resto|restoran|cafe|kafe|kuliner|menu qr|reservasi/.test(lower) && !isClosing) {
+                return {
+                    isCard: false,
+                    text: "Konsep yang sangat efektif untuk memangkas antrean kasir dan menaikkan omzet resto! Kami biasa merancang menu digital interaktif berkecepatan tinggi dengan QR code meja siap cetak.\n\nApakah di website tersebut Anda ingin ada <b>sistem reservasi meja otomatis</b> yang langsung masuk ke WhatsApp kasir, atau fokus di katalog menu digital interaktif dulu?",
+                    followUps: [
+                        { label: "🍽️ Menu QR + Sistem Reservasi Meja", prompt: "Mau paket lengkap Menu QR dan sistem reservasi meja" },
+                        { label: "📖 Katalog Menu QR statis saja", prompt: "Katalog menu QR statis saja yang hemat" },
+                        { label: "💰 Berapa estimasi biaya dan cara pemesanannya?", prompt: "Berapa estimasi biaya resto ini dan cara pesannya?" }
+                    ]
+                };
+            }
+
+            // Diskusi Toko Online / E-Commerce (Turn 1 & 2 dialog)
+            if (/toko|shop|e-commerce|ecommerce|jual|produk|belanja|keranjang|ongkir/.test(lower) && !isClosing) {
+                return {
+                    isCard: false,
+                    text: "Untuk platform toko online, kami menyarankan integrasi katalog produk varian (warna/ukuran), keranjang belanja mandiri, dan kalkulator cek ongkir otomatis (JNE, J&T, SiCepat).\n\nBerapa perkiraan jumlah produk yang ingin Anda pajang di tahap awal? Dan apakah sistem pembayarannya ingin diarahkan langsung ke WhatsApp kasir atau payment gateway otomatis?",
+                    followUps: [
+                        { label: "📦 Checkout WhatsApp langsung", prompt: "Toko online katalog produk checkout otomatis ke WhatsApp" },
+                        { label: "💳 Butuh payment gateway & cek ongkir", prompt: "Toko online lengkap ada kalkulator ongkir & payment gateway" },
+                        { label: "💰 Berapa estimasi total biaya paketnya?", prompt: "Berapa estimasi biaya toko online ini dan cara pesannya?" }
+                    ]
+                };
+            }
+
+            // Jika belum ada sinyal closing tapi sudah masuk topik umum
+            if (!isClosing) {
+                return {
+                    isCard: false,
+                    text: "Menarik sekali! Kami di LogHorizonStudio selalu mengutamakan arsitektur kode bersih, kecepatan tinggi (skor Google PageSpeed 95+), dan tampilan responsif yang nyaman dibuka dari layar HP.\n\nApakah Anda memiliki referensi website yang disukai, atau ingin kami berikan rekomendasi struktur halaman yang paling ideal untuk kebutuhan bisnis Anda?",
+                    followUps: [
+                        { label: "💡 Berikan rekomendasi struktur & biaya", prompt: "Bisa berikan rekomendasi paket dan estimasi biayanya?" },
+                        { label: "💬 Saya ingin konsultasi langsung via WhatsApp", prompt: "Saya ingin konsultasi langsung via WhatsApp dengan tim" }
+                    ]
+                };
+            }
+
+            // Klien sudah siap / sepakat / meminta estimasi final -> Tampilkan Kartu Spesifikasi & Tombol WhatsApp
             return synthesizeProjectSpec(query);
         }
 
@@ -4250,10 +4293,8 @@ function renderPackages() {
                 aiConversationMessages.push({ role: "assistant", content: replyText });
                 const formattedText = formatAiReplyText(replyText);
 
-                // Check if conversation indicates ready for WhatsApp checkout
-                const lowerReply = replyText.toLowerCase();
-                const lowerQuery = query.toLowerCase();
-                const showCheckout = aiConversationTurnCount >= 2 || /whatsapp|estimasi|biaya|paket|hubungi|rancangan/.test(lowerReply + " " + lowerQuery);
+                // STRICT: WhatsApp CTA only appears when session closing intent is confirmed
+                const showCheckout = isSessionClosingIntent(query, replyText, aiConversationTurnCount);
 
                 if (showCheckout) {
                     lastAiAnalysis = synthesizeProjectSpec(query);
@@ -4378,7 +4419,6 @@ function renderPackages() {
 
         function sendAiAnalysisToWhatsApp() {
             if (!lastAiAnalysis) {
-                // If no specific card generated yet, take recent user chat context
                 const userMessages = aiConversationMessages.filter(m => m.role === "user").map(m => m.content);
                 const lastQuery = userMessages[userMessages.length - 1] || "Konsultasi Website";
                 const message = "Halo LogHorizonStudio, saya ingin mendiskusikan rencana pembuatan website berikut:\n\n" +

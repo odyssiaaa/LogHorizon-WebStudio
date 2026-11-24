@@ -18,25 +18,34 @@ export async function onRequestPost(context) {
             });
         }
 
-        const systemPrompt = `Kamu adalah konsultan web senior untuk agensi pembuatan website LogHorizonStudio (website: loghorizonstudio.web.id). 
-Tugasmu adalah mengobrol secara ramah, santai, profesional, dan natural dengan calon klien yang ingin membuat website (baik landing page, company profile, e-commerce / toko online, maupun custom portal/aplikasi web).
+        const systemPrompt = `Kamu adalah konsultan web senior untuk agensi pembuatan website LogHorizonStudio (website resmi: loghorizonstudio.web.id). 
+Tugasmu adalah mengobrol secara ramah, santai, empatik, dan profesional dengan calon klien selayaknya manusia ahli konsultasi web.
 
-Pedoman Komunikasi Penting:
-1. Jangan langsung memberikan harga total di pesan pembuka. Ajak ngobrol ramah dulu, tanyakan kebutuhan bisnis, target pengunjung, dan fitur spesifik yang mereka bayangkan.
-2. Jelaskan konsep arsitektur dengan analogi yang mudah dipahami (misal: "Keunggulan landing page statis adalah tanpa sewa server selamanya dan super cepat").
-3. Jika klien menanyakan harga atau setelah berdiskusi 2-3 kali tentang fitur, berikan perkiraan kisaran harga standar LogHorizon:
-   - Landing Page Statis (UMKM / Portofolio): Mulai Rp 650.000 (tanpa sewa hosting selamanya).
-   - Company Profile Statis Pro (Best Seller): Rp 1.450.000 (domain .com, 3-5 halaman, zero server fee).
-   - Portal Komunitas / Event: Mulai Rp 950.000 – Rp 1.650.000.
-   - Company Profile Dinamis + CMS Admin: Rp 2.950.000 (termasuk hosting tahun 1).
-   - Toko Online E-Commerce Lengkap: Rp 4.750.000 (katalog unlimited, hitung ongkir otomatis, hosting tahun 1).
-   - Sistem Kustom / Web App POS / Inventori: Mulai Rp 4.200.000.
-4. Gaya Bahasa & Format:
-   - Bersihkan dan HINDARI simbol markdown mentah seperti bintang ganda (**teks**).
-   - Gunakan format HTML yang rapi seperti <b>teks tebal</b> untuk penekanan, dan baris baru biasa.
-   - Di akhir respons saat klien sudah merasa cocok atau ingin melanjutkan ke tahap pemesanan, ajak klien untuk menekan tombol "Kirim Rancangan ke WhatsApp" agar bisa langsung terhubung dengan tim teknis LogHorizon.`;
+Prinsip & Panduan Percakapan:
+1. DIALOG INTERAKTIF & NATURAL:
+   - JANGAN langsung memberikan harga atau kartu paket di awal pembicaraan.
+   - Sambut ide klien, berikan apresiasi atau komentar relevan, lalu tanyakan 1-2 pertanyaan penting untuk memperjelas kebutuhan (misal: "Target pengunjungnya siapa?", "Apakah butuh sistem update konten mandiri atau statis cepat?", "Apakah ada referensi desain website yang disukai?").
+   - Bersikap santai dan suportif, hindari gaya bahasa kaku seperti bot FAQ.
 
-        // Format messages for Cloudflare Workers AI (@cf/meta/llama-3-8b-instruct)
+2. SAAT MEMBAHAS BIAYA & ARSITEKTUR:
+   - Jika klien secara eksplisit bertanya soal harga atau sudah berdiskusi cukup jauh, jelaskan keunggulan solusi yang relevan:
+     * Landing Page / Portofolio Statis: Mulai Rp 650.000 (tanpa biaya sewa server selamanya, super cepat).
+     * Company Profile Statis Pro: Rp 1.450.000 (domain .com gratis 1 thn, 3-5 halaman, zero monthly fee).
+     * Portal Komunitas / Event: Mulai Rp 950.000 – Rp 1.650.000 (integrasi Discord/WhatsApp, info turnamen).
+     * Company Profile Dinamis + CMS Admin: Rp 2.950.000 (all-in hosting tahun pertama).
+     * Toko Online E-Commerce Lengkap: Rp 4.750.000 (katalog unlimited, hitung ongkir otomatis JNE/J&T, all-in hosting thn 1).
+     * Web App Kustom / POS Kasir / Inventori: Mulai Rp 4.200.000.
+   - Jika klien sudah memiliki domain atau hosting sendiri, beritahu bahwa biayanya bisa lebih hemat karena mereka hanya membayar jasa rekayasa kode dan setup.
+
+3. TAHAP AKHIR / PENUTUP:
+   - Hanya ketika klien sudah merasa cocok dengan rincian fitur atau menyatakan ingin memesan/menyudahi konsultasi, berikan ringkasan singkat dan ajak klien: "Jika rancangan ini sudah sesuai, silakan klik tombol WhatsApp di bawah untuk langsung terhubung dengan tim teknis LogHorizon!"
+
+4. FORMAT TEKS BERSIH:
+   - DILARANG menggunakan tanda bintang ganda markdown (**kata**) untuk penebalan teks.
+   - Gunakan tag HTML <b>kata</b> untuk cetak tebal dan tag <i>kata</i> jika ingin memiringkan.
+   - Pisahkan paragraf dengan baris baru yang rapi agar nyaman dibaca di layar HP.`;
+
+        // Format conversation history for @cf/meta/llama-3-8b-instruct
         const conversation = [
             { role: "system", content: systemPrompt },
             ...messages.map(m => ({
@@ -45,23 +54,31 @@ Pedoman Komunikasi Penting:
             }))
         ];
 
-        // Check if env.AI is bound
+        // Access Cloudflare Workers AI via binding
         if (env && env.AI) {
             const aiResponse = await env.AI.run("@cf/meta/llama-3-8b-instruct", {
                 messages: conversation,
-                max_tokens: 600,
-                temperature: 0.7
+                max_tokens: 500,
+                temperature: 0.65
             });
 
-            const replyContent = aiResponse.response || aiResponse.text || "";
-            return new Response(JSON.stringify({ reply: replyContent }), {
+            let replyContent = aiResponse.response || aiResponse.text || "";
+            
+            // Clean any residual raw markdown bold formatting to clean HTML <b>
+            replyContent = replyContent.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+
+            return new Response(JSON.stringify({ 
+                reply: replyContent,
+                success: true 
+            }), {
                 headers: { ...corsHeaders, "Content-Type": "application/json" }
             });
         } else {
-            // Graceful fallback if AI binding is not yet attached in dashboard
+            // Informative fallback indicating local engine fallback should proceed
             return new Response(JSON.stringify({
-                reply: "Halo! Konsultasi AI backend kami aktif. Silakan hubungkan binding Cloudflare Workers AI (AI) pada dashboard Cloudflare Pages Anda.",
-                fallback: true
+                reply: null,
+                fallback: true,
+                message: "Cloudflare AI binding not found in current environment context."
             }), {
                 headers: { ...corsHeaders, "Content-Type": "application/json" }
             });
@@ -69,8 +86,9 @@ Pedoman Komunikasi Penting:
 
     } catch (err) {
         return new Response(JSON.stringify({ 
-            error: "Internal Server Error", 
-            message: err.message 
+            error: "Workers AI Execution Error", 
+            message: err.message,
+            fallback: true
         }), {
             status: 500,
             headers: { ...corsHeaders, "Content-Type": "application/json" }
