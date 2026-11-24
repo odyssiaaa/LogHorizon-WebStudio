@@ -116,17 +116,50 @@
             box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.35), 0 10px 25px -5px rgba(167, 139, 250, 0.12);
         }
 
-        /* Mobile Touch & Viewport Stability */
+        /* Mobile Touch, Viewport Stability & Anti-Overflow */
         html, body {
-            overflow-x: hidden;
+            overflow-x: hidden !important;
             max-width: 100vw;
+            width: 100%;
             -webkit-text-size-adjust: 100%;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        h1, h2, h3, h4, h5, h6, p, span, a, button {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
         button, a, input, select, textarea {
             touch-action: manipulation;
         }
         .custom-scrollbar {
             -webkit-overflow-scrolling: touch;
+        }
+
+        /* Mobile Safe Area & Thumb-Friendly Floating Controls */
+        :root {
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+        }
+        #ai-consultant-root {
+            bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+            right: calc(0.875rem + env(safe-area-inset-right, 0px));
+        }
+        @media (min-width: 640px) {
+            #ai-consultant-root {
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+        #mobile-sticky-bar {
+            bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+            left: calc(0.75rem + env(safe-area-inset-left, 0px));
+            right: calc(0.75rem + env(safe-area-inset-right, 0px));
+        }
+        #toast {
+            bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
         }
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
             .safe-bottom-padding {
@@ -223,7 +256,7 @@
          1. STICKY ARCHITECTURAL NAVBAR
          ========================================================================= -->
     <header class="sticky top-0 z-50 bg-alabaster/90 dark:bg-obsidian/90 backdrop-blur-md border-b border-borderLight dark:border-borderDark">
-        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Brand Mark & Live Availability -->
                 <div class="flex items-center gap-3 sm:gap-4 min-w-0">
@@ -428,7 +461,7 @@
          2B. SPECIAL DEALS & LIMITED OFFERS (PROMO STRATEGIS)
          ========================================================================= -->
     <section id="deals" class="reveal-on-scroll py-12 sm:py-16 lg:py-20 border-b border-borderLight dark:border-borderDark bg-surfaceLight/50 dark:bg-surfaceDark/50">
-        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
                 <div>
@@ -566,7 +599,7 @@
          3. SELECTED WORK SHOWCASE (FEATURED LIVE CASE STUDY)
          ========================================================================= -->
     <section id="work" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark">
-        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
                 <div>
@@ -846,7 +879,7 @@
                                     <p class="font-mono text-[11px] uppercase tracking-wider text-neutral-400" data-i18n="lhTechTitle">ARCHITECTURAL TECH STACK</p>
                                     <span class="font-mono text-[10px] px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5">PRODUCTION LIVE</span>
                                 </div>
-                                <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs">
                                     <div class="p-2.5 rounded-lg border border-borderLight dark:border-borderDark bg-alabaster dark:bg-obsidian">
                                         <span class="text-[10px] text-neutral-400 block mb-0.5">01 // CORE FRAMEWORK</span>
                                         <span class="font-bold text-neutral-900 dark:text-white">Next.js 14 / React</span>
@@ -1062,7 +1095,7 @@
          4. COMPREHENSIVE SERVICE & PRICING CATALOG
          ========================================================================= -->
     <section id="packages" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark">
-        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
                 <div>
@@ -1122,7 +1155,7 @@
          5. TRANSPARENT ADD-ONS & À LA CARTE CATALOG
          ========================================================================= -->
     <section id="addons" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark">
-        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
                 <div>
                     <p class="font-mono text-xs uppercase tracking-wider text-neutral-500 mb-2" data-i18n="addonEyebrow">04 — MODULAR ADD-ONS</p>
@@ -1144,7 +1177,7 @@
          5B. INTERACTIVE COST ESTIMATOR & SERVICE BUILDER
          ========================================================================= -->
     <section id="estimator" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark relative bg-surfaceLight/40 dark:bg-surfaceDark/40">
-        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
                 <div>
@@ -1448,7 +1481,7 @@
          6. WORKFLOW PROCESS, CLIENT CHECKLIST & FAQ
          ========================================================================= -->
     <section id="process" class="reveal-on-scroll py-12 sm:py-20 lg:py-24 border-b border-borderLight dark:border-borderDark">
-        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-12 gap-12 lg:gap-16">
                 <!-- Left Column (7 cols): 5-Step Workflow + Client Readiness Checklist -->
                 <div class="lg:col-span-7 space-y-12">
@@ -1493,7 +1526,7 @@
          7. INTERACTIVE PROJECT BRIEF & DIRECT WHATSAPP LAUNCHER
          ========================================================================= -->
     <section id="brief" class="reveal-on-scroll py-12 sm:py-20 lg:py-24">
-        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="rounded-2xl border border-borderLight dark:border-borderDark bg-surfaceLight dark:bg-surfaceDark overflow-hidden">
                 <div class="grid lg:grid-cols-12">
                     <!-- Left Info Panel -->
@@ -1723,7 +1756,7 @@
 
         <!-- AI Consultant Chat Window (Responsive Modal Panel / Mobile Drawer) -->
         <div id="ai-chat-window"
-             class="hidden flex-col fixed inset-x-3 bottom-3 sm:static sm:inset-x-auto sm:bottom-auto w-auto sm:w-[420px] max-h-[85vh] sm:max-h-[620px] h-[580px] bg-surfaceLight/98 dark:bg-surfaceDark/98 backdrop-blur-2xl border border-borderLight dark:border-borderDark rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 z-50">
+             class="hidden flex-col fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:static sm:inset-x-auto sm:bottom-auto w-auto sm:w-[420px] max-h-[85vh] sm:max-h-[620px] h-[580px] bg-surfaceLight/98 dark:bg-surfaceDark/98 backdrop-blur-2xl border border-borderLight dark:border-borderDark rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 z-50">
             
             <!-- Window Header -->
             <div class="px-4 py-3 border-b border-borderLight dark:border-borderDark bg-surfaceLight/80 dark:bg-surfaceDark/80 flex items-center justify-between shrink-0">
@@ -4515,7 +4548,7 @@ function renderPackages() {
                 if (isInEstimatorZone) {
                     bar.classList.remove('translate-y-28', 'opacity-0', 'pointer-events-none');
                     bar.classList.add('translate-y-0', 'opacity-100');
-                    if (aiRoot) aiRoot.style.bottom = '82px';
+                    if (aiRoot) aiRoot.style.bottom = 'calc(88px + env(safe-area-inset-bottom, 0px))';
                 } else {
                     bar.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
                     bar.classList.remove('translate-y-0', 'opacity-100');
