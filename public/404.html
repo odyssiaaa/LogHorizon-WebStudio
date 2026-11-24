@@ -4085,6 +4085,11 @@ function renderPackages() {
                     const data = await response.json();
                     let aiReply = data.reply || "";
 
+                    if (!aiReply) {
+                        if (data.error) throw new Error(data.error);
+                        aiReply = "Halo! Maaf, saya belum dapat memproses respon saat ini. Silakan ceritakan kembali atau hubungi kami via WhatsApp.";
+                    }
+
                     // Cek keberadaan kode [SHOW_WHATSAPP_BUTTON]
                     const hasWhatsappTrigger = aiReply.includes("[SHOW_WHATSAPP_BUTTON]");
                     // Hapus kode [SHOW_WHATSAPP_BUTTON] dari teks tampilan chat
@@ -4119,7 +4124,9 @@ function renderPackages() {
                     messagesContainer.insertAdjacentHTML('beforeend', replyHtml);
 
                 } else {
-                    throw new Error("HTTP " + response.status);
+                    const errData = await response.json().catch(() => null);
+                    const errMsg = errData?.error || errData?.message || ("HTTP " + response.status);
+                    throw new Error(errMsg);
                 }
 
             } catch (err) {
@@ -4132,7 +4139,7 @@ function renderPackages() {
                     <div class="flex items-start gap-2.5 max-w-[92%]">
                         <div class="w-7 h-7 rounded-lg bg-red-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">!</div>
                         <div class="p-3.5 rounded-2xl rounded-tl-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-800 dark:text-red-200 text-xs">
-                            Maaf, terjadi gangguan koneksi ke server AI. Anda dapat langsung mengklik <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" class="underline font-bold text-emerald-600">Konsultasi WhatsApp Langsung</a>.
+                            Maaf, terjadi gangguan koneksi ke server AI${err?.message ? ` (${escapeHtml(err.message)})` : ''}. Anda dapat langsung mengklik <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" class="underline font-bold text-emerald-600">Konsultasi WhatsApp Langsung</a>.
                         </div>
                     </div>
                 `;

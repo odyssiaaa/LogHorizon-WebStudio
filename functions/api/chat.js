@@ -9,9 +9,9 @@ export async function onRequestPost(context) {
 
     try {
         const body = await request.json();
-        const messages = body.messages || [];
+        const rawMessages = body.messages || [];
 
-        if (!Array.isArray(messages) || messages.length === 0) {
+        if (!Array.isArray(rawMessages) || rawMessages.length === 0) {
             return new Response(JSON.stringify({ error: "Messages array is required" }), {
                 status: 400,
                 headers: { ...corsHeaders, "Content-Type": "application/json" }
@@ -46,49 +46,63 @@ Prinsip & Panduan Percakapan:
    - Gunakan tag HTML <b>kata</b> untuk cetak tebal dan tag <i>kata</i> jika ingin memiringkan.
    - Pisahkan paragraf dengan baris baru yang rapi agar nyaman dibaca di layar HP.`;
 
-        // Format conversation history for @cf/cloudflare/clairic-flash
-        const conversation = [
+        // Format conversation history
+        const messages = [
             { role: "system", content: systemPrompt },
-            ...messages.map(m => ({
+            ...rawMessages.map(m => ({
                 role: m.role === "assistant" ? "assistant" : "user",
                 content: String(m.content || "")
             }))
         ];
 
-        // Access Cloudflare Workers AI via binding
-        if (env && env.AI) {
-            const aiResponse = await env.AI.run("@cf/cloudflare/clairic-flash", {
-                messages: conversation,
-                max_tokens: 600,
-                temperature: 0.65
-            });
-
-            let replyContent = aiResponse.response || aiResponse.text || "";
-            
-            // Clean any residual raw markdown symbols to clean HTML
-            replyContent = replyContent.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
-            replyContent = replyContent.replace(/#{1,6}\s+(.*?)(\n|$)/g, "<b>$1</b>$2");
-
-            return new Response(JSON.stringify({ 
-                reply: replyContent,
-                success: true 
-            }), {
-                headers: { ...corsHeaders, "Content-Type": "application/json" }
-            });
-        } else {
-            return new Response(JSON.stringify({
-                reply: "Halo! Saya konsultan web senior LogHorizonStudio. Senang bisa menyapa Anda! Boleh ceritakan ide atau rencana website seperti apa yang ingin Anda buat?",
-                success: true
-            }), {
-                headers: { ...corsHeaders, "Content-Type": "application/json" }
-            });
+        if (!context.env || !context.env.AI) {
+            throw new Error("Cloudflare Workers AI binding (context.env.AI) is not configured");
         }
+
+        let aiResponse;
+        try {
+            aiResponse = await context.env.AI.run('@cf/cloudflare/clairic-flash', { messages });
+            const checkContent = aiResponse?.response || aiResponse?.choices?.[0]?.message?.content || aiResponse?.text;
+            if (!checkContent || (typeof checkContent === "string" && !checkContent.trim())) {
+                throw new Error("Empty or incompatible response from @cf/cloudflare/clairic-flash");
+            }
+        } catch (firstErr) {
+            console.warn("Primary model error, falling back to @cf/meta/llama-3.1-8b-instruct:", firstErr?.message || firstErr);
+            aiResponse = await context.env.AI.run('@cf/meta/llama-3.1-8b-instruct', { messages });
+        }
+
+        // Safely parse AI response (supports response.response or OpenAI-compatible response.choices[0].message.content)
+        let replyContent = "";
+        if (typeof aiResponse === "string") {
+            replyContent = aiResponse;
+        } else if (aiResponse?.response) {
+            replyContent = typeof aiResponse.response === "string" ? aiResponse.response : JSON.stringify(aiResponse.response);
+        } else if (aiResponse?.choices?.[0]?.message?.content) {
+            replyContent = aiResponse.choices[0].message.content;
+        } else if (aiResponse?.text) {
+            replyContent = aiResponse.text;
+        } else if (aiResponse?.result?.response) {
+            replyContent = aiResponse.result.response;
+        } else if (aiResponse?.result) {
+            replyContent = typeof aiResponse.result === "string" ? aiResponse.result : JSON.stringify(aiResponse.result);
+        } else {
+            replyContent = JSON.stringify(aiResponse || "");
+        }
+
+        // Clean any residual raw markdown symbols to clean HTML
+        replyContent = replyContent.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+        replyContent = replyContent.replace(/#{1,6}\s+(.*?)(\n|$)/g, "<b>$1</b>$2");
+
+        return new Response(JSON.stringify({ 
+            reply: replyContent,
+            success: true 
+        }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
 
     } catch (err) {
         return new Response(JSON.stringify({ 
-            error: "Workers AI Execution Error", 
-            message: err.message,
-            reply: "Halo! Boleh ceritakan kebutuhan website Anda? Kami siap membantu merancang spesifikasi dan solusinya."
+            error: err.message || "Unknown error occurred"
         }), {
             status: 500,
             headers: { ...corsHeaders, "Content-Type": "application/json" }
