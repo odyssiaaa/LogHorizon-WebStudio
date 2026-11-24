@@ -4140,6 +4140,20 @@ function renderPackages() {
                     // Bersihkan formatting markdown menjadi tag HTML rapi
                     const formattedHtml = cleanAndFormatAiText(aiReply);
 
+                    // Format plain text khusus untuk parameter URL WhatsApp
+                    const plainTextSummary = aiReply
+                        .replace(/<br\s*\/?>/gi, '\n')
+                        .replace(/<\/?b>/gi, '*')
+                        .replace(/<\/?i>/gi, '_')
+                        .replace(/<\/?[^>]+(>|$)/g, '')
+                        .trim();
+
+                    const waHandoffMessage = "Halo LogHorizonStudio, saya telah berkonsultasi dengan AI Consultant di website dan ingin melanjutkan pemesanan dengan rangkuman berikut:\n\n" +
+                        plainTextSummary + "\n\n" +
+                        "Mohon informasi ketersediaan slot pengerjaan dan langkah selanjutnya. Terima kasih!";
+
+                    const waDirectUrl = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(waHandoffMessage);
+
                     const replyHtml = `
                         <div class="flex items-start gap-2.5 max-w-[92%] animate-in fade-in slide-in-from-bottom-2 duration-300">
                             <div class="w-7 h-7 rounded-lg bg-violet-600 text-white shrink-0 flex items-center justify-center text-[10px] font-bold font-mono">
@@ -4149,12 +4163,22 @@ function renderPackages() {
                                 <div class="text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">${formattedHtml}</div>
                                 
                                 ${hasWhatsappTrigger ? `
-                                    <div class="pt-2 border-t border-neutral-200 dark:border-neutral-700 animate-in fade-in duration-300">
-                                        <button type="button" onclick="checkoutViaWhatsApp()"
-                                                class="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer active:scale-95 select-none">
+                                    <div class="mt-3 p-3.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 dark:bg-emerald-500/15 space-y-2.5 animate-in fade-in duration-300 text-left">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold text-xs">
+                                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0"></i>
+                                                <span>Rangkuman Estimasi Siap</span>
+                                            </div>
+                                            <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-600/15 text-emerald-700 dark:text-emerald-300 font-semibold">Siap Order</span>
+                                        </div>
+                                        <p class="text-[11px] text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                                            Rincian estimasi di atas sudah dirangkum otomatis. Klik tombol di bawah untuk langsung terhubung ke WhatsApp resmi LogHorizonStudio membawa rangkuman ini:
+                                        </p>
+                                        <a href="${waDirectUrl}" target="_blank" rel="noopener noreferrer"
+                                           class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all active:scale-95 select-none cursor-pointer">
                                             <i data-lucide="message-square" class="w-4 h-4"></i>
-                                            <span>Lanjut Konsultasi & Order via WhatsApp</span>
-                                        </button>
+                                            <span>Lanjut Pemesanan via WhatsApp &rarr;</span>
+                                        </a>
                                     </div>
                                 ` : ''}
                             </div>
@@ -4189,13 +4213,25 @@ function renderPackages() {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        function checkoutViaWhatsApp() {
-            // Ambil pesan-pesan penting dari riwayat percakapan sesi
-            const userChats = aiMessagesHistory.filter(m => m.role === "user").map(m => m.content);
-            const userSummary = userChats.slice(-3).join(" -> ") || "Konsultasi Website";
+        function checkoutViaWhatsApp(customText) {
+            let summary = customText;
+            if (!summary) {
+                const lastAssistantMsg = [...aiMessagesHistory].reverse().find(m => m.role === "assistant");
+                if (lastAssistantMsg && lastAssistantMsg.content) {
+                    summary = lastAssistantMsg.content
+                        .replace(/<br\s*\/?>/gi, '\n')
+                        .replace(/<\/?b>/gi, '*')
+                        .replace(/<\/?i>/gi, '_')
+                        .replace(/<\/?[^>]+(>|$)/g, '')
+                        .trim();
+                } else {
+                    const userChats = aiMessagesHistory.filter(m => m.role === "user").map(m => m.content);
+                    summary = userChats.slice(-3).join(" -> ") || "Konsultasi Website";
+                }
+            }
 
             const message = "Halo LogHorizonStudio, saya telah berkonsultasi dengan fitur AI Project Consultant di website dan ingin melanjutkan pemesanan dengan detail berikut:\n\n" +
-                "📋 *Topik & Kebutuhan Proyek:*\n\"" + userSummary + "\"\n\n" +
+                summary + "\n\n" +
                 "Mohon panduan pengerjaan, ketersediaan slot, dan langkah pembayaran selanjutnya. Terima kasih!";
 
             const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
