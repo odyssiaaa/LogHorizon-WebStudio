@@ -580,33 +580,13 @@
                             </div>
                         </div>
 
-                        <!-- Step 3: Release Speed & Promo -->
-                        <div class="rounded-2xl border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark p-5 sm:p-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="font-mono text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400" data-i18n="step3Label">03 // KECEPATAN RILIS &amp; DISKON</span>
-                                <span class="font-mono text-[10px] text-cyan-600 dark:text-cyan-400">SLA GUARANTEE</span>
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                                <button type="button" id="speed-btn-standard" onclick="setSimSpeed('standard')"
-                                        class="text-left p-3.5 rounded-xl border transition-all cursor-pointer">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-xs font-bold text-neutral-900 dark:text-white" data-i18n="speedStdTitle">Standar (Normal)</span>
-                                        <span class="font-mono text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">Rp 0</span>
-                                    </div>
-                                    <p id="speed-std-desc" class="font-mono text-[11px] text-neutral-500 dark:text-neutral-400">3–4 Hari Kerja • QA Penuh</p>
-                                </button>
-                                <button type="button" id="speed-btn-express" onclick="setSimSpeed('express')"
-                                        class="text-left p-3.5 rounded-xl border transition-all cursor-pointer">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-xs font-bold text-neutral-900 dark:text-white" data-i18n="speedExpTitle">Express 48 Jam</span>
-                                        <span id="speed-exp-price" class="font-mono text-[11px] text-violet-600 dark:text-violet-400 font-semibold">+Rp 500.000</span>
-                                    </div>
-                                    <p class="font-mono text-[11px] text-neutral-500 dark:text-neutral-400" data-i18n="speedExpDesc">Prioritas Sprint • Rilis 48 Jam</p>
-                                </button>
-                            </div>
-
-                            <div class="pt-3 border-t border-borderLight dark:border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                                <label for="sim-promo-select" class="font-mono text-[11px] text-neutral-500 dark:text-neutral-400" data-i18n="promoLabel">KODE PROMO / SUBSIDI:</label>
+                        <!-- Step 3: Promo & Subsidy -->
+                        <div class="rounded-2xl border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-surfaceDark p-5 sm:p-6">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="font-mono text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400 block" data-i18n="promoLabel">KODE PROMO / SUBSIDI:</span>
+                                    <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400">STUDENT20 AKTIF UNTUK MAHASISWA &amp; ORMAWA</span>
+                                </div>
                                 <select id="sim-promo-select" onchange="setSimPromo(this.value)"
                                         class="min-h-[44px] px-3 py-2 rounded-lg border border-borderLight dark:border-white/10 bg-alabaster dark:bg-obsidian font-mono text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-violet-500">
                                     <option value="none" data-i18n="promoNoneOpt">Tanpa Promo (Harga Normal)</option>
@@ -1102,73 +1082,97 @@
         };
 
         // =====================================================================
-        // UNIFIED SIMULATOR & PRICING DATA
+        // UNIFIED SIMULATOR & PRICING DATA (5 PACKAGES + 6 ADD-ONS)
         // =====================================================================
         const SIM_PRESETS = [
             {
-                id: "bem",
-                badge: "LANDING // BEM",
-                nameId: "Landing Page / Portal BEM",
-                nameEn: "Landing Page / Student Org Portal",
-                descId: "Landing page konversi tinggi, info event & dokumen LPJ resmi.",
-                descEn: "High-conversion landing page, event portal & official LPJ docs.",
-                priceIdr: 950000,
-                priceUsd: 62,
-                days: 2,
-                defaultAddons: ["domain_org"]
+                id: "landing",
+                badge: "STARTER // 2–3 HARI",
+                badgeEn: "STARTER // 2–3 DAYS",
+                nameId: "Landing Page & UMKM",
+                nameEn: "Landing Page & SME",
+                descId: "1–3 halaman responsif, desain custom, Direct WhatsApp CTA, SEO dasar & Cloudflare Edge gratis selamanya.",
+                descEn: "1–3 responsive pages, custom UI, Direct WhatsApp CTA, basic SEO & free forever Cloudflare Edge hosting.",
+                priceIdr: 750000,
+                priceUsd: 49,
+                isFrom: false,
+                timelineId: "2–3 Hari Kerja",
+                timelineEn: "2–3 Business Days",
+                defaultAddons: []
             },
             {
-                id: "d2c",
-                badge: "E-COMMERCE // D2C",
-                nameId: "Toko Online D2C & Cek Ongkir",
-                nameEn: "D2C Online Store & Shipping",
-                descId: "Katalog produk, keranjang belanja & checkout direct WhatsApp.",
-                descEn: "Product catalog, shopping cart & direct WhatsApp checkout.",
-                priceIdr: 1800000,
-                priceUsd: 118,
-                days: 3,
-                defaultAddons: ["auto_ongkir"]
+                id: "bem",
+                badge: "ORMAWA // 3–4 HARI",
+                badgeEn: "CAMPUS // 3–4 DAYS",
+                nameId: "Ormawa & Event Hub",
+                nameEn: "Student Org & Event Hub",
+                descId: "Portal organisasi/turnamen, alur pendaftaran peserta, pengumuman, arsip dokumen/LPJ & bebas biaya server.",
+                descEn: "Organization/tournament portal, participant registration, announcements, LPJ archive & zero server fee.",
+                priceIdr: 1200000,
+                priceUsd: 78,
+                isFrom: false,
+                timelineId: "3–4 Hari Kerja",
+                timelineEn: "3–4 Business Days",
+                defaultAddons: []
             },
             {
                 id: "corporate",
-                badge: "CORPORATE // CMS",
-                nameId: "Company Profile PT & Institusi",
-                nameEn: "Corporate & Institution Profile",
-                descId: "Profil perusahaan resmi, layanan, portofolio & formulir kontak.",
-                descEn: "Official company profile, services, portfolio & inquiry form.",
-                priceIdr: 2200000,
-                priceUsd: 145,
-                days: 3,
-                defaultAddons: ["cms_news"]
+                badge: "PRO // 4–6 HARI",
+                badgeEn: "PRO // 4–6 DAYS",
+                nameId: "Company Profile Pro",
+                nameEn: "Company Profile Pro",
+                descId: "5–10 halaman korporat, formulir leads, Maps & Analytics, SEO on-page penuh & gratis domain .com tahun ke-1.",
+                descEn: "5–10 corporate pages, lead forms, Maps & Analytics, full on-page SEO & free .com domain (1st yr).",
+                priceIdr: 2500000,
+                priceUsd: 165,
+                isFrom: false,
+                timelineId: "4–6 Hari Kerja",
+                timelineEn: "4–6 Business Days",
+                defaultAddons: []
+            },
+            {
+                id: "d2c",
+                badge: "RETAIL // 5–8 HARI",
+                badgeEn: "RETAIL // 5–8 DAYS",
+                nameId: "Toko Online D2C",
+                nameEn: "D2C Online Store",
+                descId: "Katalog produk, shopping cart, kalkulator ongkir otomatis Nusantara & checkout WhatsApp / Payment Gateway.",
+                descEn: "Product catalog, shopping cart, automated domestic shipping calculator & WhatsApp / Payment Gateway.",
+                priceIdr: 3800000,
+                priceUsd: 245,
+                isFrom: false,
+                timelineId: "5–8 Hari Kerja",
+                timelineEn: "5–8 Business Days",
+                defaultAddons: []
             },
             {
                 id: "webapp",
-                badge: "SYSTEM // CUSTOM",
-                nameId: "Custom Web App / POS / GPS",
-                nameEn: "Custom Web App / POS / GPS",
-                descId: "Aplikasi operasional kasir POS, absensi GPS, atau sistem kustom.",
-                descEn: "Operational POS cashier, GPS attendance, or custom web app.",
-                priceIdr: 3500000,
-                priceUsd: 225,
-                days: 6,
+                badge: "CUSTOM // 2–4 MINGGU",
+                badgeEn: "CUSTOM // 2–4 WEEKS",
+                nameId: "Custom Web App / Platform",
+                nameEn: "Custom Web App / Platform",
+                descId: "Full-stack Next.js + Database, sistem Auth/Login member, Admin Dashboard & integrasi API/Webhook (seperti loghorizon.vercel.app).",
+                descEn: "Full-stack Next.js + Database, member Auth/Login, Admin Dashboard & API/Webhook integration (like loghorizon.vercel.app).",
+                priceIdr: 6500000,
+                priceUsd: 420,
+                isFrom: true,
+                timelineId: "2–4 Minggu",
+                timelineEn: "2–4 Weeks",
                 defaultAddons: []
             }
         ];
 
         const SIM_ADDONS = [
-            { id: "bem_bracket", nameId: "Sistem Registrasi & Bracket Turnamen", nameEn: "Tournament Registration & Bracket", priceIdr: 450000, priceUsd: 30, days: 1 },
-            { id: "bem_lpj", nameId: "Arsip Dokumen LPJ & E-Sertifikat", nameEn: "LPJ Archive & E-Certificate", priceIdr: 300000, priceUsd: 20, days: 1 },
-            { id: "auto_ongkir", nameId: "API Cek Ongkir Otomatis Nusantara", nameEn: "Automated Domestic Shipping API", priceIdr: 650000, priceUsd: 42, days: 1 },
-            { id: "payment_qris", nameId: "Payment Gateway (QRIS / VA)", nameEn: "Payment Gateway (QRIS / VA)", priceIdr: 1250000, priceUsd: 80, days: 2 },
-            { id: "cms_news", nameId: "CMS Update Berita / Artikel Mandiri", nameEn: "Self-Managed News/Blog CMS", priceIdr: 850000, priceUsd: 55, days: 1 },
-            { id: "multilang", nameId: "Multi-Bahasa (ID / EN)", nameEn: "Multi-Language (ID / EN)", priceIdr: 700000, priceUsd: 45, days: 1 },
-            { id: "domain_org", nameId: "Custom Domain .com / .id / .or.id", nameEn: "Custom Domain (.com / .id / .or.id)", priceIdr: 250000, priceUsd: 16, days: 0 },
-            { id: "biz_email", nameId: "Setup Email Bisnis Resmi", nameEn: "Official Business Email Setup", priceIdr: 350000, priceUsd: 24, days: 0 }
+            { id: "cms_self", nameId: "CMS Update Konten Mandiri", nameEn: "Self-Managed Content CMS", priceIdr: 600000, priceUsd: 39 },
+            { id: "ai_chatbot", nameId: "AI Consultant Chatbot", nameEn: "AI Consultant Chatbot", priceIdr: 850000, priceUsd: 55 },
+            { id: "multilang", nameId: "Multi-Bahasa ID / EN", nameEn: "Multi-Language ID / EN", priceIdr: 400000, priceUsd: 26 },
+            { id: "payment_qris", nameId: "Payment Gateway Otomatis (QRIS/VA)", nameEn: "Automated Payment Gateway (QRIS/VA)", priceIdr: 1000000, priceUsd: 65 },
+            { id: "domain_email", nameId: "Setup Domain .com / .id + Email Bisnis", nameEn: "Domain (.com / .id) + Business Email", priceIdr: 350000, priceUsd: 23 },
+            { id: "express_48h", nameId: "Express Delivery (Prioritas 48 Jam)", nameEn: "Express Delivery (48h Priority)", priceIdr: 500000, priceUsd: 32 }
         ];
 
-        let simPresetId = "bem";
-        let simSelectedAddons = new Set(["domain_org"]);
-        let simSpeed = "standard";
+        let simPresetId = "landing";
+        let simSelectedAddons = new Set();
         let simPromo = "none";
 
         function formatIdr(n) {
@@ -1188,7 +1192,7 @@
             if (el) el.scrollIntoView({ behavior: "smooth" });
 
             const name = currentLang === "id" ? preset.nameId : preset.nameEn;
-            showToast(currentLang === "id" ? `Preset "${name}" dimuat ke simulator` : `Preset "${name}" loaded`);
+            showToast(currentLang === "id" ? `Paket "${name}" dimuat ke simulator` : `Package "${name}" loaded`);
         }
 
         function toggleSimAddon(addonId) {
@@ -1200,20 +1204,14 @@
             renderSimulator();
         }
 
-        function setSimSpeed(speed) {
-            simSpeed = speed === "express" ? "express" : "standard";
-            renderSimulator();
-        }
-
         function setSimPromo(code) {
             simPromo = code || "none";
             renderSimulator();
         }
 
         function resetSimulator() {
-            simPresetId = "bem";
-            simSelectedAddons = new Set(["domain_org"]);
-            simSpeed = "standard";
+            simPresetId = "landing";
+            simSelectedAddons = new Set();
             simPromo = "none";
             const sel = document.getElementById("sim-promo-select");
             if (sel) sel.value = "none";
@@ -1222,21 +1220,25 @@
 
         function renderSimulator() {
             const preset = SIM_PRESETS.find(p => p.id === simPresetId) || SIM_PRESETS[0];
+            const isId = currentLang === "id";
 
-            // 1. Preset Grid
+            // 1. Preset Grid (5 main packages, spans neatly on mobile & desktop)
             const presetGrid = document.getElementById("sim-preset-grid");
             if (presetGrid) {
-                presetGrid.innerHTML = SIM_PRESETS.map(p => {
+                presetGrid.innerHTML = SIM_PRESETS.map((p, idx) => {
                     const active = p.id === simPresetId;
-                    const name = currentLang === "id" ? p.nameId : p.nameEn;
-                    const desc = currentLang === "id" ? p.descId : p.descEn;
-                    const price = currentLang === "id" ? formatIdr(p.priceIdr) : formatUsd(p.priceUsd);
+                    const name = isId ? p.nameId : p.nameEn;
+                    const desc = isId ? p.descId : p.descEn;
+                    const badge = isId ? p.badge : p.badgeEn;
+                    const pricePrefix = p.isFrom ? (isId ? "Mulai " : "From ") : "";
+                    const price = pricePrefix + (isId ? formatIdr(p.priceIdr) : formatUsd(p.priceUsd));
+                    const spanFull = idx === 4 ? "sm:col-span-2" : "";
                     return `
                         <button type="button" onclick="selectPresetOnly('${p.id}')"
-                                class="text-left p-4 rounded-xl border ${active ? 'border-violet-500 bg-violet-600/15 shadow-[0_0_20px_-8px_rgba(124,58,237,0.45)]' : 'border-borderLight dark:border-white/10 bg-alabaster/60 dark:bg-obsidian/70 hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50 dark:hover:bg-white/[0.03]'} transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2">
+                                class="${spanFull} min-h-[44px] text-left p-4 rounded-xl border ${active ? 'border-violet-500 bg-violet-600/15 shadow-[0_0_20px_-8px_rgba(124,58,237,0.45)]' : 'border-borderLight dark:border-white/10 bg-alabaster/60 dark:bg-obsidian/70 hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50 dark:hover:bg-white/[0.03]'} transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-1">
-                                    <span class="font-mono text-[10px] text-violet-600 dark:text-violet-400 font-bold">${p.badge}</span>
+                                    <span class="font-mono text-[10px] text-violet-600 dark:text-violet-400 font-bold">${badge}</span>
                                     <span class="font-mono text-xs font-bold text-neutral-900 dark:text-white">${price}</span>
                                 </div>
                                 <h4 class="font-bold text-sm text-neutral-900 dark:text-white mb-1">${name}</h4>
@@ -1247,16 +1249,16 @@
                 }).join("");
             }
 
-            // 2. Addons Grid
+            // 2. Addons Grid (6 modular add-ons)
             const addonsGrid = document.getElementById("sim-modules-grid");
             if (addonsGrid) {
                 addonsGrid.innerHTML = SIM_ADDONS.map(a => {
                     const checked = simSelectedAddons.has(a.id);
-                    const name = currentLang === "id" ? a.nameId : a.nameEn;
-                    const price = currentLang === "id" ? `+${formatIdr(a.priceIdr)}` : `+${formatUsd(a.priceUsd)}`;
+                    const name = isId ? a.nameId : a.nameEn;
+                    const price = isId ? `+${formatIdr(a.priceIdr)}` : `+${formatUsd(a.priceUsd)}`;
                     return `
                         <button type="button" onclick="toggleSimAddon('${a.id}')"
-                                class="text-left p-3.5 rounded-xl border ${checked ? 'border-violet-500 bg-violet-600/15' : 'border-borderLight dark:border-white/10 bg-alabaster/60 dark:bg-obsidian/70 hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50 dark:hover:bg-white/[0.03]'} flex items-center justify-between gap-3 transition-all duration-200 cursor-pointer">
+                                class="min-h-[44px] text-left p-3.5 rounded-xl border ${checked ? 'border-violet-500 bg-violet-600/15' : 'border-borderLight dark:border-white/10 bg-alabaster/60 dark:bg-obsidian/70 hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50 dark:hover:bg-white/[0.03]'} flex items-center justify-between gap-3 transition-all duration-200 cursor-pointer">
                             <div class="flex items-center gap-2.5 min-w-0">
                                 <span class="w-4 h-4 rounded border ${checked ? 'bg-violet-600 border-violet-500 text-white' : 'border-neutral-400 dark:border-white/25'} flex items-center justify-center shrink-0">
                                     ${checked ? '<i data-lucide="check" class="w-3 h-3"></i>' : ''}
@@ -1269,64 +1271,38 @@
                 }).join("");
             }
 
-            // 3. Totals & Speed
+            // 3. Totals & Timeline
             const activeAddons = SIM_ADDONS.filter(a => simSelectedAddons.has(a.id));
             const addonsIdr = activeAddons.reduce((s, a) => s + a.priceIdr, 0);
             const addonsUsd = activeAddons.reduce((s, a) => s + a.priceUsd, 0);
-            const addonsDays = activeAddons.reduce((s, a) => s + a.days, 0);
 
-            const expIdr = simSpeed === "express" ? 500000 : 0;
-            const expUsd = simSpeed === "express" ? 32 : 0;
-
-            const rawIdr = preset.priceIdr + addonsIdr + expIdr;
-            const rawUsd = preset.priceUsd + addonsUsd + expUsd;
+            const rawIdr = preset.priceIdr + addonsIdr;
+            const rawUsd = preset.priceUsd + addonsUsd;
 
             const discIdr = simPromo === "STUDENT20" ? Math.round(rawIdr * 0.2) : 0;
             const discUsd = simPromo === "STUDENT20" ? Math.round(rawUsd * 0.2) : 0;
 
             const totalIdr = Math.max(0, rawIdr - discIdr);
             const totalUsd = Math.max(0, rawUsd - discUsd);
-            const stdDays = preset.days + addonsDays;
-            const timelineStr = simSpeed === "express"
-                ? (currentLang === "id" ? "48 Jam (Express)" : "48 Hours (Express)")
-                : (currentLang === "id" ? `${stdDays} Hari Kerja` : `${stdDays} Business Days`);
-
-            // Speed buttons UI
-            const stdBtn = document.getElementById("speed-btn-standard");
-            const expBtn = document.getElementById("speed-btn-express");
-            const stdDesc = document.getElementById("speed-std-desc");
-            const expPriceEl = document.getElementById("speed-exp-price");
-            if (stdDesc) stdDesc.textContent = currentLang === "id" ? `${stdDays} Hari Kerja • QA Penuh` : `${stdDays} Business Days • Full QA`;
-            if (expPriceEl) expPriceEl.textContent = currentLang === "id" ? "+Rp 500.000" : "+$32";
-
-            if (stdBtn && expBtn) {
-                stdBtn.className = `text-left p-3.5 rounded-xl border transition-all cursor-pointer ${simSpeed === "standard" ? "border-violet-500 bg-violet-600/10" : "border-borderLight dark:border-white/[0.08] bg-alabaster/50 dark:bg-obsidian/60"}`;
-                expBtn.className = `text-left p-3.5 rounded-xl border transition-all cursor-pointer ${simSpeed === "express" ? "border-violet-500 bg-violet-600/10" : "border-borderLight dark:border-white/[0.08] bg-alabaster/50 dark:bg-obsidian/60"}`;
-            }
+            const isExpress = simSelectedAddons.has("express_48h");
+            const timelineStr = (isExpress && preset.id !== "webapp")
+                ? (isId ? "48 Jam (Express)" : "48 Hours (Express)")
+                : (isId ? preset.timelineId : preset.timelineEn);
 
             // 4. Right Slip Readout
-            document.getElementById("slip-base-name").textContent = currentLang === "id" ? preset.nameId : preset.nameEn;
-            document.getElementById("slip-base-price").textContent = currentLang === "id" ? formatIdr(preset.priceIdr) : formatUsd(preset.priceUsd);
+            document.getElementById("slip-base-name").textContent = isId ? preset.nameId : preset.nameEn;
+            document.getElementById("slip-base-price").textContent = isId ? formatIdr(preset.priceIdr) : formatUsd(preset.priceUsd);
 
             const slipAddons = document.getElementById("slip-addons-list");
-            if (activeAddons.length === 0 && simSpeed !== "express") {
-                slipAddons.innerHTML = `<li class="italic text-neutral-400">${currentLang === "id" ? "Tanpa modul tambahan" : "No additional modules"}</li>`;
+            if (activeAddons.length === 0) {
+                slipAddons.innerHTML = `<li class="italic text-neutral-400">${isId ? "Tanpa add-on tambahan" : "No additional add-ons"}</li>`;
             } else {
-                let rows = activeAddons.map(a => `
+                slipAddons.innerHTML = activeAddons.map(a => `
                     <li class="flex justify-between gap-2">
-                        <span class="truncate">+ ${currentLang === "id" ? a.nameId : a.nameEn}</span>
-                        <span class="shrink-0 text-neutral-900 dark:text-neutral-200">+${currentLang === "id" ? formatIdr(a.priceIdr) : formatUsd(a.priceUsd)}</span>
+                        <span class="truncate">+ ${isId ? a.nameId : a.nameEn}</span>
+                        <span class="shrink-0 text-neutral-900 dark:text-neutral-200">+${isId ? formatIdr(a.priceIdr) : formatUsd(a.priceUsd)}</span>
                     </li>
-                `);
-                if (simSpeed === "express") {
-                    rows.push(`
-                        <li class="flex justify-between gap-2 text-violet-600 dark:text-violet-400">
-                            <span>+ Express 48 Jam</span>
-                            <span>+${currentLang === "id" ? formatIdr(expIdr) : formatUsd(expUsd)}</span>
-                        </li>
-                    `);
-                }
-                slipAddons.innerHTML = rows.join("");
+                `).join("");
             }
 
             const discRow = document.getElementById("slip-discount-row");
@@ -1334,14 +1310,15 @@
             if (simPromo === "STUDENT20") {
                 discRow.classList.remove("hidden");
                 discRow.classList.add("flex");
-                discVal.textContent = currentLang === "id" ? `-${formatIdr(discIdr)}` : `-${formatUsd(discUsd)}`;
+                discVal.textContent = isId ? `-${formatIdr(discIdr)}` : `-${formatUsd(discUsd)}`;
             } else {
                 discRow.classList.add("hidden");
                 discRow.classList.remove("flex");
             }
 
-            document.getElementById("slip-total-price").textContent = currentLang === "id" ? formatIdr(totalIdr) : formatUsd(totalUsd);
-            document.getElementById("slip-dp-note").textContent = `DP 50%: ${currentLang === "id" ? formatIdr(Math.round(totalIdr * 0.5)) : formatUsd(Math.round(totalUsd * 0.5))}`;
+            const totalPrefix = preset.isFrom ? (isId ? "Mulai " : "From ") : "";
+            document.getElementById("slip-total-price").textContent = totalPrefix + (isId ? formatIdr(totalIdr) : formatUsd(totalUsd));
+            document.getElementById("slip-dp-note").textContent = `DP 50%: ${isId ? formatIdr(Math.round(totalIdr * 0.5)) : formatUsd(Math.round(totalUsd * 0.5))}`;
             document.getElementById("slip-timeline").textContent = timelineStr;
 
             if (window.lucide) lucide.createIcons();
@@ -1358,42 +1335,39 @@
             const preset = SIM_PRESETS.find(p => p.id === simPresetId) || SIM_PRESETS[0];
             const activeAddons = SIM_ADDONS.filter(a => simSelectedAddons.has(a.id));
             const isId = currentLang === "id";
-            const expCost = simSpeed === "express" ? (isId ? 500000 : 32) : 0;
             const baseCost = isId ? preset.priceIdr : preset.priceUsd;
             const addonsCost = activeAddons.reduce((s, a) => s + (isId ? a.priceIdr : a.priceUsd), 0);
-            const rawTotal = baseCost + addonsCost + expCost;
+            const rawTotal = baseCost + addonsCost;
             const disc = simPromo === "STUDENT20" ? Math.round(rawTotal * 0.2) : 0;
             const total = Math.max(0, rawTotal - disc);
             const fmt = isId ? formatIdr : formatUsd;
-            const days = preset.days + activeAddons.reduce((s, a) => s + a.days, 0);
-            const timeline = simSpeed === "express"
+            const isExpress = simSelectedAddons.has("express_48h");
+            const timeline = (isExpress && preset.id !== "webapp")
                 ? (isId ? "48 Jam (Express)" : "48 Hours (Express)")
-                : (isId ? `${days} Hari Kerja` : `${days} Business Days`);
+                : (isId ? preset.timelineId : preset.timelineEn);
 
             const addonText = activeAddons.length
                 ? activeAddons.map(a => `• ${isId ? a.nameId : a.nameEn} (+${fmt(isId ? a.priceIdr : a.priceUsd)})`).join("\n")
-                : (isId ? "• Tidak ada modul tambahan" : "• No additional modules");
+                : (isId ? "• Tidak ada add-on tambahan" : "• No additional add-ons");
 
             const msg = isId ? [
                 "Halo LogHorizonStudio, saya ingin memesan website dengan spesifikasi dari simulator:",
                 "",
-                `*Tipe Proyek:* ${preset.nameId} (${fmt(baseCost)})`,
-                `*Modul Tambahan:*\n${addonText}`,
-                `*Kecepatan Rilis:* ${simSpeed === "express" ? "Express 48 Jam (+Rp 500.000)" : "Standar"}`,
+                `*Paket Utama:* ${preset.nameId} (${preset.isFrom ? "Mulai " : ""}${fmt(baseCost)})`,
+                `*Add-Ons:*\n${addonText}`,
                 simPromo === "STUDENT20" ? `*Promo:* STUDENT20 (-${fmt(disc)})` : null,
-                `*Total Estimasi:* ${fmt(total)} (DP 50%: ${fmt(Math.round(total * 0.5))})`,
-                `*Estimasi Waktu:* ${timeline}`,
+                `*Total Estimasi:* ${preset.isFrom ? "Mulai " : ""}${fmt(total)} (DP 50%: ${fmt(Math.round(total * 0.5))})`,
+                `*Estimasi Rilis:* ${timeline}`,
                 "",
                 "Mohon informasi ketersediaan slot dan langkah selanjutnya. Terima kasih!"
             ].filter(Boolean).join("\n") : [
                 "Hello LogHorizonStudio, I would like to order a website with the following simulator specs:",
                 "",
-                `*Project Type:* ${preset.nameEn} (${fmt(baseCost)})`,
-                `*Add-on Modules:*\n${addonText}`,
-                `*Delivery Speed:* ${simSpeed === "express" ? "Express 48 Hours (+$32)" : "Standard"}`,
+                `*Base Package:* ${preset.nameEn} (${preset.isFrom ? "From " : ""}${fmt(baseCost)})`,
+                `*Add-Ons:*\n${addonText}`,
                 simPromo === "STUDENT20" ? `*Promo:* STUDENT20 (-${fmt(disc)})` : null,
-                `*Estimated Total:* ${fmt(total)} (50% Deposit: ${fmt(Math.round(total * 0.5))})`,
-                `*Estimated Timeline:* ${timeline}`,
+                `*Estimated Total:* ${preset.isFrom ? "From " : ""}${fmt(total)} (50% Deposit: ${fmt(Math.round(total * 0.5))})`,
+                `*Estimated Delivery:* ${timeline}`,
                 "",
                 "Please let me know slot availability and next steps. Thank you!"
             ].filter(Boolean).join("\n");
