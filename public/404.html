@@ -132,11 +132,13 @@
 
                 <div class="flex items-center gap-2 shrink-0">
                     <button id="lang-toggle" onclick="toggleLanguage()" title="Switch Language & Currency"
-                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-white/25 font-mono text-xs font-medium transition-colors cursor-pointer min-h-[36px]">
-                        ID · IDR
+                            class="px-2.5 py-1.5 rounded-lg border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-surfaceDark hover:border-purple-500/45 font-mono text-xs font-medium transition-colors cursor-pointer min-h-[40px] sm:min-h-[36px] inline-flex items-center gap-1.5">
+                        <span id="lang-pill-id" class="font-bold text-violet-600 dark:text-violet-400">ID</span>
+                        <span class="text-neutral-400 dark:text-neutral-600">|</span>
+                        <span id="lang-pill-en" class="text-neutral-500">EN</span>
                     </button>
                     <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme"
-                            class="p-2 rounded-lg border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-white/25 transition-colors cursor-pointer min-w-[36px] min-h-[36px] flex items-center justify-center">
+                            class="p-2 rounded-lg border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-surfaceDark hover:border-purple-500/45 transition-colors cursor-pointer min-w-[40px] min-h-[40px] sm:min-w-[36px] sm:min-h-[36px] flex items-center justify-center">
                         <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
                         <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
                     </button>
@@ -146,19 +148,43 @@
                         <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
                     </a>
                     <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu"
-                            class="md:hidden p-2 rounded-lg border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark min-w-[36px] min-h-[36px] flex items-center justify-center">
+                            class="md:hidden p-2 rounded-lg border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-surfaceDark min-w-[40px] min-h-[40px] flex items-center justify-center">
                         <i data-lucide="menu" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark px-4 py-3 space-y-1">
-            <a href="#standards" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-neutral-100 dark:hover:bg-white/[0.05]" data-i18n="navStandards">Standar</a>
-            <a href="#portfolio" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-neutral-100 dark:hover:bg-white/[0.05]" data-i18n="navPortfolio">Portofolio</a>
-            <a href="#simulator" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-neutral-100 dark:hover:bg-white/[0.05]" data-i18n="navSimulator">Simulasi &amp; Harga</a>
-            <a href="#workflow" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-neutral-100 dark:hover:bg-white/[0.05]" data-i18n="navWorkflow">Alur Kerja</a>
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-surfaceDark px-4 py-4 space-y-2 shadow-xl">
+            <a href="#standards" onclick="closeMobileMenu()" class="flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-white/[0.05] transition-colors">
+                <span data-i18n="navStandards">Standar</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <a href="#portfolio" onclick="closeMobileMenu()" class="flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-white/[0.05] transition-colors">
+                <span data-i18n="navPortfolio">Portofolio</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <a href="#simulator" onclick="closeMobileMenu()" class="flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-white/[0.05] transition-colors">
+                <span data-i18n="navSimulator">Simulasi &amp; Harga</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <a href="#workflow" onclick="closeMobileMenu()" class="flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl text-sm font-medium hover:bg-neutral-100 dark:hover:bg-white/[0.05] transition-colors">
+                <span data-i18n="navWorkflow">Alur Kerja</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+            </a>
+            <div class="pt-3 mt-2 border-t border-borderLight dark:border-white/10 flex items-center justify-between gap-2">
+                <button type="button" onclick="toggleLanguage()"
+                        class="flex-1 min-h-[44px] px-3 py-2 rounded-xl border border-borderLight dark:border-white/10 font-mono text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer">
+                    <i data-lucide="globe" class="w-3.5 h-3.5 text-violet-500"></i>
+                    <span id="mobile-lang-label">ID · IDR</span>
+                </button>
+                <a href="#simulator" onclick="closeMobileMenu()"
+                   class="flex-1 min-h-[44px] px-3 py-2 rounded-xl bg-violet-600 text-white text-xs font-bold flex items-center justify-center gap-1.5">
+                    <span data-i18n="navCta">Mulai Simulasi</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
         </div>
     </header>
 
@@ -318,18 +344,18 @@
                 <!-- Zero-Cost Hosting Architecture Proof -->
                 <div class="py-4 border-t border-borderLight dark:border-white/10 grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="p-3.5 rounded-xl border border-borderLight dark:border-white/10 bg-alabaster/60 dark:bg-obsidian/60 flex items-center justify-between gap-3">
-                        <div>
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-neutral-500 block">HOSTING KONVENSIONAL (cPanel / VPS)</span>
-                            <span class="text-xs text-neutral-600 dark:text-neutral-400">Rawan lambat &amp; biaya perpanjangan naik tiap tahun</span>
+                        <div class="min-w-0">
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-neutral-500 block" data-i18n="hostOldTitle">HOSTING KONVENSIONAL (cPanel / VPS)</span>
+                            <span class="text-xs text-neutral-600 dark:text-neutral-400" data-i18n="hostOldDesc">Rawan lambat &amp; biaya perpanjangan naik tiap tahun</span>
                         </div>
-                        <span class="font-mono text-xs font-bold text-neutral-500 line-through shrink-0">Rp 1,8–4,2 Jt/thn</span>
+                        <span class="font-mono text-xs font-bold text-neutral-500 line-through shrink-0" data-i18n="hostOldPrice">Rp 1,8–4,2 Jt/thn</span>
                     </div>
                     <div class="p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-500/[0.06] flex items-center justify-between gap-3">
-                        <div>
-                            <span class="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold block">ARSITEKTUR LOGHORIZON (CLOUDFLARE EDGE)</span>
-                            <span class="text-xs text-neutral-700 dark:text-neutral-200">300+ Edge Node Global, Auto SSL &amp; Proteksi DDoS</span>
+                        <div class="min-w-0">
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold block" data-i18n="hostNewTitle">ARSITEKTUR LOGHORIZON (CLOUDFLARE EDGE)</span>
+                            <span class="text-xs text-neutral-700 dark:text-neutral-200" data-i18n="hostNewDesc">300+ Edge Node Global, Auto SSL &amp; Proteksi DDoS</span>
                         </div>
-                        <span class="font-mono text-xs font-extrabold text-emerald-600 dark:text-emerald-400 shrink-0">Rp 0 / bulan</span>
+                        <span class="font-mono text-xs font-extrabold text-emerald-600 dark:text-emerald-400 shrink-0" data-i18n="hostNewPrice">Rp 0 / bulan</span>
                     </div>
                 </div>
             </div>
@@ -346,8 +372,8 @@
                         <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white mb-2" data-i18n="portTitle">
                             Portofolio &amp; Hasil Rekayasa Web Klien
                         </h2>
-                        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                            Dari landing page berkecepatan tinggi hingga <strong class="text-neutral-900 dark:text-white">custom web application</strong> dengan real-time status, manajemen akun member, dan marketplace — seluruh sistem teruji di produksi.
+                        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed" data-i18n="portSubtitle">
+                            Dari landing page berkecepatan tinggi hingga custom web application dengan real-time status, manajemen akun member, dan marketplace — seluruh sistem teruji di produksi.
                         </p>
                     </div>
                     <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer"
@@ -376,12 +402,12 @@
                                 LogHorizon Platform (All-Game Community &amp; Tournament Ecosystem)
                             </h3>
 
-                            <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                                Bukti nyata kapabilitas rekayasa web kompleks—menghandle sistem turnamen interaktif, marketplace komunitas, sistem profil, dan integrasi API <em>real-time</em> dalam satu platform berkecepatan tinggi.
+                            <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed" data-i18n="featDesc">
+                                Bukti nyata kapabilitas rekayasa web kompleks—menghandle sistem turnamen interaktif, marketplace komunitas, sistem profil, dan integrasi API real-time dalam satu platform berkecepatan tinggi.
                             </p>
 
-                            <p class="text-[11px] sm:text-xs font-mono text-neutral-600 dark:text-neutral-300 leading-relaxed pt-2 border-t border-borderLight dark:border-white/10">
-                                <span class="text-violet-600 dark:text-violet-400 font-semibold">[PROOF OF CAPABILITY]</span> &ldquo;Jika kami bisa membangun dan mengoperasikan platform game skala besar ini secara mandiri, bayangkan apa yang bisa kami buat untuk bisnis atau brand Anda.&rdquo;
+                            <p class="text-[11px] sm:text-xs font-mono text-neutral-600 dark:text-neutral-300 leading-relaxed pt-2 border-t border-borderLight dark:border-white/10" data-i18n="featProof">
+                                [PROOF OF CAPABILITY] &ldquo;Jika kami bisa membangun dan mengoperasikan platform game skala besar ini secara mandiri, bayangkan apa yang bisa kami buat untuk bisnis atau brand Anda.&rdquo;
                             </p>
 
                             <div class="flex flex-wrap items-center gap-2 pt-1">
@@ -396,12 +422,12 @@
 
                         <div class="lg:col-span-4 flex flex-col gap-2.5 lg:items-end">
                             <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer"
-                               class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-sans text-xs sm:text-sm font-bold transition-colors shadow-[0_0_24px_-6px_rgba(124,58,237,0.6)]">
-                                <span>Lihat Live Platform &#8599;</span>
+                               class="w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-sans text-xs sm:text-sm font-bold transition-colors shadow-[0_0_24px_-6px_rgba(124,58,237,0.6)]">
+                                <span data-i18n="featLiveBtn">Lihat Live Platform &#8599;</span>
                             </a>
                             <button type="button" onclick="selectSimulatorPreset('webapp')"
-                                    class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-borderLight dark:border-white/15 hover:border-purple-500/50 hover:text-violet-600 dark:hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
-                                <span>Simulasikan Custom Web App</span>
+                                    class="w-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-borderLight dark:border-white/15 hover:border-purple-500/50 hover:text-violet-600 dark:hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                                <span data-i18n="featSimBtn">Simulasikan Custom Web App</span>
                                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                             </button>
                         </div>
@@ -421,23 +447,23 @@
                                     LPJ Ready
                                 </span>
                             </div>
-                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2">Portal Organisasi &amp; Turnamen BEM</h3>
-                            <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5">
+                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2" data-i18n="c1Title">Portal Organisasi &amp; Turnamen BEM</h3>
+                            <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5" data-i18n="c1Desc">
                                 Portal pusat informasi kegiatan, pendaftaran delegasi turnamen, dan arsip dokumen LPJ resmi kampus.
                             </p>
                             <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/10 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                                 <div class="flex justify-between">
-                                    <span>ARSITEKTUR</span>
+                                    <span data-i18n="c1Meta1Label">ARSITEKTUR</span>
                                     <span class="text-neutral-900 dark:text-white font-semibold">Cloudflare Edge</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span>BIAYA SERVER</span>
-                                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold">Gratis Selamanya</span>
+                                    <span data-i18n="c1Meta2Label">BIAYA SERVER</span>
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold" data-i18n="c1Meta2Val">Gratis Selamanya</span>
                                 </div>
                             </div>
                         </div>
                         <button type="button" onclick="selectSimulatorPreset('bem')"
-                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                                class="mt-5 w-full min-h-[44px] inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
                             <span data-i18n="simBtnLabel">Simulasikan Proyek Ini</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
@@ -455,14 +481,14 @@
                                     99/100 Speed
                                 </span>
                             </div>
-                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2">Toko Online D2C &amp; Cek Ongkir</h3>
-                            <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5">
+                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2" data-i18n="c2Title">Toko Online D2C &amp; Cek Ongkir</h3>
+                            <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5" data-i18n="c2Desc">
                                 Katalog ritel modern dengan keranjang instan, kalkulator ongkir otomatis nusantara, dan checkout WhatsApp.
                             </p>
                             <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/10 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                                 <div class="flex justify-between">
-                                    <span>FITUR</span>
-                                    <span class="text-neutral-900 dark:text-white font-semibold">Auto Ongkir + Cart</span>
+                                    <span data-i18n="c2Meta1Label">FITUR</span>
+                                    <span class="text-neutral-900 dark:text-white font-semibold" data-i18n="c2Meta1Val">Auto Ongkir + Cart</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span>SPEED INDEX</span>
@@ -471,7 +497,7 @@
                             </div>
                         </div>
                         <button type="button" onclick="selectSimulatorPreset('d2c')"
-                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                                class="mt-5 w-full min-h-[44px] inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
                             <span data-i18n="simBtnLabel">Simulasikan Proyek Ini</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
@@ -489,8 +515,8 @@
                                     Admin Ready
                                 </span>
                             </div>
-                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2">Company Profile PT &amp; Institusi</h3>
-                            <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5">
+                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2" data-i18n="c3Title">Company Profile PT &amp; Institusi</h3>
+                            <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5" data-i18n="c3Desc">
                                 Profil korporat resmi dengan CMS update berita mandiri, multi-bahasa ID/EN, dan email bisnis resmi.
                             </p>
                             <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/10 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
@@ -499,13 +525,13 @@
                                     <span class="text-neutral-900 dark:text-white font-semibold">Admin Dashboard</span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span>DOKUMEN</span>
-                                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold">MoU &amp; Invoice Resmi</span>
+                                    <span data-i18n="c3Meta2Label">DOKUMEN</span>
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold" data-i18n="c3Meta2Val">MoU &amp; Invoice Resmi</span>
                                 </div>
                             </div>
                         </div>
                         <button type="button" onclick="selectSimulatorPreset('corporate')"
-                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                                class="mt-5 w-full min-h-[44px] inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
                             <span data-i18n="simBtnLabel">Simulasikan Proyek Ini</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
@@ -580,11 +606,11 @@
                             </div>
 
                             <div class="pt-3 border-t border-borderLight dark:border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                                <label for="sim-promo-select" class="font-mono text-[11px] text-neutral-500 dark:text-neutral-400">KODE PROMO / SUBSIDI:</label>
+                                <label for="sim-promo-select" class="font-mono text-[11px] text-neutral-500 dark:text-neutral-400" data-i18n="promoLabel">KODE PROMO / SUBSIDI:</label>
                                 <select id="sim-promo-select" onchange="setSimPromo(this.value)"
-                                        class="px-3 py-2 rounded-lg border border-borderLight dark:border-white/[0.08] bg-alabaster dark:bg-obsidian font-mono text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-violet-500">
-                                    <option value="none">Tanpa Promo (Harga Normal)</option>
-                                    <option value="STUDENT20">STUDENT20 — Diskon 20% Mahasiswa / BEM</option>
+                                        class="min-h-[44px] px-3 py-2 rounded-lg border border-borderLight dark:border-white/10 bg-alabaster dark:bg-obsidian font-mono text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-violet-500">
+                                    <option value="none" data-i18n="promoNoneOpt">Tanpa Promo (Harga Normal)</option>
+                                    <option value="STUDENT20" data-i18n="promoStudentOpt">STUDENT20 — Diskon 20% Mahasiswa / BEM</option>
                                 </select>
                             </div>
                         </div>
@@ -719,57 +745,57 @@
                     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6">
                         <div>
                             <p class="font-mono text-[11px] uppercase tracking-wider text-violet-600 dark:text-violet-400 mb-1">04 // FREQUENTLY ASKED</p>
-                            <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Pertanyaan Umum</h3>
+                            <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white" data-i18n="faqTitle">Pertanyaan Umum</h3>
                         </div>
-                        <span class="font-mono text-[10px] text-neutral-500">KLIK UNTUK DETAIL</span>
+                        <span class="font-mono text-[10px] text-neutral-500" data-i18n="faqHint">KLIK UNTUK DETAIL</span>
                     </div>
 
                     <div class="divide-y divide-borderLight dark:divide-white/10 border-t border-b border-borderLight dark:border-white/10">
                         <div class="faq-item">
-                            <button type="button" onclick="toggleFaqItem(0)" class="w-full py-4 flex items-center justify-between gap-4 text-left cursor-pointer group">
-                                <span class="font-sans text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                            <button type="button" onclick="toggleFaqItem(0)" class="w-full py-4 min-h-[44px] flex items-center justify-between gap-4 text-left cursor-pointer group">
+                                <span class="font-sans text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors" data-i18n="faqQ0">
                                     Berapa lama waktu pengerjaan website hingga siap tayang?
                                 </span>
                                 <i data-lucide="plus" id="faq-icon-0" class="w-4 h-4 text-neutral-500 shrink-0 transition-transform duration-200"></i>
                             </button>
-                            <div id="faq-body-0" class="hidden pb-4 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                                Paket standar (Landing Page, Portal BEM, Company Profile) selesai dalam <strong>2–4 hari kerja</strong>. Untuk kebutuhan mendesak, tersedia opsi <strong>Express 48 Jam</strong> langsung di simulator.
+                            <div id="faq-body-0" class="hidden pb-4 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed" data-i18n="faqA0">
+                                Paket standar (Landing Page, Portal BEM, Company Profile) selesai dalam 2–4 hari kerja. Untuk kebutuhan mendesak, tersedia opsi Express 48 Jam langsung di simulator.
                             </div>
                         </div>
 
                         <div class="faq-item">
-                            <button type="button" onclick="toggleFaqItem(1)" class="w-full py-4 flex items-center justify-between gap-4 text-left cursor-pointer group">
-                                <span class="font-sans text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                            <button type="button" onclick="toggleFaqItem(1)" class="w-full py-4 min-h-[44px] flex items-center justify-between gap-4 text-left cursor-pointer group">
+                                <span class="font-sans text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors" data-i18n="faqQ1">
                                     Apakah benar bebas biaya server / hosting bulanan?
                                 </span>
                                 <i data-lucide="plus" id="faq-icon-1" class="w-4 h-4 text-neutral-500 shrink-0 transition-transform duration-200"></i>
                             </button>
-                            <div id="faq-body-1" class="hidden pb-4 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                                Ya. Website dibangun dengan arsitektur Edge modern di atas Cloudflare Pages sehingga biaya server/hosting <strong>Rp 0 selamanya</strong>. Anda hanya membayar perpanjangan nama domain tahunan jika memilih domain berbayar (`.com`, `.id`, `.or.id`).
+                            <div id="faq-body-1" class="hidden pb-4 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed" data-i18n="faqA1">
+                                Ya. Website dibangun dengan arsitektur Edge modern di atas Cloudflare Pages sehingga biaya server/hosting Rp 0 selamanya. Anda hanya membayar perpanjangan nama domain tahunan jika memilih domain berbayar (.com, .id, .or.id).
                             </div>
                         </div>
 
                         <div class="faq-item">
-                            <button type="button" onclick="toggleFaqItem(2)" class="w-full py-4 flex items-center justify-between gap-4 text-left cursor-pointer group">
-                                <span class="font-sans text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                            <button type="button" onclick="toggleFaqItem(2)" class="w-full py-4 min-h-[44px] flex items-center justify-between gap-4 text-left cursor-pointer group">
+                                <span class="font-sans text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors" data-i18n="faqQ2">
                                     Bagaimana skema pembayaran 50/50 Milestone bekerja?
                                 </span>
                                 <i data-lucide="plus" id="faq-icon-2" class="w-4 h-4 text-neutral-500 shrink-0 transition-transform duration-200"></i>
                             </button>
-                            <div id="faq-body-2" class="hidden pb-4 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                                Anda cukup membayar <strong>DP 50%</strong> untuk memulai sprint pengerjaan. Pelunasan <strong>50% sisanya</strong> baru dilakukan setelah Anda memeriksa dan menyetujui Live Preview di tautan staging kami.
+                            <div id="faq-body-2" class="hidden pb-4 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed" data-i18n="faqA2">
+                                Anda cukup membayar DP 50% untuk memulai sprint pengerjaan. Pelunasan 50% sisanya baru dilakukan setelah Anda memeriksa dan menyetujui Live Preview di tautan staging kami.
                             </div>
                         </div>
 
                         <div class="faq-item">
-                            <button type="button" onclick="toggleFaqItem(3)" class="w-full py-4 flex items-center justify-between gap-4 text-left cursor-pointer group">
-                                <span class="font-sans text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                            <button type="button" onclick="toggleFaqItem(3)" class="w-full py-4 min-h-[44px] flex items-center justify-between gap-4 text-left cursor-pointer group">
+                                <span class="font-sans text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors" data-i18n="faqQ3">
                                     Apakah ada garansi perbaikan setelah website dirilis?
                                 </span>
                                 <i data-lucide="plus" id="faq-icon-3" class="w-4 h-4 text-neutral-500 shrink-0 transition-transform duration-200"></i>
                             </button>
-                            <div id="faq-body-3" class="hidden pb-4 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                                Setiap proyek dilindungi <strong>Garansi Bug 30 Hari</strong> pasca-rilis secara gratis, termasuk bantuan teknis deployment dan serah terima penuh akses repositori/domain.
+                            <div id="faq-body-3" class="hidden pb-4 text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed" data-i18n="faqA3">
+                                Setiap proyek dilindungi Garansi Bug 30 Hari pasca-rilis secara gratis, termasuk bantuan teknis deployment dan serah terima penuh akses repositori/domain.
                             </div>
                         </div>
                     </div>
@@ -781,7 +807,7 @@
     <!-- =========================================================================
          MINIMALIST FOOTER (WITH ADSENSE-REQUIRED PRIVACY POLICY & TERMS)
          ========================================================================= -->
-    <footer class="border-t border-borderLight dark:border-white/[0.08] py-8 bg-surfaceLight/50 dark:bg-surfaceDark/50">
+    <footer class="border-t border-borderLight dark:border-white/10 py-8 pb-24 sm:pb-8 bg-surfaceLight/50 dark:bg-surfaceDark/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <div class="flex items-center gap-2.5">
                 <img src="logo.png" alt="LogHorizonStudio" class="h-5 w-auto object-contain" />
@@ -958,7 +984,44 @@
                 wf3Desc: "Penyesuaian tata letak, konten, serta pengujian kecepatan dan responsivitas lintas perangkat.",
                 wf4Title: "Serah Terima",
                 wf4Desc: "Pelunasan 50%, aktivasi domain resmi, dan serah terima akses penuh beserta garansi maintenance 30 hari.",
-                footerSim: "Simulasi Harga"
+                footerSim: "Simulasi Harga",
+                hostOldTitle: "HOSTING KONVENSIONAL (cPanel / VPS)",
+                hostOldDesc: "Rawan lambat & biaya perpanjangan naik tiap tahun",
+                hostOldPrice: "Rp 1,8–4,2 Jt/thn",
+                hostNewTitle: "ARSITEKTUR LOGHORIZON (CLOUDFLARE EDGE)",
+                hostNewDesc: "300+ Edge Node Global, Auto SSL & Proteksi DDoS",
+                hostNewPrice: "Rp 0 / bulan",
+                portSubtitle: "Dari landing page berkecepatan tinggi hingga custom web application dengan real-time status, manajemen akun member, dan marketplace — seluruh sistem teruji di produksi.",
+                featDesc: "Bukti nyata kapabilitas rekayasa web kompleks—menghandle sistem turnamen interaktif, marketplace komunitas, sistem profil, dan integrasi API real-time dalam satu platform berkecepatan tinggi.",
+                featProof: "[PROOF OF CAPABILITY] \"Jika kami bisa membangun dan mengoperasikan platform game skala besar ini secara mandiri, bayangkan apa yang bisa kami buat untuk bisnis atau brand Anda.\"",
+                featLiveBtn: "Lihat Live Platform ↗",
+                featSimBtn: "Simulasikan Custom Web App",
+                c1Title: "Portal Organisasi & Turnamen BEM",
+                c1Desc: "Portal pusat informasi kegiatan, pendaftaran delegasi turnamen, dan arsip dokumen LPJ resmi kampus.",
+                c1Meta1Label: "ARSITEKTUR",
+                c1Meta2Label: "BIAYA SERVER",
+                c1Meta2Val: "Gratis Selamanya",
+                c2Title: "Toko Online D2C & Cek Ongkir",
+                c2Desc: "Katalog ritel modern dengan keranjang instan, kalkulator ongkir otomatis nusantara, dan checkout WhatsApp.",
+                c2Meta1Label: "FITUR",
+                c2Meta1Val: "Auto Ongkir + Cart",
+                c3Title: "Company Profile PT & Institusi",
+                c3Desc: "Profil korporat resmi dengan CMS update berita mandiri, multi-bahasa ID/EN, dan email bisnis resmi.",
+                c3Meta2Label: "DOKUMEN",
+                c3Meta2Val: "MoU & Invoice Resmi",
+                promoLabel: "KODE PROMO / SUBSIDI:",
+                promoNoneOpt: "Tanpa Promo (Harga Normal)",
+                promoStudentOpt: "STUDENT20 — Diskon 20% Mahasiswa / BEM",
+                faqTitle: "Pertanyaan Umum",
+                faqHint: "KLIK UNTUK DETAIL",
+                faqQ0: "Berapa lama waktu pengerjaan website hingga siap tayang?",
+                faqA0: "Paket standar (Landing Page, Portal BEM, Company Profile) selesai dalam 2–4 hari kerja. Untuk kebutuhan mendesak, tersedia opsi Express 48 Jam langsung di simulator.",
+                faqQ1: "Apakah benar bebas biaya server / hosting bulanan?",
+                faqA1: "Ya. Website dibangun dengan arsitektur Edge modern di atas Cloudflare Pages sehingga biaya server/hosting Rp 0 selamanya. Anda hanya membayar perpanjangan nama domain tahunan jika memilih domain berbayar (.com, .id, .or.id).",
+                faqQ2: "Bagaimana skema pembayaran 50/50 Milestone bekerja?",
+                faqA2: "Anda cukup membayar DP 50% untuk memulai sprint pengerjaan. Pelunasan 50% sisanya baru dilakukan setelah Anda memeriksa dan menyetujui Live Preview di tautan staging kami.",
+                faqQ3: "Apakah ada garansi perbaikan setelah website dirilis?",
+                faqA3: "Setiap proyek dilindungi Garansi Bug 30 Hari pasca-rilis secara gratis, termasuk bantuan teknis deployment dan serah terima penuh akses repositori/domain."
             },
             en: {
                 navStandards: "Standards",
@@ -967,9 +1030,9 @@
                 navWorkflow: "Workflow",
                 navCta: "Start Simulator",
                 heroEyebrow: "WEB ENGINEERING // CLOUDFLARE EDGE",
-                heroTitle: "Precision Web Architecture for Business, D2C & Institutions.",
-                heroSubtitle: "Launch 99/100 speed websites with zero monthly server fees. Simulate modules and calculate transparent project costs in 30 seconds.",
-                heroPrimaryCta: "Start Cost Simulator",
+                heroTitle: "Engineering-Grade Web Solutions for Modern Brands & Communities.",
+                heroSubtitle: "We don't just build ordinary websites—LogHorizonStudio engineers high-speed digital assets on Cloudflare Edge with TLS 1.3 security and top-tier SEO.",
+                heroPrimaryCta: "Simulate Cost Estimate",
                 heroSecondaryCta: "View Portfolio",
                 trust1: "100% Cloudflare Edge Uptime",
                 trust2: "2–4 Days Launch",
@@ -987,7 +1050,7 @@
                 speedExpDesc: "Priority Sprint • 48h Launch",
                 slipTitle: "Estimation Summary",
                 totalEstLabel: "ESTIMATED INVESTMENT",
-                orderWaBtn: "Order This Specification via WhatsApp",
+                orderWaBtn: "Send Specification to Studio WhatsApp",
                 wfTitle: "4-Step Delivery Workflow",
                 wf1Title: "Briefing & 50% Deposit",
                 wf1Desc: "Send your simulator specs via WhatsApp, confirm assets, and start the sprint with a 50% deposit.",
@@ -997,7 +1060,44 @@
                 wf3Desc: "Refinement of layout, copy, and cross-device speed and responsiveness verification.",
                 wf4Title: "Handover",
                 wf4Desc: "Final 50% settlement, official domain activation, full handover, and 30-day bug warranty.",
-                footerSim: "Cost Simulator"
+                footerSim: "Cost Simulator",
+                hostOldTitle: "LEGACY HOSTING (cPanel / VPS)",
+                hostOldDesc: "Prone to slowdowns & rising annual renewal fees",
+                hostOldPrice: "$120–$280/yr",
+                hostNewTitle: "LOGHORIZON ARCHITECTURE (CLOUDFLARE EDGE)",
+                hostNewDesc: "300+ Global Edge Nodes, Auto SSL & DDoS Protection",
+                hostNewPrice: "$0 / month",
+                portSubtitle: "From high-speed landing pages to custom web applications with real-time status, member accounts, and marketplaces — battle-tested in production.",
+                featDesc: "Real proof of complex web engineering—handling interactive tournament systems, community marketplaces, member profiles, and real-time APIs in one high-speed platform.",
+                featProof: "[PROOF OF CAPABILITY] \"If we can build and operate this large-scale gaming platform independently, imagine what we can engineer for your business or brand.\"",
+                featLiveBtn: "View Live Platform ↗",
+                featSimBtn: "Simulate Custom Web App",
+                c1Title: "Student Org & Tournament Portal",
+                c1Desc: "Central activity hub, tournament delegation registration, and official campus LPJ document archive.",
+                c1Meta1Label: "ARCHITECTURE",
+                c1Meta2Label: "SERVER COST",
+                c1Meta2Val: "Free Forever",
+                c2Title: "D2C Online Store & Shipping Calc",
+                c2Desc: "Modern retail catalog with instant cart, automated domestic shipping calculator, and WhatsApp checkout.",
+                c2Meta1Label: "FEATURES",
+                c2Meta1Val: "Auto Shipping + Cart",
+                c3Title: "Corporate & Institution Profile",
+                c3Desc: "Official company profile with self-managed news CMS, ID/EN multi-language, and business email.",
+                c3Meta2Label: "DOCUMENTS",
+                c3Meta2Val: "Official MoU & Invoice",
+                promoLabel: "PROMO / SUBSIDY CODE:",
+                promoNoneOpt: "No Promo (Standard Rate)",
+                promoStudentOpt: "STUDENT20 — 20% Student / Org Discount",
+                faqTitle: "Frequently Asked Questions",
+                faqHint: "CLICK FOR DETAILS",
+                faqQ0: "How long does it take to build and launch a website?",
+                faqA0: "Standard packages (Landing Page, Org Portal, Company Profile) launch within 2–4 business days. For urgent launches, an Express 48-Hour option is available in the simulator.",
+                faqQ1: "Is there really zero monthly server or hosting fee?",
+                faqA1: "Yes. Sites are deployed on modern Cloudflare Pages Edge architecture, meaning $0/month hosting forever. You only pay annual domain renewal if you choose a custom paid domain (.com, .id, .or.id).",
+                faqQ2: "How does the 50/50 Milestone payment work?",
+                faqA2: "You pay a 50% deposit to start the engineering sprint. The remaining 50% is only settled after you inspect and approve the Live Preview on our staging URL.",
+                faqQ3: "Is there a bug warranty after launch?",
+                faqA3: "Every project includes a free 30-Day Bug Warranty post-launch, along with deployment assistance and full repository/domain handover."
             }
         };
 
@@ -1257,28 +1357,45 @@
         function checkoutSimulatorWhatsApp() {
             const preset = SIM_PRESETS.find(p => p.id === simPresetId) || SIM_PRESETS[0];
             const activeAddons = SIM_ADDONS.filter(a => simSelectedAddons.has(a.id));
-            const expIdr = simSpeed === "express" ? 500000 : 0;
-            const rawIdr = preset.priceIdr + activeAddons.reduce((s, a) => s + a.priceIdr, 0) + expIdr;
-            const discIdr = simPromo === "STUDENT20" ? Math.round(rawIdr * 0.2) : 0;
-            const totalIdr = Math.max(0, rawIdr - discIdr);
+            const isId = currentLang === "id";
+            const expCost = simSpeed === "express" ? (isId ? 500000 : 32) : 0;
+            const baseCost = isId ? preset.priceIdr : preset.priceUsd;
+            const addonsCost = activeAddons.reduce((s, a) => s + (isId ? a.priceIdr : a.priceUsd), 0);
+            const rawTotal = baseCost + addonsCost + expCost;
+            const disc = simPromo === "STUDENT20" ? Math.round(rawTotal * 0.2) : 0;
+            const total = Math.max(0, rawTotal - disc);
+            const fmt = isId ? formatIdr : formatUsd;
             const days = preset.days + activeAddons.reduce((s, a) => s + a.days, 0);
-            const timeline = simSpeed === "express" ? "48 Jam (Express)" : `${days} Hari Kerja`;
+            const timeline = simSpeed === "express"
+                ? (isId ? "48 Jam (Express)" : "48 Hours (Express)")
+                : (isId ? `${days} Hari Kerja` : `${days} Business Days`);
 
             const addonText = activeAddons.length
-                ? activeAddons.map(a => `• ${a.nameId} (+${formatIdr(a.priceIdr)})`).join("\n")
-                : "• Tidak ada modul tambahan";
+                ? activeAddons.map(a => `• ${isId ? a.nameId : a.nameEn} (+${fmt(isId ? a.priceIdr : a.priceUsd)})`).join("\n")
+                : (isId ? "• Tidak ada modul tambahan" : "• No additional modules");
 
-            const msg = [
+            const msg = isId ? [
                 "Halo LogHorizonStudio, saya ingin memesan website dengan spesifikasi dari simulator:",
                 "",
-                `*Tipe Proyek:* ${preset.nameId} (${formatIdr(preset.priceIdr)})`,
+                `*Tipe Proyek:* ${preset.nameId} (${fmt(baseCost)})`,
                 `*Modul Tambahan:*\n${addonText}`,
                 `*Kecepatan Rilis:* ${simSpeed === "express" ? "Express 48 Jam (+Rp 500.000)" : "Standar"}`,
-                simPromo === "STUDENT20" ? `*Promo:* STUDENT20 (-${formatIdr(discIdr)})` : null,
-                `*Total Estimasi:* ${formatIdr(totalIdr)} (DP 50%: ${formatIdr(Math.round(totalIdr * 0.5))})`,
+                simPromo === "STUDENT20" ? `*Promo:* STUDENT20 (-${fmt(disc)})` : null,
+                `*Total Estimasi:* ${fmt(total)} (DP 50%: ${fmt(Math.round(total * 0.5))})`,
                 `*Estimasi Waktu:* ${timeline}`,
                 "",
                 "Mohon informasi ketersediaan slot dan langkah selanjutnya. Terima kasih!"
+            ].filter(Boolean).join("\n") : [
+                "Hello LogHorizonStudio, I would like to order a website with the following simulator specs:",
+                "",
+                `*Project Type:* ${preset.nameEn} (${fmt(baseCost)})`,
+                `*Add-on Modules:*\n${addonText}`,
+                `*Delivery Speed:* ${simSpeed === "express" ? "Express 48 Hours (+$32)" : "Standard"}`,
+                simPromo === "STUDENT20" ? `*Promo:* STUDENT20 (-${fmt(disc)})` : null,
+                `*Estimated Total:* ${fmt(total)} (50% Deposit: ${fmt(Math.round(total * 0.5))})`,
+                `*Estimated Timeline:* ${timeline}`,
+                "",
+                "Please let me know slot availability and next steps. Thank you!"
             ].filter(Boolean).join("\n");
 
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
@@ -1299,16 +1416,34 @@
             localStorage.setItem("lh_theme", isDark ? "dark" : "light");
         }
 
-        function toggleLanguage() {
-            currentLang = currentLang === "id" ? "en" : "id";
+        function applyLanguage() {
             document.documentElement.lang = currentLang;
-            document.getElementById("lang-toggle").textContent = currentLang === "id" ? "ID · IDR" : "EN · USD";
+            const pillId = document.getElementById("lang-pill-id");
+            const pillEn = document.getElementById("lang-pill-en");
+            const mobLang = document.getElementById("mobile-lang-label");
+            if (pillId && pillEn) {
+                pillId.className = currentLang === "id" ? "font-bold text-violet-600 dark:text-violet-400" : "text-neutral-500";
+                pillEn.className = currentLang === "en" ? "font-bold text-violet-600 dark:text-violet-400" : "text-neutral-500";
+            }
+            if (mobLang) mobLang.textContent = currentLang === "id" ? "ID · IDR" : "EN · USD";
+
             const dict = I18N[currentLang];
             document.querySelectorAll("[data-i18n]").forEach(el => {
                 const key = el.getAttribute("data-i18n");
                 if (dict[key]) el.textContent = dict[key];
             });
+            const aiInput = document.getElementById("ai-chat-input");
+            if (aiInput) {
+                aiInput.placeholder = currentLang === "id" ? "Ketik ide website Anda..." : "Describe your website idea...";
+            }
+            setTechProp(activeTechKey);
             renderSimulator();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === "id" ? "en" : "id";
+            localStorage.setItem("lh_lang", currentLang);
+            applyLanguage();
         }
 
         function toggleMobileMenu() {
@@ -1501,23 +1636,41 @@
         // INTERACTIVE TECH STACK BAR & FAQ ACCORDION
         // =====================================================================
         const TECH_PROPS = {
-            nextjs: { label: "Next.js", text: "Arsitektur modern berkecepatan tinggi dengan SEO optimal untuk ranking Google." },
-            cloudflare: { label: "Cloudflare", text: "Hosting Edge global 0ms cold-start, proteksi DDoS gratis, & bebas biaya server bulanan." },
-            tailwind: { label: "Tailwind", text: "Desain Swiss-Minimalist presisi yang responsif sempurna di mobile maupun desktop." },
-            mysql: { label: "MySQL", text: "Skema database relasional terstruktur untuk katalog produk, stok, & arsip LPJ." }
+            nextjs: {
+                label: "Next.js",
+                id: "Arsitektur modern berkecepatan tinggi dengan SEO optimal untuk ranking Google.",
+                en: "High-speed modern architecture with built-in SEO optimization for Google ranking."
+            },
+            cloudflare: {
+                label: "Cloudflare",
+                id: "Hosting Edge global 0ms cold-start, proteksi DDoS gratis, & bebas biaya server bulanan.",
+                en: "Global Edge hosting with 0ms cold-start, free DDoS protection, & $0 monthly server fees."
+            },
+            tailwind: {
+                label: "Tailwind",
+                id: "Desain Swiss-Minimalist presisi yang responsif sempurna di mobile maupun desktop.",
+                en: "Precision Swiss-Minimalist UI that adapts seamlessly across mobile and desktop."
+            },
+            mysql: {
+                label: "MySQL",
+                id: "Skema database relasional terstruktur untuk katalog produk, stok, & arsip LPJ.",
+                en: "Structured relational database schema for product catalogs, stock, & LPJ archives."
+            }
         };
+        let activeTechKey = "nextjs";
 
         function setTechProp(key) {
-            const prop = TECH_PROPS[key] || TECH_PROPS.nextjs;
+            activeTechKey = TECH_PROPS[key] ? key : "nextjs";
+            const prop = TECH_PROPS[activeTechKey];
             const readout = document.getElementById("tech-prop-readout");
             if (readout) {
-                readout.innerHTML = `<span class="text-violet-600 dark:text-violet-400 font-semibold">[${prop.label}]</span> ${prop.text}`;
+                readout.innerHTML = `<span class="text-violet-600 dark:text-violet-400 font-semibold">[${prop.label}]</span> ${prop[currentLang] || prop.id}`;
             }
             document.querySelectorAll(".tech-pill").forEach(btn => {
-                const isActive = btn.getAttribute("data-tech") === key;
+                const isActive = btn.getAttribute("data-tech") === activeTechKey;
                 btn.className = isActive
-                    ? "tech-pill px-3 py-1.5 rounded-lg border border-violet-500 bg-violet-600/15 font-mono text-[11px] font-semibold text-violet-700 dark:text-violet-300 transition-all cursor-pointer"
-                    : "tech-pill px-3 py-1.5 rounded-lg border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-obsidian/70 hover:border-purple-500/45 font-mono text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 transition-all cursor-pointer";
+                    ? "tech-pill min-h-[38px] px-3 py-1.5 rounded-lg border border-violet-500 bg-violet-600/15 font-mono text-[11px] font-semibold text-violet-700 dark:text-violet-300 transition-all cursor-pointer"
+                    : "tech-pill min-h-[38px] px-3 py-1.5 rounded-lg border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-obsidian/70 hover:border-purple-500/45 font-mono text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 transition-all cursor-pointer";
             });
         }
 
@@ -1534,7 +1687,9 @@
         window.addEventListener("DOMContentLoaded", () => {
             const savedTheme = localStorage.getItem("lh_theme");
             if (savedTheme === "light") document.documentElement.classList.remove("dark");
-            renderSimulator();
+            const savedLang = localStorage.getItem("lh_lang");
+            if (savedLang === "en" || savedLang === "id") currentLang = savedLang;
+            applyLanguage();
             if (window.lucide) lucide.createIcons();
         });
     </script>
