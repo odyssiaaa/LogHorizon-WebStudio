@@ -971,8 +971,8 @@
                             </div>
                         </div>
                         <div class="pt-4 mt-4 border-t border-borderLight dark:border-borderDark">
-                            <button onclick="claimPromo('Paket Kampus BEM STUDENT20')"
-                                    class="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark hover:border-neutral-500 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                            <button type="button" onclick="openProjectSimulator('bem')"
+                                    class="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark hover:border-violet-500/60 hover:text-violet-600 dark:hover:text-violet-400 font-mono text-xs font-semibold transition-colors cursor-pointer">
                                 <span>Simulasikan Proyek Ini</span>
                                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                             </button>
@@ -1009,8 +1009,8 @@
                             </div>
                         </div>
                         <div class="pt-4 mt-4 border-t border-borderLight dark:border-borderDark">
-                            <button onclick="claimPromo('Toko Online E-Commerce')"
-                                    class="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark hover:border-neutral-500 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                            <button type="button" onclick="openProjectSimulator('d2c')"
+                                    class="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark hover:border-emerald-500/60 hover:text-emerald-600 dark:hover:text-emerald-400 font-mono text-xs font-semibold transition-colors cursor-pointer">
                                 <span>Simulasikan Proyek Ini</span>
                                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                             </button>
@@ -1047,8 +1047,8 @@
                             </div>
                         </div>
                         <div class="pt-4 mt-4 border-t border-borderLight dark:border-borderDark">
-                            <button onclick="claimPromo('Company Profile Bisnis Pro')"
-                                    class="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark hover:border-neutral-500 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                            <button type="button" onclick="openProjectSimulator('corporate')"
+                                    class="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-borderDark hover:border-cyan-500/60 hover:text-cyan-600 dark:hover:text-cyan-400 font-mono text-xs font-semibold transition-colors cursor-pointer">
                                 <span>Simulasikan Proyek Ini</span>
                                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                             </button>
@@ -4628,6 +4628,437 @@ function renderPackages() {
             initMobileBarVisibility();
         };
         window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+
+    <!-- =========================================================================
+         INTERACTIVE PROJECT SIMULATOR MODAL (SWISS-MINIMALIST OBSIDIAN)
+         ========================================================================= -->
+    <div id="project-simulator-modal"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="sim-modal-title"
+         class="fixed inset-0 z-[70] hidden items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-sm">
+        <div class="relative w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl bg-[#0B0B0E] text-neutral-100 border border-white/[0.08]">
+            <!-- Top Architectural Header Bar -->
+            <div class="sticky top-0 z-10 flex items-center justify-between gap-4 px-5 sm:px-7 py-4 bg-[#0B0B0E]/95 backdrop-blur-md border-b border-white/[0.08]">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2">
+                            <span id="sim-modal-eyebrow" class="font-mono text-[10px] uppercase tracking-widest text-violet-400">ARCHITECTURE // EDGE</span>
+                            <span class="font-mono text-[10px] text-neutral-600 hidden sm:inline">•</span>
+                            <span class="font-mono text-[10px] uppercase tracking-wider text-cyan-400 hidden sm:inline">INTERACTIVE BLUEPRINT</span>
+                        </div>
+                        <h3 id="sim-modal-title" class="font-sans text-base sm:text-lg font-bold tracking-tight text-white truncate">
+                            Project Simulator
+                        </h3>
+                    </div>
+                </div>
+                <button type="button"
+                        onclick="closeProjectSimulator()"
+                        aria-label="Tutup Simulator"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/[0.08] hover:border-white/25 hover:bg-white/[0.04] font-mono text-[11px] text-neutral-400 hover:text-white transition-colors cursor-pointer shrink-0">
+                    <span class="hidden sm:inline">ESC</span>
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- 2-Column Precision Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/[0.08]">
+                <!-- PANEL KIRI: Live Interactive Blueprint & Feature Configurator -->
+                <div class="lg:col-span-7 p-5 sm:p-7 space-y-6">
+                    <!-- Live Architecture Blueprint Preview -->
+                    <div class="rounded-xl bg-[#111116] border border-white/[0.08] p-4 sm:p-5">
+                        <div class="flex items-center justify-between gap-2 pb-3 mb-4 border-b border-white/[0.08]">
+                            <span class="font-mono text-[10px] uppercase tracking-widest text-neutral-400">LIVE ARCHITECTURE BLUEPRINT</span>
+                            <span class="inline-flex items-center gap-1.5 font-mono text-[10px] text-emerald-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                <span id="sim-active-node-count">1 NODE ACTIVE</span>
+                            </span>
+                        </div>
+                        <div id="sim-blueprint-nodes" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Base Module (Included) + Toggleable Add-On Modules -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-wider text-neutral-400">01 // MODUL &amp; FITUR ARSITEKTUR</span>
+                            <span class="font-mono text-[10px] text-neutral-500">KLIK UNTUK TOGGLE</span>
+                        </div>
+                        <div id="sim-modules-list" class="space-y-2.5">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Release Speed Target Selector -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-wider text-neutral-400">02 // TARGET KECEPATAN RILIS</span>
+                            <span class="font-mono text-[10px] text-cyan-400">SLA GUARANTEE</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <button type="button" id="sim-speed-standard" onclick="setSimulatorSpeed('standard')"
+                                    class="text-left p-3.5 rounded-xl border transition-all cursor-pointer">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-sans text-xs font-bold text-white">Standar (Normal)</span>
+                                    <span class="font-mono text-[10px] text-emerald-400">Rp 0</span>
+                                </div>
+                                <p id="sim-speed-standard-desc" class="font-mono text-[11px] text-neutral-400">3–4 Hari Kerja • QA Penuh</p>
+                            </button>
+                            <button type="button" id="sim-speed-express" onclick="setSimulatorSpeed('express')"
+                                    class="text-left p-3.5 rounded-xl border transition-all cursor-pointer">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-sans text-xs font-bold text-white">Express 48 Jam</span>
+                                    <span class="font-mono text-[10px] text-violet-400">+Rp 500.000</span>
+                                </div>
+                                <p class="font-mono text-[11px] text-neutral-400">Prioritas Sprint • Rilis 48 Jam</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL KANAN: Live Output & Cost/Timeline Estimator -->
+                <div class="lg:col-span-5 p-5 sm:p-7 bg-[#111116]/60 flex flex-col justify-between space-y-6">
+                    <div class="space-y-5">
+                        <div class="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+                            <span class="font-mono text-[11px] uppercase tracking-wider text-neutral-400">LIVE OUTPUT // SPEC</span>
+                            <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-violet-600/20 text-violet-300 border border-violet-500/30">
+                                REAL-TIME
+                            </span>
+                        </div>
+
+                        <!-- Investment & Timeline Readout -->
+                        <div class="grid grid-cols-1 gap-3">
+                            <div class="p-4 rounded-xl bg-[#0B0B0E] border border-white/[0.08]">
+                                <span class="font-mono text-[10px] uppercase tracking-widest text-neutral-500 block mb-1">ESTIMASI BIAYA INVESTASI</span>
+                                <div id="sim-total-cost" class="font-sans text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                                    Rp 0
+                                </div>
+                                <span id="sim-dp-note" class="font-mono text-[11px] text-neutral-400 mt-1 block">
+                                    DP 50%: Rp 0 • Pelunasan saat live preview
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3.5 rounded-xl bg-[#0B0B0E] border border-white/[0.08]">
+                                    <span class="font-mono text-[10px] uppercase tracking-wider text-neutral-500 block mb-1">EST. TIMELINE</span>
+                                    <div id="sim-total-days" class="font-sans text-base font-bold text-cyan-400">
+                                        3 Hari Kerja
+                                    </div>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-[#0B0B0E] border border-white/[0.08]">
+                                    <span class="font-mono text-[10px] uppercase tracking-wider text-neutral-500 block mb-1">SPEED INDEX</span>
+                                    <div id="sim-speed-score" class="font-sans text-base font-bold text-emerald-400">
+                                        99/100
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack & Performance Specs -->
+                        <div class="p-4 rounded-xl bg-[#0B0B0E] border border-white/[0.08] space-y-2.5">
+                            <span class="font-mono text-[10px] uppercase tracking-widest text-neutral-500 block">TECH STACK &amp; INFRASTRUKTUR</span>
+                            <div id="sim-tech-stack" class="flex flex-wrap gap-1.5">
+                                <!-- Rendered dynamically -->
+                            </div>
+                            <div class="pt-2.5 border-t border-white/[0.08] space-y-1.5 font-mono text-[11px] text-neutral-400">
+                                <div class="flex items-center justify-between">
+                                    <span>HOSTING &amp; SSL</span>
+                                    <span class="text-emerald-400">Free SSL &amp; Edge Hosting</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>GARANSI BUG</span>
+                                    <span class="text-neutral-200">30 Hari Pasca-Rilis</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Selected Modules Summary -->
+                        <div>
+                            <span class="font-mono text-[10px] uppercase tracking-widest text-neutral-500 block mb-2">RINCIAN KONFIGURASI</span>
+                            <ul id="sim-summary-list" class="space-y-1.5 font-mono text-[11px] text-neutral-300">
+                                <!-- Rendered dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Final CTA -->
+                    <div class="pt-4 border-t border-white/[0.08] space-y-2.5">
+                        <button type="button"
+                                onclick="checkoutSimulatorWhatsApp()"
+                                class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-sans text-xs sm:text-sm font-bold transition-colors cursor-pointer">
+                            <span>Lanjut Konsultasi Spesifikasi</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <p class="font-mono text-[10px] text-center text-neutral-500">
+                            Konfigurasi otomatis terlampir ke WhatsApp Engineer LogHorizon
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =====================================================================
+        // INTERACTIVE PROJECT SIMULATOR MODAL ENGINE
+        // =====================================================================
+        const PROJECT_SIMULATORS = {
+            bem: {
+                id: 'bem',
+                eyebrow: 'ORMAWA // KAMPUS EDGE',
+                title: 'Portal Organisasi & Turnamen BEM',
+                baseName: 'Base: Landing + Info Event',
+                basePrice: 950000,
+                baseDays: 2,
+                speedScore: '99/100',
+                stack: ['Cloudflare Edge', 'Tailwind Architecture', 'Free SSL & Hosting', 'LPJ Invoice Ready'],
+                modules: [
+                    { id: 'bem_bracket', name: 'Sistem Registrasi & Bracket Turnamen', desc: 'Form pendaftaran tim, validasi berkas & bagan pertandingan live', price: 450000, days: 1, defaultOn: true },
+                    { id: 'bem_lpj', name: 'Arsip Dokumen LPJ & E-Sertifikat', desc: 'Repositori arsip PDF terstruktur & generator sertifikat peserta', price: 300000, days: 1, defaultOn: false },
+                    { id: 'bem_domain', name: 'Custom Domain .or.id / .id', desc: 'Registrasi domain resmi organisasi 1 tahun + DNS Edge', price: 250000, days: 0, defaultOn: false }
+                ]
+            },
+            d2c: {
+                id: 'd2c',
+                eyebrow: 'E-COMMERCE // D2C RETAIL',
+                title: 'Toko Online D2C & Cek Ongkir',
+                baseName: 'Base: Katalog + Cart WhatsApp',
+                basePrice: 1800000,
+                baseDays: 3,
+                speedScore: '99/100',
+                stack: ['Cloudflare Edge', 'RajaOngkir API', '99/100 Speed Index', 'Free SSL & Hosting'],
+                modules: [
+                    { id: 'd2c_ongkir', name: 'API Cek Ongkir Otomatis Nusantara', desc: 'Kalkulasi tarif JNE, J&T, SiCepat hingga level kecamatan real-time', price: 650000, days: 1, defaultOn: true },
+                    { id: 'd2c_qris', name: 'Payment Gateway (QRIS/VA)', desc: 'Verifikasi pembayaran otomatis QRIS, Virtual Account & E-Wallet', price: 1250000, days: 2, defaultOn: false },
+                    { id: 'd2c_stock', name: 'Dashboard Manajemen Stok', desc: 'Kontrol varian SKU, pengurangan stok otomatis & rekap order', price: 750000, days: 1, defaultOn: false }
+                ]
+            },
+            corporate: {
+                id: 'corporate',
+                eyebrow: 'CORPORATE // CMS PRO',
+                title: 'Company Profile PT & Institusi',
+                baseName: 'Base: Profil + Layanan + Kontak',
+                basePrice: 2200000,
+                baseDays: 3,
+                speedScore: '99/100',
+                stack: ['Cloudflare Edge', 'Headless CMS', '99/100 Speed Index', 'Free SSL & Hosting'],
+                modules: [
+                    { id: 'corp_cms', name: 'CMS Update Berita/Artikel Mandiri', desc: 'Panel admin untuk publikasi warta, press release & portofolio', price: 850000, days: 1, defaultOn: true },
+                    { id: 'corp_i18n', name: 'Multi-bahasa (ID/EN)', desc: 'Toggle dwibahasa Indonesia & Inggris untuk kredibilitas global', price: 700000, days: 1, defaultOn: false },
+                    { id: 'corp_email', name: 'Setup Email Bisnis Resmi', desc: 'Konfigurasi alamat nama@perusahaan.co.id dengan SPF/DKIM', price: 350000, days: 0, defaultOn: false }
+                ]
+            }
+        };
+
+        let activeSimId = 'bem';
+        let activeSimModules = new Set();
+        let activeSimSpeed = 'standard';
+
+        function formatSimIdr(amount) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+        }
+
+        function openProjectSimulator(projectId) {
+            const proj = PROJECT_SIMULATORS[projectId] || PROJECT_SIMULATORS.bem;
+            activeSimId = proj.id;
+            activeSimSpeed = 'standard';
+            activeSimModules = new Set(proj.modules.filter(m => m.defaultOn).map(m => m.id));
+
+            const modal = document.getElementById('project-simulator-modal');
+            if (!modal) return;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+
+            renderProjectSimulator();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeProjectSimulator() {
+            const modal = document.getElementById('project-simulator-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function toggleSimulatorModule(moduleId) {
+            if (activeSimModules.has(moduleId)) {
+                activeSimModules.delete(moduleId);
+            } else {
+                activeSimModules.add(moduleId);
+            }
+            renderProjectSimulator();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function setSimulatorSpeed(speed) {
+            activeSimSpeed = speed === 'express' ? 'express' : 'standard';
+            renderProjectSimulator();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function renderProjectSimulator() {
+            const proj = PROJECT_SIMULATORS[activeSimId];
+            if (!proj) return;
+
+            document.getElementById('sim-modal-eyebrow').textContent = proj.eyebrow;
+            document.getElementById('sim-modal-title').textContent = proj.title;
+
+            // Calculate totals
+            const selectedMods = proj.modules.filter(m => activeSimModules.has(m.id));
+            const modsCost = selectedMods.reduce((sum, m) => sum + m.price, 0);
+            const modsDays = selectedMods.reduce((sum, m) => sum + m.days, 0);
+            const expressCost = activeSimSpeed === 'express' ? 500000 : 0;
+
+            const totalCost = proj.basePrice + modsCost + expressCost;
+            const stdDays = proj.baseDays + modsDays;
+            const finalDaysText = activeSimSpeed === 'express'
+                ? '48 Jam (Express)'
+                : `${stdDays} Hari Kerja`;
+
+            // Speed card styles
+            const stdBtn = document.getElementById('sim-speed-standard');
+            const expBtn = document.getElementById('sim-speed-express');
+            document.getElementById('sim-speed-standard-desc').textContent = `${stdDays} Hari Kerja • QA Penuh`;
+
+            if (activeSimSpeed === 'standard') {
+                stdBtn.className = 'text-left p-3.5 rounded-xl border border-violet-500/70 bg-violet-600/10 transition-all cursor-pointer';
+                expBtn.className = 'text-left p-3.5 rounded-xl border border-white/[0.08] bg-[#111116] hover:border-white/20 transition-all cursor-pointer';
+            } else {
+                stdBtn.className = 'text-left p-3.5 rounded-xl border border-white/[0.08] bg-[#111116] hover:border-white/20 transition-all cursor-pointer';
+                expBtn.className = 'text-left p-3.5 rounded-xl border border-violet-500/70 bg-violet-600/10 transition-all cursor-pointer';
+            }
+
+            // Blueprint Nodes
+            const nodesEl = document.getElementById('sim-blueprint-nodes');
+            const activeNodes = [
+                { label: 'CORE // BASE', name: proj.baseName.replace('Base: ', ''), status: 'LOCKED' },
+                ...selectedMods.map(m => ({ label: 'MODULE // ACTIVE', name: m.name, status: 'ENABLED' }))
+            ];
+            document.getElementById('sim-active-node-count').textContent = `${activeNodes.length} NODE ACTIVE`;
+
+            nodesEl.innerHTML = activeNodes.map(n => `
+                <div class="p-3 rounded-lg bg-[#0B0B0E] border border-white/[0.08] flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                        <span class="font-mono text-[9px] uppercase tracking-wider ${n.status === 'LOCKED' ? 'text-cyan-400' : 'text-violet-400'} block">${n.label}</span>
+                        <span class="font-sans text-xs font-semibold text-neutral-100 block truncate mt-0.5">${n.name}</span>
+                    </div>
+                    <span class="w-1.5 h-1.5 rounded-full ${n.status === 'LOCKED' ? 'bg-cyan-400' : 'bg-emerald-400'} mt-1 shrink-0"></span>
+                </div>
+            `).join('');
+
+            // Modules Configurator List
+            const listEl = document.getElementById('sim-modules-list');
+            const baseRowHtml = `
+                <div class="p-3.5 rounded-xl border border-cyan-500/30 bg-cyan-500/[0.04] flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-4 h-4 rounded bg-cyan-400/20 border border-cyan-400/60 flex items-center justify-center shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-cyan-400"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <span class="font-sans text-xs sm:text-sm font-bold text-white block truncate">${proj.baseName}</span>
+                            <span class="font-mono text-[10px] text-neutral-400">Fondasi wajib arsitektur proyek</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] font-semibold text-cyan-400 shrink-0">${formatSimIdr(proj.basePrice)}</span>
+                </div>
+            `;
+
+            const modsRowsHtml = proj.modules.map(m => {
+                const isOn = activeSimModules.has(m.id);
+                return `
+                    <button type="button" onclick="toggleSimulatorModule('${m.id}')"
+                            class="w-full text-left p-3.5 rounded-xl border ${isOn ? 'border-violet-500/70 bg-violet-600/10' : 'border-white/[0.08] bg-[#111116] hover:border-white/20'} flex items-center justify-between gap-3 transition-all cursor-pointer">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-4 h-4 rounded border ${isOn ? 'bg-violet-600 border-violet-500' : 'border-white/25 bg-[#0B0B0E]'} flex items-center justify-center shrink-0 transition-colors">
+                                ${isOn ? '<i data-lucide="check" class="w-3 h-3 text-white"></i>' : ''}
+                            </div>
+                            <div class="min-w-0">
+                                <span class="font-sans text-xs sm:text-sm font-semibold text-white block truncate">+ ${m.name}</span>
+                                <span class="font-mono text-[10px] text-neutral-400 block truncate">${m.desc}</span>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <span class="font-mono text-[11px] font-semibold ${isOn ? 'text-violet-300' : 'text-neutral-300'} block">+${formatSimIdr(m.price)}</span>
+                            <span class="font-mono text-[9px] text-neutral-500">${m.days > 0 ? `+${m.days} Hari` : 'Instan'}</span>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+
+            listEl.innerHTML = baseRowHtml + modsRowsHtml;
+
+            // Right Panel Live Output
+            document.getElementById('sim-total-cost').textContent = formatSimIdr(totalCost);
+            document.getElementById('sim-dp-note').textContent = `DP 50%: ${formatSimIdr(Math.round(totalCost * 0.5))} • Pelunasan saat live preview`;
+            document.getElementById('sim-total-days').textContent = finalDaysText;
+            document.getElementById('sim-speed-score').textContent = proj.speedScore;
+
+            document.getElementById('sim-tech-stack').innerHTML = proj.stack.map(t => `
+                <span class="font-mono text-[10px] px-2 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] text-neutral-300">${t}</span>
+            `).join('');
+
+            const summaryItems = [
+                { label: proj.baseName, price: formatSimIdr(proj.basePrice) },
+                ...selectedMods.map(m => ({ label: `+ ${m.name}`, price: `+${formatSimIdr(m.price)}` })),
+                ...(activeSimSpeed === 'express' ? [{ label: 'Prioritas Express 48 Jam', price: '+Rp 500.000' }] : [])
+            ];
+
+            document.getElementById('sim-summary-list').innerHTML = summaryItems.map(item => `
+                <li class="flex items-center justify-between gap-2">
+                    <span class="truncate text-neutral-300">${item.label}</span>
+                    <span class="text-neutral-100 shrink-0">${item.price}</span>
+                </li>
+            `).join('');
+        }
+
+        function checkoutSimulatorWhatsApp() {
+            const proj = PROJECT_SIMULATORS[activeSimId];
+            if (!proj) return;
+            const selectedMods = proj.modules.filter(m => activeSimModules.has(m.id));
+            const modsCost = selectedMods.reduce((sum, m) => sum + m.price, 0);
+            const modsDays = selectedMods.reduce((sum, m) => sum + m.days, 0);
+            const expressCost = activeSimSpeed === 'express' ? 500000 : 0;
+            const totalCost = proj.basePrice + modsCost + expressCost;
+            const timeline = activeSimSpeed === 'express' ? '48 Jam (Express)' : `${proj.baseDays + modsDays} Hari Kerja`;
+
+            const modLines = selectedMods.length
+                ? selectedMods.map(m => `• ${m.name} (+${formatSimIdr(m.price)})`).join('\n')
+                : '• Hanya paket Base (tanpa modul tambahan)';
+
+            const msg = [
+                'Halo LogHorizon WebStudio, saya telah mensimulasikan proyek berikut:',
+                '',
+                `*Proyek:* ${proj.title}`,
+                `*Base:* ${proj.baseName} (${formatSimIdr(proj.basePrice)})`,
+                `*Modul Tambahan:*\n${modLines}`,
+                `*Target Rilis:* ${activeSimSpeed === 'express' ? 'Express 48 Jam (+Rp 500.000)' : 'Standar'}`,
+                `*Estimasi Biaya:* ${formatSimIdr(totalCost)}`,
+                `*Estimasi Waktu:* ${timeline}`,
+                '',
+                'Mohon arahan untuk langkah pengerjaan selanjutnya.'
+            ].join('\n');
+
+            const waNum = typeof WHATSAPP_NUMBER !== 'undefined' ? WHATSAPP_NUMBER : '6281211713200';
+            window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+        }
+
+        // Close simulator on backdrop click or Escape key
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('project-simulator-modal');
+            if (modal && e.target === modal) closeProjectSimulator();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('project-simulator-modal');
+                if (modal && !modal.classList.contains('hidden')) closeProjectSimulator();
+            }
+        });
     </script>
 </body>
 </html>
