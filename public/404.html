@@ -323,18 +323,71 @@
         <section id="portfolio" class="py-14 sm:py-20 border-b border-borderLight dark:border-white/[0.08]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
-                    <div>
+                    <div class="max-w-2xl">
                         <p class="font-mono text-xs uppercase tracking-wider text-violet-600 dark:text-violet-400 mb-1.5">01 // PRODUCTION PORTFOLIO</p>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white" data-i18n="portTitle">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white mb-2" data-i18n="portTitle">
                             Portofolio &amp; Hasil Rekayasa Web Klien
                         </h2>
+                        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                            Dari landing page berkecepatan tinggi hingga <strong class="text-neutral-900 dark:text-white">custom web application</strong> dengan real-time status, manajemen akun member, dan marketplace — seluruh sistem teruji di produksi.
+                        </p>
                     </div>
                     <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500/50 font-mono text-xs text-neutral-600 dark:text-neutral-300 transition-colors w-fit">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                       class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-purple-500/30 bg-surfaceLight dark:bg-surfaceDark hover:border-violet-500/60 font-mono text-xs text-neutral-700 dark:text-neutral-200 transition-colors w-fit shrink-0">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                         <span>loghorizon.vercel.app</span>
                         <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                     </a>
+                </div>
+
+                <!-- Featured Flagship Project Card: loghorizon.vercel.app -->
+                <div class="rounded-2xl border border-purple-500/35 dark:border-purple-500/35 bg-surfaceLight dark:bg-[#13131A] p-6 sm:p-7 mb-6 transition-all duration-200 hover:border-violet-500/60">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <div class="lg:col-span-8 space-y-3">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-mono text-[10px] px-2.5 py-0.5 rounded bg-violet-600 text-white font-bold uppercase tracking-wider">
+                                    FEATURED // FLAGSHIP PLATFORM
+                                </span>
+                                <span class="font-mono text-[10px] px-2.5 py-0.5 rounded border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold inline-flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    STATUS: Live Production
+                                </span>
+                            </div>
+
+                            <h3 class="font-sans text-xl sm:text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+                                LogHorizon — All-Game Community &amp; Tournament Platform
+                            </h3>
+
+                            <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                                Platform ekosistem <em>gaming</em> mandiri lengkap dengan sistem turnamen interaktif, marketplace komunitas, integrasi Discord, dan sistem akun/profil member.
+                            </p>
+
+                            <p class="text-[11px] sm:text-xs font-mono text-neutral-500 dark:text-neutral-400 leading-relaxed pt-2 border-t border-borderLight dark:border-white/10">
+                                <span class="text-violet-600 dark:text-violet-400 font-semibold">[PROOF OF CAPABILITY]</span> Sistem kompleks seperti <em>real-time status</em>, manajemen data member, dan <em>marketplace</em> ini dibangun, di-deploy, dan dioperasikan penuh oleh studio kami.
+                            </p>
+
+                            <div class="flex flex-wrap items-center gap-2 pt-1">
+                                <span class="font-mono text-[10px] sm:text-[11px] px-2.5 py-1 rounded-md border border-borderLight dark:border-white/10 bg-alabaster dark:bg-obsidian text-neutral-700 dark:text-neutral-300">
+                                    STACK: Next.js / Vercel / MySQL / Discord API
+                                </span>
+                                <span class="font-mono text-[10px] sm:text-[11px] px-2.5 py-1 rounded-md border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
+                                    STATUS: Live Production
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-4 flex flex-col gap-2.5 lg:items-end">
+                            <a href="https://loghorizon.vercel.app" target="_blank" rel="noopener noreferrer"
+                               class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-sans text-xs sm:text-sm font-bold transition-colors">
+                                <span>Kunjungi Live Platform &#8599;</span>
+                            </a>
+                            <button type="button" onclick="selectSimulatorPreset('webapp')"
+                                    class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-borderLight dark:border-white/15 hover:border-purple-500/50 hover:text-violet-600 dark:hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                                <span>Simulasikan Custom Web App</span>
+                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
