@@ -110,12 +110,18 @@
     <header class="sticky top-0 z-50 bg-alabaster/90 dark:bg-obsidian/90 backdrop-blur-md border-b border-borderLight dark:border-white/[0.08]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 gap-3">
-                <a href="#hero" class="flex items-center gap-2.5 group shrink-0">
-                    <img src="logo.png" alt="LogHorizonStudio" class="h-8 w-auto object-contain shrink-0" />
-                    <span class="font-bold tracking-tight text-base text-neutral-900 dark:text-white">
-                        LogHorizon<span class="text-violet-600 dark:text-violet-400">Studio</span>
+                <div class="flex items-center gap-3 shrink-0">
+                    <a href="#hero" class="flex items-center gap-2.5 group shrink-0">
+                        <img src="logo.png" alt="LogHorizonStudio" class="h-8 w-auto object-contain shrink-0" />
+                        <span class="font-bold tracking-tight text-base text-neutral-900 dark:text-white">
+                            LogHorizon<span class="text-violet-600 dark:text-violet-400">Studio</span>
+                        </span>
+                    </a>
+                    <span class="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-purple-500/25 bg-purple-500/10 font-mono text-[10px] text-violet-700 dark:text-violet-300">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>[ACTIVE] SYSTEM v2.4</span>
                     </span>
-                </a>
+                </div>
 
                 <nav class="hidden md:flex items-center gap-7 font-mono text-xs text-neutral-600 dark:text-neutral-400">
                     <a href="#standards" class="hover:text-neutral-900 dark:hover:text-white transition-colors" data-i18n="navStandards">Standar</a>
@@ -160,32 +166,76 @@
         <!-- =====================================================================
              SECTION 1: HERO SECTION
              ===================================================================== -->
-        <section id="hero" class="relative hairline-grid border-b border-borderLight dark:border-white/[0.08] py-16 sm:py-24 lg:py-28">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-3xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark font-mono text-[11px] text-neutral-600 dark:text-neutral-400 mb-6">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span data-i18n="heroEyebrow">WEB ENGINEERING // CLOUDFLARE EDGE</span>
+        <section id="hero" class="relative overflow-hidden hairline-grid border-b border-borderLight dark:border-white/10 py-14 sm:py-20 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                    <div class="lg:col-span-7">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/25 bg-surfaceLight dark:bg-surfaceDark font-mono text-[11px] text-neutral-700 dark:text-neutral-300 mb-5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="text-violet-600 dark:text-violet-400 font-semibold">ARCH: EDGE</span>
+                            <span class="text-neutral-400 dark:text-neutral-600">//</span>
+                            <span data-i18n="heroEyebrow">WEB ENGINEERING // CLOUDFLARE EDGE</span>
+                        </div>
+
+                        <h1 class="font-sans text-3xl sm:text-5xl lg:text-[3.25rem] font-extrabold tracking-tight leading-[1.1] text-neutral-900 dark:text-white mb-4" data-i18n="heroTitle">
+                            Arsitektur Web Presisi untuk Bisnis, D2C &amp; Institusi.
+                        </h1>
+
+                        <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mb-7" data-i18n="heroSubtitle">
+                            Bangun website berkecepatan 99/100 tanpa biaya server bulanan. Simulasikan kebutuhan modul dan estimasi biaya proyek Anda secara transparan dalam 30 detik.
+                        </p>
+
+                        <div class="flex flex-wrap items-center gap-3">
+                            <a href="#simulator"
+                               class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold transition-all shadow-[0_0_25px_-6px_rgba(124,58,237,0.6)]">
+                                <span data-i18n="heroPrimaryCta">Mulai Simulasi Harga</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                            <a href="#portfolio"
+                               class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border border-borderLight dark:border-white/15 bg-surfaceLight dark:bg-surfaceDark hover:border-purple-500/50 dark:hover:border-purple-400/50 text-neutral-900 dark:text-white text-sm font-semibold transition-all" data-i18n="heroSecondaryCta">
+                                Lihat Portofolio
+                            </a>
+                        </div>
                     </div>
 
-                    <h1 class="font-sans text-3xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-tight leading-[1.1] text-neutral-900 dark:text-white mb-5" data-i18n="heroTitle">
-                        Arsitektur Web Presisi untuk Bisnis, D2C &amp; Institusi.
-                    </h1>
+                    <!-- Neo-Editorial System Telemetry Spec Card -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="hidden dark:block absolute -inset-4 bg-violet-600/10 blur-3xl rounded-full pointer-events-none"></div>
+                        <div class="relative rounded-2xl border border-purple-500/25 dark:border-purple-500/30 bg-surfaceLight dark:bg-[#111116] p-5 sm:p-6">
+                            <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-borderLight dark:border-white/10">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="font-mono text-[11px] font-bold tracking-wider text-neutral-900 dark:text-white">SYSTEM TELEMETRY</span>
+                                </div>
+                                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-violet-600/15 text-violet-600 dark:text-violet-300 border border-violet-500/25">[ACTIVE]</span>
+                            </div>
 
-                    <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mb-8" data-i18n="heroSubtitle">
-                        Bangun website berkecepatan 99/100 tanpa biaya server bulanan. Simulasikan kebutuhan modul dan estimasi biaya proyek Anda secara transparan dalam 30 detik.
-                    </p>
+                            <div class="grid grid-cols-2 gap-3 mb-4">
+                                <div class="p-3 rounded-xl border border-borderLight dark:border-white/10 bg-alabaster/70 dark:bg-obsidian/80">
+                                    <span class="font-mono text-[10px] text-neutral-500 block mb-1">SPEED INDEX</span>
+                                    <span class="font-sans text-xl font-extrabold text-emerald-600 dark:text-emerald-400">99/100</span>
+                                </div>
+                                <div class="p-3 rounded-xl border border-borderLight dark:border-white/10 bg-alabaster/70 dark:bg-obsidian/80">
+                                    <span class="font-mono text-[10px] text-neutral-500 block mb-1">EDGE LATENCY</span>
+                                    <span class="font-sans text-xl font-extrabold text-cyan-600 dark:text-cyan-400">~12ms</span>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap items-center gap-3">
-                        <a href="#simulator"
-                           class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold transition-colors">
-                            <span data-i18n="heroPrimaryCta">Mulai Simulasi Harga</span>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </a>
-                        <a href="#portfolio"
-                           class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark hover:border-neutral-400 dark:hover:border-white/25 text-neutral-900 dark:text-white text-sm font-semibold transition-colors" data-i18n="heroSecondaryCta">
-                            Lihat Portofolio
-                        </a>
+                            <div class="space-y-2 pt-3 border-t border-borderLight dark:border-white/10 font-mono text-[11px]">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-neutral-500">RUNTIME</span>
+                                    <span class="text-neutral-900 dark:text-neutral-200 font-semibold">Cloudflare Global Edge</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-neutral-500">SECURITY</span>
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold">Auto SSL + DDoS Shield</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-neutral-500">WARRANTY</span>
+                                    <span class="text-violet-600 dark:text-violet-400 font-semibold">30-Day Bug SLA</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -194,23 +244,23 @@
         <!-- =====================================================================
              SECTION 2: KEUNGGULAN & STANDAR REKAYASA (TRUST BAR)
              ===================================================================== -->
-        <section id="standards" class="border-b border-borderLight dark:border-white/[0.08] bg-surfaceLight/60 dark:bg-surfaceDark/60">
+        <section id="standards" class="border-b border-borderLight dark:border-white/10 bg-surfaceLight/70 dark:bg-surfaceDark/80">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-borderLight dark:divide-white/[0.08]">
-                    <div class="py-5 pr-4 lg:px-6 lg:first:pl-0">
-                        <span class="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">INFRASTRUCTURE</span>
+                <div class="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-borderLight dark:divide-white/10">
+                    <div class="py-4 sm:py-5 pr-4 lg:px-6 lg:first:pl-0">
+                        <span class="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">[01] INFRASTRUCTURE</span>
                         <p class="font-sans text-sm sm:text-base font-bold text-neutral-900 dark:text-white" data-i18n="trust1">100% Uptime Cloudflare Edge</p>
                     </div>
-                    <div class="py-5 pl-4 lg:px-6">
-                        <span class="font-mono text-[10px] uppercase tracking-wider text-violet-600 dark:text-violet-400 block mb-1">DELIVERY SLA</span>
+                    <div class="py-4 sm:py-5 pl-4 lg:px-6">
+                        <span class="font-mono text-[10px] uppercase tracking-wider text-violet-600 dark:text-violet-400 block mb-1">[02] DELIVERY SLA</span>
                         <p class="font-sans text-sm sm:text-base font-bold text-neutral-900 dark:text-white" data-i18n="trust2">2–4 Hari Rilis</p>
                     </div>
-                    <div class="py-5 pr-4 lg:px-6">
-                        <span class="font-mono text-[10px] uppercase tracking-wider text-cyan-600 dark:text-cyan-400 block mb-1">TRANSPARENT PAYMENT</span>
+                    <div class="py-4 sm:py-5 pr-4 lg:px-6">
+                        <span class="font-mono text-[10px] uppercase tracking-wider text-cyan-600 dark:text-cyan-400 block mb-1">[03] MILESTONE</span>
                         <p class="font-sans text-sm sm:text-base font-bold text-neutral-900 dark:text-white" data-i18n="trust3">50/50 Milestone</p>
                     </div>
-                    <div class="py-5 pl-4 lg:px-6 lg:last:pr-0">
-                        <span class="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">ZERO SERVER FEE</span>
+                    <div class="py-4 sm:py-5 pl-4 lg:px-6 lg:last:pr-0">
+                        <span class="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">[04] ZERO SERVER FEE</span>
                         <p class="font-sans text-sm sm:text-base font-bold text-neutral-900 dark:text-white" data-i18n="trust4">Gratis Biaya Server</p>
                     </div>
                 </div>
@@ -239,19 +289,22 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
                     <!-- Card 1: Portal Organisasi & Turnamen BEM -->
-                    <div class="rounded-2xl border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark p-6 flex flex-col justify-between">
+                    <div class="rounded-2xl border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-surfaceDark hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50/70 dark:hover:bg-white/[0.03] hover:-translate-y-0.5 transition-all duration-200 p-6 flex flex-col justify-between group">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-3">
-                                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-violet-600/10 text-violet-700 dark:text-violet-300 border border-violet-500/20 font-bold uppercase">
+                                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-violet-600/15 text-violet-700 dark:text-violet-300 border border-violet-500/25 font-bold uppercase">
                                     ORMAWA // KAMPUS
                                 </span>
-                                <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">LPJ Ready</span>
+                                <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold inline-flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    LPJ Ready
+                                </span>
                             </div>
-                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white mb-2">Portal Organisasi &amp; Turnamen BEM</h3>
+                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2">Portal Organisasi &amp; Turnamen BEM</h3>
                             <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5">
                                 Portal pusat informasi kegiatan, pendaftaran delegasi turnamen, dan arsip dokumen LPJ resmi kampus.
                             </p>
-                            <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/[0.08] font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
+                            <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/10 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                                 <div class="flex justify-between">
                                     <span>ARSITEKTUR</span>
                                     <span class="text-neutral-900 dark:text-white font-semibold">Cloudflare Edge</span>
@@ -263,26 +316,29 @@
                             </div>
                         </div>
                         <button type="button" onclick="selectSimulatorPreset('bem')"
-                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/[0.08] hover:border-violet-500/60 hover:text-violet-600 dark:hover:text-violet-400 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
                             <span data-i18n="simBtnLabel">Simulasikan Proyek Ini</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
 
                     <!-- Card 2: Toko Online D2C & Cek Ongkir -->
-                    <div class="rounded-2xl border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark p-6 flex flex-col justify-between">
+                    <div class="rounded-2xl border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-surfaceDark hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50/70 dark:hover:bg-white/[0.03] hover:-translate-y-0.5 transition-all duration-200 p-6 flex flex-col justify-between group">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-3">
-                                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 font-bold uppercase">
+                                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-600/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 font-bold uppercase">
                                     E-COMMERCE // D2C
                                 </span>
-                                <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">99/100 Speed</span>
+                                <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold inline-flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    99/100 Speed
+                                </span>
                             </div>
-                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white mb-2">Toko Online D2C &amp; Cek Ongkir</h3>
+                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2">Toko Online D2C &amp; Cek Ongkir</h3>
                             <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5">
                                 Katalog ritel modern dengan keranjang instan, kalkulator ongkir otomatis nusantara, dan checkout WhatsApp.
                             </p>
-                            <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/[0.08] font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
+                            <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/10 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                                 <div class="flex justify-between">
                                     <span>FITUR</span>
                                     <span class="text-neutral-900 dark:text-white font-semibold">Auto Ongkir + Cart</span>
@@ -294,26 +350,29 @@
                             </div>
                         </div>
                         <button type="button" onclick="selectSimulatorPreset('d2c')"
-                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/[0.08] hover:border-emerald-500/60 hover:text-emerald-600 dark:hover:text-emerald-400 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
                             <span data-i18n="simBtnLabel">Simulasikan Proyek Ini</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
 
                     <!-- Card 3: Company Profile PT & Institusi -->
-                    <div class="rounded-2xl border border-borderLight dark:border-white/[0.08] bg-surfaceLight dark:bg-surfaceDark p-6 flex flex-col justify-between">
+                    <div class="rounded-2xl border border-borderLight dark:border-white/10 bg-surfaceLight dark:bg-surfaceDark hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50/70 dark:hover:bg-white/[0.03] hover:-translate-y-0.5 transition-all duration-200 p-6 flex flex-col justify-between group">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-3">
-                                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-600/10 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20 font-bold uppercase">
+                                <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-600/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/25 font-bold uppercase">
                                     CORPORATE // CMS
                                 </span>
-                                <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">Admin Ready</span>
+                                <span class="font-mono text-[10px] text-cyan-600 dark:text-cyan-400 font-semibold inline-flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                                    Admin Ready
+                                </span>
                             </div>
-                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white mb-2">Company Profile PT &amp; Institusi</h3>
+                            <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors mb-2">Company Profile PT &amp; Institusi</h3>
                             <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2 mb-5">
                                 Profil korporat resmi dengan CMS update berita mandiri, multi-bahasa ID/EN, dan email bisnis resmi.
                             </p>
-                            <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/[0.08] font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
+                            <div class="space-y-1.5 pt-3 border-t border-borderLight dark:border-white/10 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                                 <div class="flex justify-between">
                                     <span>MANAGEMENT</span>
                                     <span class="text-neutral-900 dark:text-white font-semibold">Admin Dashboard</span>
@@ -325,7 +384,7 @@
                             </div>
                         </div>
                         <button type="button" onclick="selectSimulatorPreset('corporate')"
-                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/[0.08] hover:border-cyan-500/60 hover:text-cyan-600 dark:hover:text-cyan-400 font-mono text-xs font-semibold transition-colors cursor-pointer">
+                                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-borderLight dark:border-white/15 group-hover:border-violet-500/60 group-hover:text-violet-600 dark:group-hover:text-violet-300 font-mono text-xs font-semibold transition-colors cursor-pointer">
                             <span data-i18n="simBtnLabel">Simulasikan Proyek Ini</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
@@ -428,14 +487,17 @@
                         </div>
 
                         <!-- Real-Time Estimation Slip -->
-                        <div class="rounded-2xl border border-neutral-900 dark:border-white/20 bg-surfaceLight dark:bg-surfaceDark p-5 sm:p-6">
-                            <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-dashed border-borderLight dark:border-white/[0.08]">
+                        <div class="rounded-2xl border border-purple-500/35 dark:border-purple-500/35 bg-surfaceLight dark:bg-[#13131A] shadow-[0_0_40px_-15px_rgba(124,58,237,0.22)] p-5 sm:p-6">
+                            <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-dashed border-borderLight dark:border-white/10">
                                 <div>
-                                    <span class="font-mono text-[10px] uppercase tracking-widest text-neutral-500 block">LIVE OUTPUT // SPEC</span>
+                                    <div class="flex items-center gap-1.5 mb-0.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
+                                        <span class="font-mono text-[10px] uppercase tracking-widest text-violet-600 dark:text-violet-400 font-semibold">[LIVE] SPEC OUTPUT</span>
+                                    </div>
                                     <h3 class="font-bold text-base text-neutral-900 dark:text-white" data-i18n="slipTitle">Ringkasan Estimasi</h3>
                                 </div>
                                 <button type="button" onclick="resetSimulator()" title="Reset"
-                                        class="font-mono text-[11px] text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer">
+                                        class="px-2.5 py-1 rounded-md border border-borderLight dark:border-white/10 font-mono text-[11px] text-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:border-purple-500/40 transition-colors cursor-pointer">
                                     Reset
                                 </button>
                             </div>
@@ -889,7 +951,7 @@
                     const price = currentLang === "id" ? formatIdr(p.priceIdr) : formatUsd(p.priceUsd);
                     return `
                         <button type="button" onclick="selectPresetOnly('${p.id}')"
-                                class="text-left p-4 rounded-xl border ${active ? 'border-violet-500 bg-violet-600/10' : 'border-borderLight dark:border-white/[0.08] bg-alabaster/50 dark:bg-obsidian/60 hover:border-neutral-400 dark:hover:border-white/25'} transition-all cursor-pointer flex flex-col justify-between gap-2">
+                                class="text-left p-4 rounded-xl border ${active ? 'border-violet-500 bg-violet-600/15 shadow-[0_0_20px_-8px_rgba(124,58,237,0.45)]' : 'border-borderLight dark:border-white/10 bg-alabaster/60 dark:bg-obsidian/70 hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50 dark:hover:bg-white/[0.03]'} transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-1">
                                     <span class="font-mono text-[10px] text-violet-600 dark:text-violet-400 font-bold">${p.badge}</span>
@@ -912,7 +974,7 @@
                     const price = currentLang === "id" ? `+${formatIdr(a.priceIdr)}` : `+${formatUsd(a.priceUsd)}`;
                     return `
                         <button type="button" onclick="toggleSimAddon('${a.id}')"
-                                class="text-left p-3.5 rounded-xl border ${checked ? 'border-violet-500 bg-violet-600/10' : 'border-borderLight dark:border-white/[0.08] bg-alabaster/50 dark:bg-obsidian/60 hover:border-neutral-400 dark:hover:border-white/25'} flex items-center justify-between gap-3 transition-all cursor-pointer">
+                                class="text-left p-3.5 rounded-xl border ${checked ? 'border-violet-500 bg-violet-600/15' : 'border-borderLight dark:border-white/10 bg-alabaster/60 dark:bg-obsidian/70 hover:border-purple-500/45 dark:hover:border-purple-400/45 hover:bg-neutral-50 dark:hover:bg-white/[0.03]'} flex items-center justify-between gap-3 transition-all duration-200 cursor-pointer">
                             <div class="flex items-center gap-2.5 min-w-0">
                                 <span class="w-4 h-4 rounded border ${checked ? 'bg-violet-600 border-violet-500 text-white' : 'border-neutral-400 dark:border-white/25'} flex items-center justify-center shrink-0">
                                     ${checked ? '<i data-lucide="check" class="w-3 h-3"></i>' : ''}
